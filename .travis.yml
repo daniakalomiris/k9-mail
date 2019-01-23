@@ -10,5 +10,6 @@ jdk: oraclejdk8
 
 before_install:
 - yes | sdkmanager "platforms;android-27"
+- chmod +x gradlew
 
 script: ./gradlew testDebug
