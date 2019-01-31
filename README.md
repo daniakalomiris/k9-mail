@@ -1,6 +1,6 @@
 
 # K-9 Mail
-## Soen 390 Project 
+## SOEN 390 Project 
 **Group Members:**
 
 Daniel Stroppolo  
