@@ -27,11 +27,7 @@ The app assigned to our group is **K-9 Mail**. K-9 Mail is an Android app that c
 
 ***
 
-## Pages
-
-[Meeting Notes](https://github.com/jeffbuonamici/k9mail/wiki/Meeting-Notes) 
-
-[How to set up the app so you can start coding (for developers)](https://github.com/jeffbuonamici/k9mail/wiki/Setting-up-app-(For-Developers))
+All meeting notes and documentation can be found in our [wiki](https://github.com/jeffbuonamici/k9mail/wiki)! 
 
 
 
