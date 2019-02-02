@@ -23,19 +23,56 @@
             <!-- Header area -->
             <include layout="@layout/message_view_header"/>
 
-            <Button
-                android:id="@+id/show_pictures"
-                style="?android:attr/buttonStyleSmall"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginBottom="4dip"
-                android:layout_marginLeft="6dip"
-                android:layout_marginRight="6dip"
-                android:layout_marginTop="4dip"
-                android:text="@string/message_view_show_pictures_action"
-                android:visibility="gone"
-                tools:visibility="visible"/>
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/show_translate"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dip"
+                    android:layout_marginLeft="6dip"
+                    android:layout_marginRight="2dip"
+                    android:layout_marginTop="4dip"
+                    android:text="@string/message_view_translate_action"
+                    android:layout_toStartOf="@id/show_pictures"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <Button
+                    android:id="@+id/show_revert"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dip"
+                    android:layout_marginLeft="6dip"
+                    android:layout_marginRight="2dip"
+                    android:layout_marginTop="4dip"
+                    android:text="@string/message_view_translate_revert_action"
+                    android:layout_toStartOf="@id/show_pictures"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <Button
+                    android:id="@+id/show_pictures"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dip"
+                    android:layout_marginLeft="2dip"
+                    android:layout_marginRight="6dip"
+                    android:layout_marginTop="4dip"
+                    android:text="@string/message_view_show_pictures_action"
+                    android:layout_alignParentEnd="true"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+            </RelativeLayout>
 
             <com.fsck.k9.view.ToolableViewAnimator
                 android:id="@+id/message_layout_animator"
