@@ -1,6 +1,7 @@
 # Add project specific ProGuard rules here.
 
 -dontobfuscate
+-ignorewarnings
 
 # Preserve the line number information for debugging stack traces.
 -keepattributes SourceFile,LineNumberTable
