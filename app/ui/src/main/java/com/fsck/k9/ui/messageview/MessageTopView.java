@@ -111,6 +111,7 @@ public class MessageTopView extends LinearLayout {
                 System.out.println("show translate ");
 //               SHOW TRANSLATE MESSAGE CODE
                 translateButtonClicked = true;
+                showTranslatedText();
                 hideTranslateButton();
                 showTranslateRevertButton();
             }
@@ -124,6 +125,7 @@ public class MessageTopView extends LinearLayout {
                 System.out.println("show Original ");
 //               SHOW REVERT TRANSLATION MESSAGE CODE
                 translateRevertButtonClicked = true;
+                showOriginalText();
                 hideTranslateRevertButton();
                 showTranslateButton();
             }
@@ -136,6 +138,20 @@ public class MessageTopView extends LinearLayout {
             ((MessageContainerView) messageContainerViewCandidate).showPictures();
         }
         hideShowPicturesButton();
+    }
+
+    private void showTranslatedText() {
+        View messageContainerViewCandidate = containerView.getChildAt(0);
+        if (messageContainerViewCandidate instanceof MessageContainerView) {
+            ((MessageContainerView) messageContainerViewCandidate).showTranslatedText("TRANSLATED TEXT");
+        }
+    }
+
+    private void showOriginalText() {
+        View messageContainerViewCandidate = containerView.getChildAt(0);
+        if (messageContainerViewCandidate instanceof MessageContainerView) {
+            ((MessageContainerView) messageContainerViewCandidate).showOriginalText();
+        }
     }
 
     private void resetAndPrepareMessageView(MessageViewInfo messageViewInfo) {

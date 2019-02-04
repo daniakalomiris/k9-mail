@@ -440,6 +440,14 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
         unsignedText.setText("");
     }
 
+    public void showTranslatedText(String translatedText) {
+        mMessageContentView.displayHtmlContentWithInlineAttachments(translatedText, currentAttachmentResolver, null);
+    }
+
+    public void showOriginalText() {
+        refreshDisplayedContent();
+    }
+
     public void renderAttachments(MessageViewInfo messageViewInfo) {
         if (messageViewInfo.attachments != null) {
             for (AttachmentViewInfo attachment : messageViewInfo.attachments) {
