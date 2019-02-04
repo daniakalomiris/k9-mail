@@ -292,6 +292,8 @@ Please submit bug reports, contribute new features and ask questions at
     <string name="message_view_attachment_download_action">Save</string>
     <string name="message_view_status_attachment_not_saved">Unable to save attachment.</string>
     <string name="message_view_show_pictures_action">Show pictures</string>
+    <string name="message_view_translate_action">Translate</string>
+    <string name="message_view_translate_revert_action">Show Original</string>
     <string name="message_view_no_viewer">Unable to find viewer for <xliff:g id="mimetype">%s</xliff:g>.</string>
     <string name="message_view_download_remainder">Download complete message</string>
     <string name="message_view_toast_unable_to_display_message">Unable to display message</string>

@@ -51,8 +51,12 @@ public class MessageTopView extends LinearLayout {
     private Button mDownloadRemainder;
     private AttachmentViewCallback attachmentCallback;
     private Button showPicturesButton;
+    private Button translateButton;
+    private Button translateRevertButton;
     private boolean isShowingProgress;
     private boolean showPicturesButtonClicked;
+    private boolean translateButtonClicked;
+    private boolean translateRevertButtonClicked;
 
     private MessageCryptoPresenter messageCryptoPresenter;
 
@@ -79,6 +83,12 @@ public class MessageTopView extends LinearLayout {
         showPicturesButton = findViewById(R.id.show_pictures);
         setShowPicturesButtonListener();
 
+        translateButton = findViewById(R.id.show_translate);
+        setTranslateButtonListener();
+
+        translateRevertButton = findViewById(R.id.show_revert);
+        setTranslateRevertButtonListener();
+
         containerView = findViewById(R.id.message_container);
 
         hideHeaderView();
@@ -90,6 +100,32 @@ public class MessageTopView extends LinearLayout {
             public void onClick(View v) {
                 showPicturesInAllContainerViews();
                 showPicturesButtonClicked = true;
+            }
+        });
+    }
+
+    private void setTranslateButtonListener() {
+        translateButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("show translate ");
+//               SHOW TRANSLATE MESSAGE CODE
+                translateButtonClicked = true;
+                hideTranslateButton();
+                showTranslateRevertButton();
+            }
+        });
+    }
+
+    private void setTranslateRevertButtonListener() {
+        translateRevertButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("show Original ");
+//               SHOW REVERT TRANSLATION MESSAGE CODE
+                translateRevertButtonClicked = true;
+                hideTranslateRevertButton();
+                showTranslateButton();
             }
         });
     }
@@ -129,6 +165,11 @@ public class MessageTopView extends LinearLayout {
 
         if (view.hasHiddenExternalImages() && !showPicturesButtonClicked) {
             showShowPicturesButton();
+        }
+
+        // If detected language not same as system language, replace true with boolean
+        if(true && !translateRevertButtonClicked) {
+            showTranslateButton();
         }
     }
 
@@ -268,6 +309,22 @@ public class MessageTopView extends LinearLayout {
 
     private void showShowPicturesButton() {
         showPicturesButton.setVisibility(View.VISIBLE);
+    }
+
+    private void showTranslateButton() {
+        translateButton.setVisibility(View.VISIBLE);
+    }
+
+    private void hideTranslateButton() {
+        translateButton.setVisibility(View.GONE);
+    }
+
+    private void showTranslateRevertButton() {
+        translateRevertButton.setVisibility(View.VISIBLE);
+    }
+
+    private void hideTranslateRevertButton() {
+        translateRevertButton.setVisibility(View.GONE);
     }
 
     private void hideShowPicturesButton() {
