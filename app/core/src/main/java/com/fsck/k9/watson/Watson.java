@@ -1,5 +1,7 @@
 package com.fsck.k9.watson;
 
+import android.util.Log;
+
 import com.ibm.watson.developer_cloud.language_translator.v3.LanguageTranslator;
 import com.ibm.watson.developer_cloud.language_translator.v3.util.Language;
 import com.ibm.watson.developer_cloud.language_translator.v3.model.IdentifiableLanguages;
@@ -51,7 +53,18 @@ class Watson {
             System.out.println(e);
         }
     }
+    public String detectLanguage(String stringToDetect){
+            IdentifyOptions identifyOptions = new IdentifyOptions.Builder().text(stringToDetect).build();
 
+            IdentifiedLanguages languages = service.identify(identifyOptions).execute();
+            languages.getLanguages().get(0).getLanguage();
+        System.out.println("Language Detected:"+ languages.getLanguages().get(0).getLanguage());
+        Log.d("Language Detected:", languages.getLanguages().get(0).getLanguage());
+        Log.d("original txr", stringToDetect);
+
+
+        return  languages.getLanguages().get(0).getLanguage();
+    }
     /**
      * test function to show proof of concept and validate authentication, keep until release
      * @param english sentence formulated in english.

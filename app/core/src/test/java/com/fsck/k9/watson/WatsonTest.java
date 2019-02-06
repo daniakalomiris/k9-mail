@@ -20,4 +20,10 @@ public class WatsonTest {
         String result = watson.test("Hello");
         assertEquals("Hola", result);
     }
+    @Test
+    public void detectLanguage_test() throws Exception {
+
+        String result = watson.detectLanguage("this is an english phrase and should be detected as such");
+        assertEquals("en-US", result);
+    }
 }
