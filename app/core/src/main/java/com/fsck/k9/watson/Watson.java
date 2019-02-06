@@ -54,14 +54,12 @@ class Watson {
         }
     }
     public String detectLanguage(String stringToDetect){
-            IdentifyOptions identifyOptions = new IdentifyOptions.Builder().text(stringToDetect).build();
+        IdentifyOptions identifyOptions = new IdentifyOptions.Builder().text(stringToDetect).build();
 
-            IdentifiedLanguages languages = service.identify(identifyOptions).execute();
-            languages.getLanguages().get(0).getLanguage();
+        IdentifiedLanguages languages = service.identify(identifyOptions).execute();
+        languages.getLanguages().get(0).getLanguage();
+
         System.out.println("Language Detected:"+ languages.getLanguages().get(0).getLanguage());
-        Log.d("Language Detected:", languages.getLanguages().get(0).getLanguage());
-        Log.d("original txr", stringToDetect);
-
 
         return  languages.getLanguages().get(0).getLanguage();
     }

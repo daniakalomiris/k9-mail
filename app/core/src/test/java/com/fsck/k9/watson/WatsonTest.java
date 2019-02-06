@@ -24,6 +24,6 @@ public class WatsonTest {
     public void detectLanguage_test() throws Exception {
 
         String result = watson.detectLanguage("this is an english phrase and should be detected as such");
-        assertEquals("en-US", result);
+        assertEquals("en", result);
     }
 }
