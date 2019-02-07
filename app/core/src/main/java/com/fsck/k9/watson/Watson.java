@@ -24,7 +24,7 @@ import okhttp3.RequestBody;
 import java.util.Locale;
 
 
-class Watson {
+public class Watson {
 
     // IBM credentials
     private final static String TEXT_TRANSLATION_API_KEY = "565Uvd6VZUEGmJxnbBSLRi_9RgouvfYEHMAmYxHpenqM";
@@ -35,7 +35,7 @@ class Watson {
 
     private LanguageTranslator service;
 
-    static Watson getInstance() {
+    public static Watson getInstance() {
         ourInstance.authenticate();
         return ourInstance;
     }

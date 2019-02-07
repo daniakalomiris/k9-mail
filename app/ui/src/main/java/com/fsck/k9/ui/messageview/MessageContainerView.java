@@ -38,6 +38,7 @@ import com.fsck.k9.mailstore.MessageViewInfo;
 import com.fsck.k9.view.MessageHeader.OnLayoutChangedListener;
 import com.fsck.k9.view.MessageWebView;
 import com.fsck.k9.view.MessageWebView.OnPageFinishedListener;
+import com.fsck.k9.watson.*;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -81,6 +82,8 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
 
     private String currentHtmlText;
     private AttachmentResolver currentAttachmentResolver;
+
+    private Watson watson;
 
 
     @Override
@@ -445,7 +448,9 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
         unsignedText.setText("");
     }
 
-    public void showTranslatedText(String translatedText) {
+    public void showTranslatedText() {
+        watson = Watson.getInstance();
+        String translatedText = watson.translateLanguage(getMessageText(currentHtmlText));
         mMessageContentView.displayHtmlContentWithInlineAttachments(translatedText, currentAttachmentResolver, null);
     }
 

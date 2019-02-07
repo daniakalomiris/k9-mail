@@ -143,7 +143,7 @@ public class MessageTopView extends LinearLayout {
     private void showTranslatedText() {
         View messageContainerViewCandidate = containerView.getChildAt(0);
         if (messageContainerViewCandidate instanceof MessageContainerView) {
-            ((MessageContainerView) messageContainerViewCandidate).showTranslatedText("TRANSLATED TEXT");
+            ((MessageContainerView) messageContainerViewCandidate).showTranslatedText();
         }
     }
 
