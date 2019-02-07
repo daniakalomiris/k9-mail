@@ -39,6 +39,11 @@ import com.fsck.k9.view.MessageHeader.OnLayoutChangedListener;
 import com.fsck.k9.view.MessageWebView;
 import com.fsck.k9.view.MessageWebView.OnPageFinishedListener;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
 
 
@@ -446,6 +451,24 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
 
     public void showOriginalText() {
         refreshDisplayedContent();
+    }
+
+    public String getMessageText(String email){
+        Document doc = Jsoup.parse(email);
+        Elements elements = doc.body().children();
+        Element current = elements.last();
+        String textToReturn = "";
+
+        while(current.childNodes().size() > 0){
+            if(current.children().size() > 0 && current.children().get(0) != null){
+                current = current.children().get(0);
+                continue;
+            }
+
+            textToReturn = current.text();
+            break;
+        }
+        return textToReturn;
     }
 
     public void renderAttachments(MessageViewInfo messageViewInfo) {
