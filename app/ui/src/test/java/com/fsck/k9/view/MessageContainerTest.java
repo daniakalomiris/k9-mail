@@ -29,7 +29,7 @@ public class MessageContainerTest {
         MessageContainerView msv = new MessageContainerView(context, attributeSet);
         String actualBody = msv.getMessageText(emailHtml);
 
-        assertEquals("expectedBody", "actualBody");
+        assertEquals(expectedBody, actualBody);
     }
 
 }
