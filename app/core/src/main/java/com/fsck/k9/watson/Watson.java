@@ -1,5 +1,7 @@
 package com.fsck.k9.watson;
 
+import android.util.Log;
+
 import com.ibm.watson.developer_cloud.language_translator.v3.LanguageTranslator;
 import com.ibm.watson.developer_cloud.language_translator.v3.util.Language;
 import com.ibm.watson.developer_cloud.language_translator.v3.model.IdentifiableLanguages;
@@ -18,6 +20,9 @@ import com.ibm.watson.developer_cloud.util.Validator;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+
+import java.util.Locale;
+
 
 class Watson {
 
@@ -51,14 +56,22 @@ class Watson {
             System.out.println(e);
         }
     }
+    public String detectLanguage(String stringToDetect){
+        IdentifyOptions identifyOptions = new IdentifyOptions.Builder().text(stringToDetect).build();
 
+        IdentifiedLanguages languages = service.identify(identifyOptions).execute();
+        languages.getLanguages().get(0).getLanguage();
+
+        System.out.println("Language Detected:"+ languages.getLanguages().get(0).getLanguage());
+
+        return  languages.getLanguages().get(0).getLanguage();
+    }
     /**
      * test function to show proof of concept and validate authentication, keep until release
      * @param english sentence formulated in english.
      * @return sentence in spanish
      */
     public String test(String english){
-
         try {
             TranslateOptions translateOptions = new TranslateOptions.Builder()
                     .addText(english)
@@ -81,5 +94,31 @@ class Watson {
 
     // TODO: detect original language
 
-    // TODO: translate text but with better result validation
+    /**
+     * Translates text from base language to spanish (user chosen language)
+     * @param textToTranslate sentence formulated in base language.
+     * @return sentence in spanish (user chosen language)
+     */
+    public String translateLanguage(String textToTranslate){
+        String applicationLanguage = Locale.getDefault().getLanguage();
+
+        try {
+            TranslateOptions translateOptions = new TranslateOptions.Builder()
+                    .addText(textToTranslate)
+                    .source(Language.SPANISH)
+                    .target(applicationLanguage)
+                    .build();
+
+            TranslationResult translationResult = service.translate(translateOptions).execute();
+
+            String result = translationResult.getTranslations().get(0).getTranslationOutput();
+
+            System.out.println(result);
+
+            return result;
+
+        }catch(Exception e){
+            return textToTranslate;
+        }
+    }
 }
