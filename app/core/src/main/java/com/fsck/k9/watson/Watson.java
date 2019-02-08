@@ -1,7 +1,6 @@
 package com.fsck.k9.watson;
 
 import android.util.Log;
-
 import com.ibm.watson.developer_cloud.language_translator.v3.LanguageTranslator;
 import com.ibm.watson.developer_cloud.language_translator.v3.util.Language;
 import com.ibm.watson.developer_cloud.language_translator.v3.model.IdentifiableLanguages;
@@ -56,6 +55,7 @@ public class Watson {
             System.out.println(e);
         }
     }
+
     public String detectLanguage(String stringToDetect){
         IdentifyOptions identifyOptions = new IdentifyOptions.Builder().text(stringToDetect).build();
 
@@ -92,9 +92,8 @@ public class Watson {
         }
     }
 
-    // TODO: detect original language
-
     /**
+     * TODO390 real test with html tags like emails have, different languages too
      * Translates text from base language to spanish (user chosen language)
      * @param textToTranslate sentence formulated in base language.
      * @return sentence in spanish (user chosen language)
@@ -103,9 +102,12 @@ public class Watson {
         String applicationLanguage = Locale.getDefault().getLanguage();
 
         try {
+            // strip tags to properly detect the language
+            String languageSource = detectLanguage(stripHtmlTags(textToTranslate));
+
             TranslateOptions translateOptions = new TranslateOptions.Builder()
                     .addText(textToTranslate)
-                    .source(Language.SPANISH)
+                    .source(languageSource)
                     .target(applicationLanguage)
                     .build();
 
@@ -120,5 +122,13 @@ public class Watson {
         }catch(Exception e){
             return textToTranslate;
         }
+    }
+
+    // TODO390 test/ improve regex
+    private String stripHtmlTags(String htmlText){
+
+        String result = htmlText.replaceAll("\\{(.*?)\\}|<(.*?)>","");
+
+        return result;
     }
 }

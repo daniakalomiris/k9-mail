@@ -83,9 +83,6 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
     private String currentHtmlText;
     private AttachmentResolver currentAttachmentResolver;
 
-    private Watson watson;
-
-
     @Override
     public void onFinishInflate() {
         super.onFinishInflate();
@@ -449,9 +446,8 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
     }
 
     public void showTranslatedText() {
-        watson = Watson.getInstance();
-        String translatedText = watson.translateLanguage(getMessageText(currentHtmlText));
-        mMessageContentView.displayHtmlContentWithInlineAttachments(translatedText, currentAttachmentResolver, null);
+        // String justText = getMessageText(currentHtmlText);
+        new WatsonTask().execute(currentHtmlText);
     }
 
     public void showOriginalText() {
@@ -566,5 +562,16 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
 
     interface OnRenderingFinishedListener {
         void onLoadFinished();
+    }
+
+    private class WatsonTask extends AsyncWatson{
+
+        @Override
+        protected void onPostExecute(String translatedText) {
+            System.out.println("$$$$$$$$$$");
+            System.out.println(translatedText);
+            System.out.println("$$$$$$$$$$");
+            mMessageContentView.displayHtmlContentWithInlineAttachments(translatedText, currentAttachmentResolver, null);
+        }
     }
 }
