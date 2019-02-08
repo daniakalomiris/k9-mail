@@ -446,8 +446,8 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
     }
 
     public void showTranslatedText() {
-        // String justText = getMessageText(currentHtmlText);
-        new WatsonTask().execute(currentHtmlText);
+        String justText = getMessageText(currentHtmlText);
+        new WatsonTask().execute(justText);
     }
 
     public void showOriginalText() {
@@ -568,10 +568,8 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
 
         @Override
         protected void onPostExecute(String translatedText) {
-            System.out.println("$$$$$$$$$$");
-            System.out.println(translatedText);
-            System.out.println("$$$$$$$$$$");
-            mMessageContentView.displayHtmlContentWithInlineAttachments(translatedText, currentAttachmentResolver, null);
+            String translatedTextInHtml = currentHtmlText.replace(getMessageText(currentHtmlText), translatedText);
+            mMessageContentView.displayHtmlContentWithInlineAttachments(translatedTextInHtml, currentAttachmentResolver, null);
         }
     }
 }
