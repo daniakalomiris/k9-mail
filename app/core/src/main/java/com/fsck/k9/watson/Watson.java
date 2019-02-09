@@ -26,7 +26,7 @@ import java.util.Locale;
 public class Watson {
 
     // Global variables for device language and e-mail language
-    public static String deviceLanguage = Locale.getDefault().getLanguage();; // returns "en"/"fr"/etc
+    public static String deviceLanguage = Locale.getDefault().getLanguage(); // returns "en"/"fr"/etc
     public static String emailLanguage = "de"; //using "de" (German) as default
 
     // IBM credentials
