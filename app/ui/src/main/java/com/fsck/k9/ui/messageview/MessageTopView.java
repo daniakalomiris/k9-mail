@@ -32,7 +32,7 @@ import com.fsck.k9.view.MessageHeader;
 import com.fsck.k9.view.ThemeUtils;
 import com.fsck.k9.view.ToolableViewAnimator;
 import org.openintents.openpgp.OpenPgpError;
-
+import com.fsck.k9.watson.*;
 
 public class MessageTopView extends LinearLayout {
 
@@ -183,8 +183,17 @@ public class MessageTopView extends LinearLayout {
             showShowPicturesButton();
         }
 
-        // If detected language not same as system language, replace true with boolean
-        if(true && !translateRevertButtonClicked) {
+        // Detect e-mail language. If foreign language, show Translate Button
+        // TODO390: Currently, the e-mail language is only being detected when user clicks on Translate button
+        // But it should instead be detected before the Translate button appears (when the e-mail is loading)
+
+        boolean emailLanguageEqualsDeviceLanguage = Watson.doesDeviceLanguageEqualEmailLanguage();
+
+        System.out.println("Are device and e-mail language the same right before the Translate Button appears : " + Watson.doesDeviceLanguageEqualEmailLanguage());
+        System.out.println("WATSON DEVICE LANGUAGE : " + Watson.deviceLanguage);
+        System.out.println("WATSON EMAIL LANGUAGE : " + Watson.emailLanguage);
+
+        if(!emailLanguageEqualsDeviceLanguage && !translateRevertButtonClicked) {
             showTranslateButton();
         }
     }

@@ -25,6 +25,10 @@ import java.util.Locale;
 
 public class Watson {
 
+    // Global variables for device language and e-mail language
+    public static String deviceLanguage = Locale.getDefault().getLanguage();; // returns "en"/"fr"/etc
+    public static String emailLanguage = "de"; //using "de" (German) as default
+
     // IBM credentials
     private final static String TEXT_TRANSLATION_API_KEY = "565Uvd6VZUEGmJxnbBSLRi_9RgouvfYEHMAmYxHpenqM";
     private final static String TEXT_TRANSLATION_API_URL = "https://gateway.watsonplatform.net/language-translator/api";
@@ -63,6 +67,9 @@ public class Watson {
         languages.getLanguages().get(0).getLanguage();
 
         System.out.println("Language Detected:"+ languages.getLanguages().get(0).getLanguage());
+
+        // update global emailLanguage variable (so it can be used in MessageContainer)
+        emailLanguage = languages.getLanguages().get(0).getLanguage();
 
         return  languages.getLanguages().get(0).getLanguage();
     }
@@ -130,5 +137,14 @@ public class Watson {
         String result = htmlText.replaceAll("\\{(.*?)\\}|<(.*?)>","");
 
         return result;
+    }
+
+    // Method to check if device language = email language. TODO390: test
+    public static boolean doesDeviceLanguageEqualEmailLanguage(){
+        if (emailLanguage.equals(deviceLanguage)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
