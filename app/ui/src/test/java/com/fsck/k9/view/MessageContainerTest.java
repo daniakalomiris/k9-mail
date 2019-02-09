@@ -14,8 +14,9 @@ import org.junit.Test;
 
 public class MessageContainerTest {
 
-    private String emailHtml = "<html><head></head><body><meta name=\"viewport\" content=\"width=device-width><style type=\"text/css\">" +
-            " pre.k9mail {white-space: pre-wrap; word-wrap:break-word; font-family: sans-serif; margin-top: 0px}</style>\n" +
+    private String emailHtml = "<html><head><style type=\\\"text/css\\\">\" +\n" +
+            "            \" pre.k9mail {white-space: pre-wrap; word-wrap:break-word; font-family: sans-serif; margin-top: 0px}</style>" +
+            "       </head><body><meta name=\"viewport\" content=\"width=device-width>\n" +
             "      <div dir=\"ltr\">this is a test email to see whats up. what do you think?</div></body></html>";
 
     private String expectedBody = "this is a test email to see whats up. what do you think?";

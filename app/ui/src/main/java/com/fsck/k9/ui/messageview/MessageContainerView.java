@@ -456,20 +456,7 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
 
     public String getMessageText(String email){
         Document doc = Jsoup.parse(email);
-        Elements elements = doc.body().children();
-        Element current = elements.last();
-        String textToReturn = "";
-
-        while(current.childNodes().size() > 0){
-            if(current.children().size() > 0 && current.children().get(0) != null){
-                current = current.children().get(0);
-                continue;
-            }
-
-            textToReturn = current.text();
-            break;
-        }
-        return textToReturn;
+        return doc.body().text();
     }
 
     public void renderAttachments(MessageViewInfo messageViewInfo) {
