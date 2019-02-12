@@ -1,9 +1,5 @@
 package com.fsck.k9.ui.messageview;
 
-
-import java.util.HashMap;
-import java.util.Map;
-
 import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -42,8 +38,9 @@ import com.fsck.k9.watson.*;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
 
@@ -454,7 +451,12 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
         refreshDisplayedContent();
     }
 
-    public String getMessageText(String email){
+    /**
+     * Gets the text from the body of an email, without using regex to strip html tags.
+     * @param email: the text from the email including HTML
+     * @return a string of just the text without HTML tags
+     */
+    public String getMessageText(String email) {
         Document doc = Jsoup.parse(email);
         return doc.body().text();
     }
@@ -555,8 +557,11 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
 
         @Override
         protected void onPostExecute(String translatedText) {
-            String translatedTextInHtml = currentHtmlText.replace(getMessageText(currentHtmlText), translatedText);
-            mMessageContentView.displayHtmlContentWithInlineAttachments(translatedTextInHtml, currentAttachmentResolver, null);
+            String translatedTextInHtml = currentHtmlText
+                    .replace(getMessageText(currentHtmlText), translatedText);
+
+            mMessageContentView
+                    .displayHtmlContentWithInlineAttachments(translatedTextInHtml, currentAttachmentResolver, null);
         }
     }
 }
