@@ -15,7 +15,7 @@ public class Watson {
 
     // Global variables for device language and e-mail language
     public static String deviceLanguage = Locale.getDefault().getLanguage(); // returns "en"/"fr"/etc
-    public static String emailLanguage = "de"; //using "de" (German) as default
+    public static String emailLanguage = "es"; //using "es" (Spanish) as default because the translation tests use Spanish
     public static boolean isEmailLanguageDetectedYet = false;  // used in ASyncWatson.java to prevent unnecessary double-checking during translation. Gets reset every time new e-mail loads (in MessageTopView.onInflate() method).
 
 
@@ -109,7 +109,7 @@ public class Watson {
         }
     }
 
-    // Method to check if device language = email language. TODO390: test
+    // Method to check if device language = email language
     public static boolean doesDeviceLanguageEqualEmailLanguage(){
         if (emailLanguage.equals(deviceLanguage)) {
             return true;
