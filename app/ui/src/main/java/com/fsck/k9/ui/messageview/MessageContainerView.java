@@ -446,10 +446,6 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
     }
 
     //390: Returns only the text from an e-mail in case other classes need to perform operations on the text.
-    public String getCurrentHTMLText(){
-        return currentHtmlText;
-    }
-
     public String getJustTheText(){
         return getMessageText(currentHtmlText);
     }
