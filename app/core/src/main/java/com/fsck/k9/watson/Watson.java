@@ -87,9 +87,7 @@ public class Watson {
         String applicationLanguage = Locale.getDefault().getLanguage(); // Returns "en", "fr", etc
 
         try {
-            // strip tags to properly detect the language
-            String languageSource = detectLanguage(textToTranslate); // Note: Now that e-mail language is detected on e-mail load, could update/replace this line with Watson's static emailLanguage variable to prevent multiple calls to API. (Since emailLanguage already called detectLanguage()
-
+            String languageSource = emailLanguage;  // Note: emailLanguage was detected by showTranslateButtonIfNeeded() method in MessageTopView.java, when e-mail was first opened
 
             TranslateOptions translateOptions = new TranslateOptions.Builder()
                     .addText(textToTranslate)
@@ -114,10 +112,8 @@ public class Watson {
     // Method to check if device language = email language. TODO390: test
     public static boolean doesDeviceLanguageEqualEmailLanguage(){
         if (emailLanguage.equals(deviceLanguage)) {
-            System.out.println("check doesDeviceLanguageEqualEmailLanguage() : TRUE  (EMAIL LANGUAGE EQUALS DEVICE, Translate button won't show)");
             return true;
         } else {
-            System.out.println("check doesDeviceLanguageEqualEmailLanguage() : FALSE  (EMAIL LANGUAGE NOT EQUAL DEVICE, Translate button will show)");
             return false;
         }
     }
