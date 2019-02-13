@@ -23,6 +23,7 @@ dependencies {
     implementation "com.jakewharton.timber:timber:${versions.timber}"
     implementation "org.apache.james:apache-mime4j-core:${versions.mime4j}"
     implementation 'com.evernote:android-job:1.2.6'
+    implementation  'com.ibm.watson.developer_cloud:java-sdk:6.13.2' // implementation 'com.ibm.watson.developer_cloud:android-sdk:0.5.0'
 
     testImplementation project(':mail:testing')
     testImplementation project(":backend:imap")

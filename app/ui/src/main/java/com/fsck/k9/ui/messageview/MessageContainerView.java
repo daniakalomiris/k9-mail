@@ -1,9 +1,5 @@
 package com.fsck.k9.ui.messageview;
 
-
-import java.util.HashMap;
-import java.util.Map;
-
 import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -38,6 +34,13 @@ import com.fsck.k9.mailstore.MessageViewInfo;
 import com.fsck.k9.view.MessageHeader.OnLayoutChangedListener;
 import com.fsck.k9.view.MessageWebView;
 import com.fsck.k9.view.MessageWebView.OnPageFinishedListener;
+import com.fsck.k9.watson.*;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
 
@@ -76,7 +79,6 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
 
     private String currentHtmlText;
     private AttachmentResolver currentAttachmentResolver;
-
 
     @Override
     public void onFinishInflate() {
@@ -440,6 +442,25 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
         unsignedText.setText("");
     }
 
+    public void showTranslatedText() {
+        String justText = getMessageText(currentHtmlText);
+        new WatsonTask().execute(justText);
+    }
+
+    public void showOriginalText() {
+        refreshDisplayedContent();
+    }
+
+    /**
+     * Gets the text from the body of an email, without using regex to strip html tags.
+     * @param email: the text from the email including HTML
+     * @return a string of just the text without HTML tags
+     */
+    public String getMessageText(String email) {
+        Document doc = Jsoup.parse(email);
+        return doc.body().text();
+    }
+
     public void renderAttachments(MessageViewInfo messageViewInfo) {
         if (messageViewInfo.attachments != null) {
             for (AttachmentViewInfo attachment : messageViewInfo.attachments) {
@@ -530,5 +551,17 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
 
     interface OnRenderingFinishedListener {
         void onLoadFinished();
+    }
+
+    private class WatsonTask extends AsyncWatson{
+
+        @Override
+        protected void onPostExecute(String translatedText) {
+            String translatedTextInHtml = currentHtmlText
+                    .replace(getMessageText(currentHtmlText), translatedText);
+
+            mMessageContentView
+                    .displayHtmlContentWithInlineAttachments(translatedTextInHtml, currentAttachmentResolver, null);
+        }
     }
 }

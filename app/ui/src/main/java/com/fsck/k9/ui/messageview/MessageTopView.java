@@ -32,7 +32,7 @@ import com.fsck.k9.view.MessageHeader;
 import com.fsck.k9.view.ThemeUtils;
 import com.fsck.k9.view.ToolableViewAnimator;
 import org.openintents.openpgp.OpenPgpError;
-
+import com.fsck.k9.watson.*;
 
 public class MessageTopView extends LinearLayout {
 
@@ -51,8 +51,12 @@ public class MessageTopView extends LinearLayout {
     private Button mDownloadRemainder;
     private AttachmentViewCallback attachmentCallback;
     private Button showPicturesButton;
+    private Button translateButton;
+    private Button translateRevertButton;
     private boolean isShowingProgress;
     private boolean showPicturesButtonClicked;
+    private boolean translateButtonClicked;
+    private boolean translateRevertButtonClicked;
 
     private MessageCryptoPresenter messageCryptoPresenter;
 
@@ -79,6 +83,12 @@ public class MessageTopView extends LinearLayout {
         showPicturesButton = findViewById(R.id.show_pictures);
         setShowPicturesButtonListener();
 
+        translateButton = findViewById(R.id.show_translate);
+        setTranslateButtonListener();
+
+        translateRevertButton = findViewById(R.id.show_revert);
+        setTranslateRevertButtonListener();
+
         containerView = findViewById(R.id.message_container);
 
         hideHeaderView();
@@ -94,12 +104,54 @@ public class MessageTopView extends LinearLayout {
         });
     }
 
+    private void setTranslateButtonListener() {
+        translateButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("show translate ");
+//               SHOW TRANSLATE MESSAGE CODE
+                translateButtonClicked = true;
+                showTranslatedText();
+                hideTranslateButton();
+                showTranslateRevertButton();
+            }
+        });
+    }
+
+    private void setTranslateRevertButtonListener() {
+        translateRevertButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("show Original ");
+//               SHOW REVERT TRANSLATION MESSAGE CODE
+                translateRevertButtonClicked = true;
+                showOriginalText();
+                hideTranslateRevertButton();
+                showTranslateButton();
+            }
+        });
+    }
+
     private void showPicturesInAllContainerViews() {
         View messageContainerViewCandidate = containerView.getChildAt(0);
         if (messageContainerViewCandidate instanceof MessageContainerView) {
             ((MessageContainerView) messageContainerViewCandidate).showPictures();
         }
         hideShowPicturesButton();
+    }
+
+    private void showTranslatedText() {
+        View messageContainerViewCandidate = containerView.getChildAt(0);
+        if (messageContainerViewCandidate instanceof MessageContainerView) {
+            ((MessageContainerView) messageContainerViewCandidate).showTranslatedText();
+        }
+    }
+
+    private void showOriginalText() {
+        View messageContainerViewCandidate = containerView.getChildAt(0);
+        if (messageContainerViewCandidate instanceof MessageContainerView) {
+            ((MessageContainerView) messageContainerViewCandidate).showOriginalText();
+        }
     }
 
     private void resetAndPrepareMessageView(MessageViewInfo messageViewInfo) {
@@ -129,6 +181,21 @@ public class MessageTopView extends LinearLayout {
 
         if (view.hasHiddenExternalImages() && !showPicturesButtonClicked) {
             showShowPicturesButton();
+        }
+
+        // Detect e-mail language. If foreign language, show Translate Button
+        // TODO390: Currently, the e-mail language is only being detected when user clicks on Translate button
+        // But it should instead be detected before the Translate button appears (when the e-mail is loading)
+
+        boolean emailLanguageEqualsDeviceLanguage = Watson.doesDeviceLanguageEqualEmailLanguage();
+
+        System.out.println("Are device and e-mail language the same right before the Translate Button appears : " + Watson.doesDeviceLanguageEqualEmailLanguage());
+        System.out.println("WATSON DEVICE LANGUAGE : " + Watson.deviceLanguage);
+        System.out.println("WATSON EMAIL LANGUAGE : " + Watson.emailLanguage);
+
+        //if(!emailLanguageEqualsDeviceLanguage && !translateRevertButtonClicked) { // Commenting this out until button is appearing correctly
+        if(true && !translateRevertButtonClicked) {
+            showTranslateButton();
         }
     }
 
@@ -268,6 +335,22 @@ public class MessageTopView extends LinearLayout {
 
     private void showShowPicturesButton() {
         showPicturesButton.setVisibility(View.VISIBLE);
+    }
+
+    private void showTranslateButton() {
+        translateButton.setVisibility(View.VISIBLE);
+    }
+
+    private void hideTranslateButton() {
+        translateButton.setVisibility(View.GONE);
+    }
+
+    private void showTranslateRevertButton() {
+        translateRevertButton.setVisibility(View.VISIBLE);
+    }
+
+    private void hideTranslateRevertButton() {
+        translateRevertButton.setVisibility(View.GONE);
     }
 
     private void hideShowPicturesButton() {
