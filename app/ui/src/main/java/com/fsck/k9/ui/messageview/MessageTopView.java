@@ -193,7 +193,8 @@ public class MessageTopView extends LinearLayout {
         System.out.println("WATSON DEVICE LANGUAGE : " + Watson.deviceLanguage);
         System.out.println("WATSON EMAIL LANGUAGE : " + Watson.emailLanguage);
 
-        if(!emailLanguageEqualsDeviceLanguage && !translateRevertButtonClicked) {
+        //if(!emailLanguageEqualsDeviceLanguage && !translateRevertButtonClicked) { // Commenting this out until button is appearing correctly
+        if(true && !translateRevertButtonClicked) {
             showTranslateButton();
         }
     }
