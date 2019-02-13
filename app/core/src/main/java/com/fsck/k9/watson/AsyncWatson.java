@@ -12,7 +12,7 @@ public abstract class AsyncWatson extends AsyncTask<String,String,String> {
 
         // This task is called in 2 separate cases, so there is an if statement to determine which code to implement
 
-        // CASE 1: Called when you first open an e-mail. Called by: MessageTopView.ASyncWatsonShowTranslateButtonIfNeeded class. It sets the e-mail language so Translation button knows to pop up or not.
+        // CASE 1: Called when you first open an e-mail. Called by: MessageTopView.ASyncWatsonShowTranslateButtonIfNeeded class. It sets the e-mail language so Translation button will know to pop up or not.
         if (!Watson.isEmailLanguageDetectedYet) {
             Watson.emailLanguage = watson.detectLanguage(strings[0]);
             return Watson.emailLanguage;

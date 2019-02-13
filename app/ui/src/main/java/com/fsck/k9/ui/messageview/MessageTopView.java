@@ -97,7 +97,6 @@ public class MessageTopView extends LinearLayout {
     }
 
     private void setShowPicturesButtonListener() {
-
         showPicturesButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,7 +107,6 @@ public class MessageTopView extends LinearLayout {
     }
 
     private void setTranslateButtonListener() {
-
         translateButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +121,6 @@ public class MessageTopView extends LinearLayout {
     }
 
     private void setTranslateRevertButtonListener() {
-
         translateRevertButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +135,6 @@ public class MessageTopView extends LinearLayout {
     }
 
     private void showPicturesInAllContainerViews() {
-
         View messageContainerViewCandidate = containerView.getChildAt(0);
         if (messageContainerViewCandidate instanceof MessageContainerView) {
             ((MessageContainerView) messageContainerViewCandidate).showPictures();
@@ -154,7 +150,6 @@ public class MessageTopView extends LinearLayout {
     }
 
     private void showOriginalText() {
-
         View messageContainerViewCandidate = containerView.getChildAt(0);
         if (messageContainerViewCandidate instanceof MessageContainerView) {
             ((MessageContainerView) messageContainerViewCandidate).showOriginalText();
@@ -168,7 +163,6 @@ public class MessageTopView extends LinearLayout {
     }
 
     public void showMessage(Account account, MessageViewInfo messageViewInfo) {
-
         resetAndPrepareMessageView(messageViewInfo);
 
         ShowPictures showPicturesSetting = account.getShowPictures();
@@ -380,7 +374,6 @@ public class MessageTopView extends LinearLayout {
     }
 
     public void displayViewOnLoadFinished(boolean finishProgressBar) {
-
         if (!finishProgressBar || !isShowingProgress) {
             viewAnimator.setDisplayedChild(2);
             return;
@@ -468,14 +461,11 @@ public class MessageTopView extends LinearLayout {
     }
 
     private void showTranslateButtonIfNeeded() {
-        // Grab e-mail text from MessagevViewContainer class
         View messageContainerViewCandidate = containerView.getChildAt(0);
         if (messageContainerViewCandidate instanceof MessageContainerView) {
-            //String justText = ((MessageContainerView) messageContainerViewCandidate).getMessageText(
-            //((MessageContainerView) messageContainerViewCandidate).getCurrentHTMLText());
-            String justText = ((MessageContainerView) messageContainerViewCandidate).getJustTheText();
-            // Pass e-mail text to Watson so it can detect the language asynchronously and decide if translate button should show
-            new ASyncWatsonShowTranslateButtonIfNeeded().execute(justText);
+            String justText = ((MessageContainerView) messageContainerViewCandidate).getJustTheText();  // Grab e-mail text from MessageViewContainer
+
+            new ASyncWatsonShowTranslateButtonIfNeeded().execute(justText); // Pass e-mail text to Watson so it can detect the language asynchronously and decide if translate button should show
         }
     }
 
@@ -483,9 +473,8 @@ public class MessageTopView extends LinearLayout {
 
         @Override
         protected void onPostExecute(String translatedText) {
-            // Watson already detected the e-mail language. Now we check if it is the same as device language (TRUE) or not (FALSE)
+            // Watson already detected the e-mail language. Now we check if it is the same as device language. If true, show Translate Button
             boolean emailLanguageEqualsDeviceLanguage = Watson.doesDeviceLanguageEqualEmailLanguage();
-            // If true, show TranslateButton
             if(!emailLanguageEqualsDeviceLanguage && !translateRevertButtonClicked) {
                 showTranslateButton();
             }
