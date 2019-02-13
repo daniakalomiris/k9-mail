@@ -22,8 +22,24 @@ public class WatsonTest {
     }
     @Test
     public void translateLanguage_test() throws Exception {
-
+        Watson.emailLanguage = "es";
+        Watson.deviceLanguage = "en";
         String result = watson.translateLanguage("Este es una prueba.");
         assertEquals("This is a test.", result);
     }
+    @Test
+    public void doesDeviceLanguageEqualEmailLanguage_TRUE_test() throws Exception {
+        Watson.emailLanguage = "en";
+        Watson.deviceLanguage = "en";
+        boolean result = watson.doesDeviceLanguageEqualEmailLanguage();
+        assertEquals(true, result);
+    }
+    @Test
+    public void doesDeviceLanguageEqualEmailLanguage_FALSE_test() throws Exception {
+        Watson.emailLanguage = "en";
+        Watson.deviceLanguage = "fr";
+        boolean result = watson.doesDeviceLanguageEqualEmailLanguage();
+        assertEquals(false, result);
+    }
+
 }

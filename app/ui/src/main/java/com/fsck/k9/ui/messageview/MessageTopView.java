@@ -471,8 +471,6 @@ public class MessageTopView extends LinearLayout {
         // Grab e-mail text from MessagevViewContainer class
         View messageContainerViewCandidate = containerView.getChildAt(0);
         if (messageContainerViewCandidate instanceof MessageContainerView) {
-            //String justText = ((MessageContainerView) messageContainerViewCandidate).getMessageText(
-            //((MessageContainerView) messageContainerViewCandidate).getCurrentHTMLText());
             String justText = ((MessageContainerView) messageContainerViewCandidate).getJustTheText();
             // Pass e-mail text to Watson so it can detect the language asynchronously and decide if translate button should show
             new ASyncWatsonShowTranslateButtonIfNeeded().execute(justText);

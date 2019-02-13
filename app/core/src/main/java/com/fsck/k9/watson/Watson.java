@@ -84,7 +84,8 @@ public class Watson {
      */
     public String translateLanguage(String textToTranslate){
 
-        String applicationLanguage = Locale.getDefault().getLanguage(); // Returns "en", "fr", etc
+        //String applicationLanguage = Locale.getDefault().getLanguage(); // Returns "en", "fr", etc
+        String applicationLanguage = deviceLanguage;
 
         try {
             String languageSource = emailLanguage;  // Note: emailLanguage was detected by showTranslateButtonIfNeeded() method in MessageTopView.java, when e-mail was first opened
