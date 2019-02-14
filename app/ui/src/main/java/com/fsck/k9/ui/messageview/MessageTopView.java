@@ -60,13 +60,15 @@ public class MessageTopView extends LinearLayout {
 
     private MessageCryptoPresenter messageCryptoPresenter;
 
-
     public MessageTopView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     @Override
     public void onFinishInflate() {
+
+        Watson.isEmailLanguageDetectedYet = false; // 390: this resets Watson's boolean every time a new e-mail loads
+
         super.onFinishInflate();
 
         mHeaderContainer = findViewById(R.id.header_container);
@@ -95,6 +97,7 @@ public class MessageTopView extends LinearLayout {
     }
 
     private void setShowPicturesButtonListener() {
+
         showPicturesButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,6 +108,7 @@ public class MessageTopView extends LinearLayout {
     }
 
     private void setTranslateButtonListener() {
+
         translateButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,6 +123,7 @@ public class MessageTopView extends LinearLayout {
     }
 
     private void setTranslateRevertButtonListener() {
+
         translateRevertButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,6 +138,7 @@ public class MessageTopView extends LinearLayout {
     }
 
     private void showPicturesInAllContainerViews() {
+
         View messageContainerViewCandidate = containerView.getChildAt(0);
         if (messageContainerViewCandidate instanceof MessageContainerView) {
             ((MessageContainerView) messageContainerViewCandidate).showPictures();
@@ -148,6 +154,7 @@ public class MessageTopView extends LinearLayout {
     }
 
     private void showOriginalText() {
+
         View messageContainerViewCandidate = containerView.getChildAt(0);
         if (messageContainerViewCandidate instanceof MessageContainerView) {
             ((MessageContainerView) messageContainerViewCandidate).showOriginalText();
@@ -161,6 +168,7 @@ public class MessageTopView extends LinearLayout {
     }
 
     public void showMessage(Account account, MessageViewInfo messageViewInfo) {
+
         resetAndPrepareMessageView(messageViewInfo);
 
         ShowPictures showPicturesSetting = account.getShowPictures();
@@ -183,20 +191,7 @@ public class MessageTopView extends LinearLayout {
             showShowPicturesButton();
         }
 
-        // Detect e-mail language. If foreign language, show Translate Button
-        // TODO390: Currently, the e-mail language is only being detected when user clicks on Translate button
-        // But it should instead be detected before the Translate button appears (when the e-mail is loading)
-
-        boolean emailLanguageEqualsDeviceLanguage = Watson.doesDeviceLanguageEqualEmailLanguage();
-
-        System.out.println("Are device and e-mail language the same right before the Translate Button appears : " + Watson.doesDeviceLanguageEqualEmailLanguage());
-        System.out.println("WATSON DEVICE LANGUAGE : " + Watson.deviceLanguage);
-        System.out.println("WATSON EMAIL LANGUAGE : " + Watson.emailLanguage);
-
-        //if(!emailLanguageEqualsDeviceLanguage && !translateRevertButtonClicked) { // Commenting this out until button is appearing correctly
-        if(true && !translateRevertButtonClicked) {
-            showTranslateButton();
-        }
+        showTranslateButtonIfNeeded(); // Detects e-mail language. If foreign language, show Translate Button
     }
 
     public void showMessageEncryptedButIncomplete(MessageViewInfo messageViewInfo, Drawable providerIcon) {
@@ -385,6 +380,7 @@ public class MessageTopView extends LinearLayout {
     }
 
     public void displayViewOnLoadFinished(boolean finishProgressBar) {
+
         if (!finishProgressBar || !isShowingProgress) {
             viewAnimator.setDisplayedChild(2);
             return;
@@ -470,4 +466,29 @@ public class MessageTopView extends LinearLayout {
             out.writeInt((this.showPicturesButtonClicked) ? 1 : 0);
         }
     }
+
+    private void showTranslateButtonIfNeeded() {
+        // Grab e-mail text from MessagevViewContainer class
+        View messageContainerViewCandidate = containerView.getChildAt(0);
+        if (messageContainerViewCandidate instanceof MessageContainerView) {
+            String justText = ((MessageContainerView) messageContainerViewCandidate).getJustTheText();
+            // Pass e-mail text to Watson so it can detect the language asynchronously and decide if translate button should show
+            new ASyncWatsonShowTranslateButtonIfNeeded().execute(justText);
+        }
+    }
+
+    private class ASyncWatsonShowTranslateButtonIfNeeded extends AsyncWatson{
+
+        @Override
+        protected void onPostExecute(String translatedText) {
+            // Watson already detected the e-mail language. Now we check if it is the same as device language (TRUE) or not (FALSE)
+            boolean emailLanguageEqualsDeviceLanguage = Watson.doesDeviceLanguageEqualEmailLanguage();
+            // If true, show TranslateButton
+            if(!emailLanguageEqualsDeviceLanguage && !translateRevertButtonClicked) {
+                showTranslateButton();
+            }
+            Watson.isEmailLanguageDetectedYet = true; // Reset boolean
+        }
+    }
+
 }

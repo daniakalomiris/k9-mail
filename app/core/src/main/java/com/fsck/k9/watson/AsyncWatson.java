@@ -10,9 +10,18 @@ public abstract class AsyncWatson extends AsyncTask<String,String,String> {
     @Override
     protected String doInBackground(String... strings) {
 
-        String result = watson.translateLanguage(strings[0]);
+        // This task is called in 2 separate cases, so there is an if statement to determine which code to implement
 
-        return result;
+        // CASE 1: Called when you first open an e-mail. Called by: MessageTopView.ASyncWatsonShowTranslateButtonIfNeeded class. It sets the e-mail language so Translation button knows to pop up or not.
+        if (!Watson.isEmailLanguageDetectedYet) {
+            Watson.emailLanguage = watson.detectLanguage(strings[0]);
+            return Watson.emailLanguage;
+        } else {
+            // CASE 2: Called after you click the Translate button. Called by: MessageContainerView.WatsonTask class. Translates e-mail.
+            String result = watson.translateLanguage(strings[0]);
+            return result;
+        }
+
     }
 
     // This is the callback that is overrided in it's implementation (changes ui)

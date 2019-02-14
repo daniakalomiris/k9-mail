@@ -82,6 +82,7 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
 
     @Override
     public void onFinishInflate() {
+
         super.onFinishInflate();
 
         mMessageContentView = findViewById(R.id.message_content);
@@ -103,10 +104,12 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
         Context context = getContext();
         mInflater = LayoutInflater.from(context);
         mClipboardManager = ClipboardManager.getInstance(context);
+
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+
         super.onCreateContextMenu(menu);
 
         WebView webview = (WebView) v;
@@ -171,7 +174,7 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
                 if (uri == null) {
                     return;
                 }
-                
+
                 final AttachmentViewInfo attachmentViewInfo = getAttachmentViewInfoIfCidUri(uri);
                 final boolean inlineImage = attachmentViewInfo != null;
 
@@ -380,8 +383,8 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
     }
 
     public void displayMessageViewContainer(MessageViewInfo messageViewInfo,
-            final OnRenderingFinishedListener onRenderingFinishedListener, boolean loadPictures,
-            boolean hideUnsignedTextDivider, AttachmentViewCallback attachmentCallback) {
+                                            final OnRenderingFinishedListener onRenderingFinishedListener, boolean loadPictures,
+                                            boolean hideUnsignedTextDivider, AttachmentViewCallback attachmentCallback) {
 
         this.attachmentCallback = attachmentCallback;
 
@@ -426,7 +429,7 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
     }
 
     private void displayHtmlContentWithInlineAttachments(String htmlText, AttachmentResolver attachmentResolver,
-            OnPageFinishedListener onPageFinishedListener) {
+                                                         OnPageFinishedListener onPageFinishedListener) {
         currentHtmlText = htmlText;
         currentAttachmentResolver = attachmentResolver;
         mMessageContentView.displayHtmlContentWithInlineAttachments(htmlText, attachmentResolver, onPageFinishedListener);
@@ -440,6 +443,11 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
         mMessageContentView.displayHtmlContentWithInlineAttachments("", null, null);
         unsignedTextContainer.setVisibility(View.GONE);
         unsignedText.setText("");
+    }
+
+    //390: Returns only the text from an e-mail in case other classes need to perform operations on the text.
+    public String getJustTheText(){
+        return getMessageText(currentHtmlText);
     }
 
     public void showTranslatedText() {
@@ -559,7 +567,6 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
         protected void onPostExecute(String translatedText) {
             String translatedTextInHtml = currentHtmlText
                     .replace(getMessageText(currentHtmlText), translatedText);
-
             mMessageContentView
                     .displayHtmlContentWithInlineAttachments(translatedTextInHtml, currentAttachmentResolver, null);
         }

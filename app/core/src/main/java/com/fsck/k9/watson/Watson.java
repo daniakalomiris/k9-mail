@@ -15,8 +15,9 @@ public class Watson {
 
     // Global variables for device language and e-mail language
     public static String deviceLanguage = Locale.getDefault().getLanguage(); // returns "en"/"fr"/etc
-    public static String emailLanguage = "de"; //using "de" (German) as default
-
+    public static String emailLanguage = "es"; //using "es" (Spanish) as default because the translation tests use Spanish
+    public static boolean isEmailLanguageDetectedYet = false;  // used in ASyncWatson.java to prevent unnecessary double-checking during translation. Gets reset every time new e-mail loads (in MessageTopView.onInflate() method).
+    
     // IBM credentials
     private final static String TEXT_TRANSLATION_API_KEY = "565Uvd6VZUEGmJxnbBSLRi_9RgouvfYEHMAmYxHpenqM";
     private final static String TEXT_TRANSLATION_API_VERSION = "2018-05-01";
@@ -39,7 +40,6 @@ public class Watson {
      * Validate our IAM credentials to access Language Translation API
      */
     private void authenticate(){
-
         try {
 
             IamOptions iamOptions = new IamOptions.Builder()
@@ -76,11 +76,10 @@ public class Watson {
      * @return sentence in spanish (user chosen language)
      */
     public String translateLanguage(String textToTranslate){
-        String applicationLanguage = Locale.getDefault().getLanguage();
+        String applicationLanguage = deviceLanguage;
 
         try {
-            // strip tags to properly detect the language
-            String languageSource = detectLanguage(textToTranslate);
+            String languageSource = emailLanguage;  // Note: emailLanguage was detected by showTranslateButtonIfNeeded() method in MessageTopView.java, when e-mail was first opened
 
             TranslateOptions translateOptions = new TranslateOptions.Builder()
                     .addText(textToTranslate)
@@ -99,12 +98,11 @@ public class Watson {
         }
     }
 
-    // Method to check if device language = email language. TODO390: test
+    /**
+     *
+     * @return boolean whether device language is equal to email language
+     */
     public static boolean doesDeviceLanguageEqualEmailLanguage(){
-        if (emailLanguage.equals(deviceLanguage)) {
-            return true;
-        } else {
-            return false;
-        }
+        return emailLanguage.equals(deviceLanguage);
     }
 }
