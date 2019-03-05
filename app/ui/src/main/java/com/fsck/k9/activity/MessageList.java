@@ -1235,7 +1235,7 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
 
     @Override
     public void onAddLabel(MessageReference messageReference) {
-        System.out.println("$$$$$$$$$$" + messageReference.toString());
+        MessageActions.actionAddLabel(this, messageReference);
     }
 
     @Override
