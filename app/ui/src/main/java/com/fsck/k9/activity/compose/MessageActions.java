@@ -105,6 +105,7 @@ public class MessageActions {
     	
      public static void actionAddLabel(Context context, MessageReference messageReference) {
         Intent i = new Intent(context, LabelPage.class);
+        i.putExtra("messageUid", messageReference.getUid());
         context.startActivity(i);
     }
 }

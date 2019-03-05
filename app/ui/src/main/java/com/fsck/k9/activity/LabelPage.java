@@ -1,6 +1,7 @@
 	package com.fsck.k9.activity;
 
- import android.support.v7.app.ActionBar;
+import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,11 +11,22 @@ import android.widget.Button;
 
  public class LabelPage extends K9Activity implements View.OnClickListener {
 
-     @Override
+    private int messageUid;
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_label_page);
         setButtonListeners();
+	
+        Intent iin = getIntent();
+        Bundle b = iin.getExtras();
+
+         //get the UID
+        if(b != null) {
+            int uid = (int)b.get("messageUid");
+            messageUid = uid;
+        }
     }
 
      private void setButtonListeners() {
