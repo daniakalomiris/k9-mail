@@ -105,7 +105,11 @@ public class MessageActions {
     	
      public static void actionAddLabel(Context context, MessageReference messageReference) {
         Intent i = new Intent(context, LabelPage.class);
+
         i.putExtra("messageUid", messageReference.getUid());
+        i.putExtra("serverId", messageReference.getFolderServerId());
+        i.putExtra("accountUuid", messageReference.getAccountUuid());
+        
         context.startActivity(i);
     }
 }

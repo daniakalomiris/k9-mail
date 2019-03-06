@@ -7,11 +7,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
- import com.fsck.k9.ui.R;
+import com.fsck.k9.ui.R;
+import com.fsck.k9.controller.MessagingController;
+import com.fsck.k9.Account;
+import com.fsck.k9.Preferences;
+import com.fsck.k9.mailstore.LocalStoreProvider;
 
  public class LabelPage extends K9Activity implements View.OnClickListener {
 
-    private int messageUid;
+    private String messageUid;
+    private String serverId;
+    private Account account = Preferences.getPreferences(this).getDefaultAccount();
+    private MessagingController controller = MessagingController.getInstance(getApplication());
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,10 +29,15 @@ import android.widget.Button;
         Intent iin = getIntent();
         Bundle b = iin.getExtras();
 
-         //get the UID
-        if(b != null) {
-            int uid = (int)b.get("messageUid");
-            messageUid = uid;
+        //get the UID
+        if(b!=null)
+        {
+            try{
+                this.messageUid = b.getString("messageUid");
+                this.serverId = b.getString("serverId"); 
+            }
+            catch(NumberFormatException e){
+            }
         }
     }
 
@@ -41,13 +53,13 @@ import android.widget.Button;
      @Override
     public void onClick(View view) {
         int id = view.getId();
-        System.out.print("%%%%%%%%%%%%");
         if(id == R.id.label_work_tag) {
-            System.out.println("work");
+            MessagingController.getInstance(this).setLabel(this.account,this.serverId,this.messageUid,"work");
         } else if(id == R.id.label_school_tag) {
-            System.out.println("school");
+            MessagingController.getInstance(this).setLabel(this.account,this.serverId,this.messageUid,"school");
         } else if(id == R.id.label_personal_tag) {
-            System.out.println("personal");
+            MessagingController.getInstance(this).setLabel(this.account,this.serverId,this.messageUid,"rock&roll");
         }
+        finish();
     }
 }
