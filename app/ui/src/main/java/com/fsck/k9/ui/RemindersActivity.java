@@ -11,9 +11,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.fsck.k9.Account;
+import com.fsck.k9.Preferences;
 import com.fsck.k9.activity.K9Activity;
+import com.fsck.k9.controller.MessagingController;
+import com.fsck.k9.mail.Message;
+import com.fsck.k9.mailstore.LocalStoreProvider;
+import com.fsck.k9.mailstore.MessageViewInfo;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class RemindersActivity extends K9Activity implements
         View.OnClickListener{
@@ -88,16 +95,18 @@ public class RemindersActivity extends K9Activity implements
         }
 
         if(v==submitReminder) {
-            System.out.println(txtDate.getText());
-            System.out.println(txtTime.getText());
-            System.out.println(txtMessage.getText());
-
             String reminderDate = txtDate.getText().toString();
             String reminderTime = txtTime.getText().toString();
             String reminderMessage = txtMessage.getText().toString();
 
+            System.out.println(reminderDate);
+            System.out.println(reminderTime);
+            System.out.println(reminderMessage);
+
             // THIS IS WHERE TASK 3 BEGINS
             // SOMECLASS.SOMEFUNCTION(reminderDate, reminderTime, reminderMessage){}
+
+
         }
     }
 
