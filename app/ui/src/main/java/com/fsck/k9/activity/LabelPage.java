@@ -1,31 +1,32 @@
-	package com.fsck.k9.activity;
+package com.fsck.k9.activity;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.fsck.k9.ui.R;
 import com.fsck.k9.controller.MessagingController;
 import com.fsck.k9.Account;
 import com.fsck.k9.Preferences;
-import com.fsck.k9.mailstore.LocalStoreProvider;
 
  public class LabelPage extends K9Activity implements View.OnClickListener {
 
-    private String messageUid;
-    private String serverId;
-    private Account account = Preferences.getPreferences(this).getDefaultAccount();
-    private MessagingController controller = MessagingController.getInstance(getApplication());
+    protected String messageUid;
+    protected String serverId;
+    protected String labelString;
+    protected EditText editText;
+    protected Button button;
+    protected LabelPageLogic lpl = new LabelPageLogic();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_label_page);
-        setButtonListeners();
-	
+
+        lpl.bindEditTextLogic(this);
+
         Intent iin = getIntent();
         Bundle b = iin.getExtras();
 
@@ -34,32 +35,61 @@ import com.fsck.k9.mailstore.LocalStoreProvider;
         {
             try{
                 this.messageUid = b.getString("messageUid");
-                this.serverId = b.getString("serverId"); 
+                this.serverId = b.getString("serverId");
             }
             catch(NumberFormatException e){
             }
         }
     }
 
-     private void setButtonListeners() {
-        Button mLabelButtonWork = (Button)findViewById(R.id.label_work_tag);
-        mLabelButtonWork.setOnClickListener(this);
-        Button mLabelSchoolWork = (Button)findViewById(R.id.label_school_tag);
-        mLabelSchoolWork.setOnClickListener(this);
-        Button mLabelPersonalWork = (Button)findViewById(R.id.label_personal_tag);
-        mLabelPersonalWork.setOnClickListener(this);
+    public void bindEditText() {
+        lpl.bindEditTextLogic(this);
     }
 
      @Override
     public void onClick(View view) {
-        int id = view.getId();
-        if(id == R.id.label_work_tag) {
-            MessagingController.getInstance(this).setLabel(this.account,this.serverId,this.messageUid,"work");
-        } else if(id == R.id.label_school_tag) {
-            MessagingController.getInstance(this).setLabel(this.account,this.serverId,this.messageUid,"school");
-        } else if(id == R.id.label_personal_tag) {
-            MessagingController.getInstance(this).setLabel(this.account,this.serverId,this.messageUid,"rock&roll");
-        }
+        lpl.onClickLogic(view, this);
         finish();
     }
-}
+
+ }
+    class LabelPageLogic {
+
+        private LabelPage labelPage;
+
+        public void onCreateLogic(Bundle savedInstanceState, LabelPage lp) {
+
+        }
+
+        public void bindEditTextLogic(LabelPage lp) {
+            lp.editText = (EditText) lp.findViewById(R.id.label);
+            lp.button = (Button) lp.findViewById(R.id.label_button);
+            lp.button.setOnClickListener(lp);
+        }
+
+        public void onClickLogic(View view, LabelPage lp) {
+            int id = view.getId();
+            lp.labelString = getLabelString(lp);
+
+            if(lp.labelString.length() > 0) {
+                try {
+                    setLabel(lp);
+                } catch (kotlin.UninitializedPropertyAccessException e) {
+                    System.out.println(e);//happens when testing
+                }
+            }
+        }
+
+        public String getLabelString(LabelPage lp) {
+            return lp.editText.getText().toString();
+        }
+
+        public void setLabel(LabelPage lp) {
+            Account account = Preferences.getPreferences(lp).getDefaultAccount();
+            MessagingController.getInstance(lp).setLabel(account,lp.serverId,lp.messageUid,lp.labelString);
+        }
+
+     }
+
+
+
