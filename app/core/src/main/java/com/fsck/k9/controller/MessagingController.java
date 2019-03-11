@@ -3228,4 +3228,34 @@ public class MessagingController {
             }
         }
     }
+
+    /**
+     * Set a label for a message referenced by message UID.
+     *
+     * @param account
+     *         The account the folder containing the message belongs to.
+     * @param folderServerId
+     *         The server ID of the folder.
+     * @param uid
+     *         The UID of the message to change the label for.
+     * @param label
+     *         The label to change.
+     * **/
+    public void setLabel(Account account, String folderServerId, String uid, String label){
+        LocalFolder localFolder = null;
+        try {
+            LocalStore localStore = localStoreProvider.getInstance(account);
+            localFolder = localStore.getFolder(folderServerId);
+            localFolder.open(Folder.OPEN_MODE_RW);
+            LocalMessage message = localFolder.getMessage(uid);
+
+            if (message != null) {
+                localFolder.setLabel(label,uid);
+            }
+        } catch (MessagingException me) {
+            throw new RuntimeException(me);
+        } finally {
+            closeFolder(localFolder);
+        }
+    }
 }

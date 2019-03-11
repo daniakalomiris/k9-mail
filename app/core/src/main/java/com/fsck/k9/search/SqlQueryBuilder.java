@@ -193,6 +193,10 @@ public class SqlQueryBuilder {
                 columnName = "threads.root";
                 break;
             }
+            case LABEL: {
+                columnName = "label";
+                break;
+            }
             case MESSAGE_CONTENTS:
             case FOLDER:
             case SEARCHABLE: {
