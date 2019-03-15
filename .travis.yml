@@ -27,6 +27,22 @@ cache:
 
 jobs:
   include:
-    - script: ./gradlew build -dry-run
-    - script: ./gradlew test
-    - script: ./gradlew lint
+    - script: ./gradlew :app:core:build
+    - script: ./gradlew :app:crypto-openpgp:build
+    - script: ./gradlew :app:k9mail:build
+    - script: ./gradlew :app:storage:build
+    - script: ./gradlew :app:testing:build
+    - script: ./gradlew :app:ui:build
+    - script: ./gradlew :backend:api:build
+    - script: ./gradlew :backend:imap:build
+    - script: ./gradlew :backend:pop3:build
+    - script: ./gradlew :backend:webdav:build
+    - script: ./gradlew :mail:common:build
+    - script: ./gradlew :mail:protocols:build
+    - script: ./gradlew :mail:protocols:build
+    - script: ./gradlew :mail:protocols:build
+    - script: ./gradlew :mail:protocols:build
+    - script: ./gradlew :mail:testing:build
+    - script: ./gradlew :plugins:HoloColorPicker:build
+    - script: ./gradlew :plugins:openpgp-api-lib:build
+    - script: ./gradlew :plugins:openpgp-api-lib:openpgp-api:build
