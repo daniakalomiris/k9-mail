@@ -22,7 +22,8 @@ cache:
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
 
-script: 
- - ./gradlew build
- - ./gradlew test
- - ./gradlew lint
+jobs:
+  include:
+    - script: ./gradlew build
+    - script: ./gradlew test
+    - script: ./gradlew lint
