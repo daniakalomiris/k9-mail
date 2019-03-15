@@ -12,6 +12,9 @@
          android:id="@+id/reply"
          android:title="@string/reply_action"/>
      <item
+        android:id="@+id/add_label"
+        android:title="Add Label"/>
+     <item
          android:id="@+id/send_again"
          android:title="@string/send_again_action"/>
      <item
