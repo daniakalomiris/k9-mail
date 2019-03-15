@@ -25,24 +25,25 @@ cache:
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
 
-jobs:
-  include:
-    - script: ./gradlew :app:core:build
-    - script: ./gradlew :app:crypto-openpgp:build
-    - script: ./gradlew :app:k9mail:build
-    - script: ./gradlew :app:storage:build
-    - script: ./gradlew :app:testing:build
-    - script: ./gradlew :app:ui:build
-    - script: ./gradlew :backend:api:build
-    - script: ./gradlew :backend:imap:build
-    - script: ./gradlew :backend:pop3:build
-    - script: ./gradlew :backend:webdav:build
-    - script: ./gradlew :mail:common:build
-    - script: ./gradlew :mail:protocols:build
-    - script: ./gradlew :mail:protocols:build
-    - script: ./gradlew :mail:protocols:build
-    - script: ./gradlew :mail:protocols:build
-    - script: ./gradlew :mail:testing:build
-    - script: ./gradlew :plugins:HoloColorPicker:build
-    - script: ./gradlew :plugins:openpgp-api-lib:build
-    - script: ./gradlew :plugins:openpgp-api-lib:openpgp-api:build
+env:
+    - TEST=./gradlew :app:core:build
+    - TEST=./gradlew :app:crypto-openpgp:build
+    - TEST=./gradlew :app:k9mail:build
+    - TEST=./gradlew :app:storage:build
+    - TEST=./gradlew :app:testing:build
+    - TEST=./gradlew :app:ui:build
+    - TEST=./gradlew :backend:api:build
+    - TEST=./gradlew :backend:imap:build
+    - TEST=./gradlew :backend:pop3:build
+    - TEST=./gradlew :backend:webdav:build
+    - TEST=./gradlew :mail:common:build
+    - TEST=./gradlew :mail:protocols:build
+    - TEST=./gradlew :mail:protocols:build
+    - TEST=./gradlew :mail:protocols:build
+    - TEST=./gradlew :mail:protocols:build
+    - TEST=./gradlew :mail:testing:build
+    - TEST=./gradlew :plugins:HoloColorPicker:build
+    - TEST=./gradlew :plugins:openpgp-api-lib:build
+    - TEST=./gradlew :plugins:openpgp-api-lib:openpgp-api:build
+    
+script: "${TEST}"
