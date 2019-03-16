@@ -2,7 +2,7 @@
 git status
 git fetch origin
 
-git branch -a
+git branch master origin/master
 git checkout -b  temp
 
 
