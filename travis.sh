@@ -1,12 +1,9 @@
 #!/bin/bash
-git status
-git fetch --all
 
-git checkout -b  temp
+git remote set-branches --add origin master
+git fetch
 
-git branch -r
-
-CHANGED_FILES=`git diff --name-only origin/HEAD`
+CHANGED_FILES=`git diff --name-only origin/master`
 
 for CHANGED_FILE in $CHANGED_FILES
     do
