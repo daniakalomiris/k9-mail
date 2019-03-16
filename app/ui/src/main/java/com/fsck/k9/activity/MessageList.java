@@ -1,6 +1,5 @@
 package com.fsck.k9.activity;
 
-
 import java.util.Collection;
 import java.util.List;
 
@@ -65,16 +64,15 @@ import com.mikepenz.materialdrawer.Drawer.OnDrawerListener;
 import de.cketti.library.changelog.ChangeLog;
 import timber.log.Timber;
 
-
+// test travis.sh
 
 /**
  * MessageList is the primary user interface for the program. This Activity
- * shows a list of messages.
- * From this Activity the user can perform all standard message operations.
+ * shows a list of messages. From this Activity the user can perform all
+ * standard message operations.
  */
-public class MessageList extends K9Activity implements MessageListFragmentListener,
-        MessageViewFragmentListener, OnBackStackChangedListener, OnSwipeGestureListener,
-        OnSwitchCompleteListener {
+public class MessageList extends K9Activity implements MessageListFragmentListener, MessageViewFragmentListener,
+        OnBackStackChangedListener, OnSwipeGestureListener, OnSwitchCompleteListener {
 
     private static final String EXTRA_SEARCH = "search_bytes";
     private static final String EXTRA_NO_THREADING = "no_threading";
@@ -98,19 +96,18 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
 
     public static final int REQUEST_MASK_PENDING_INTENT = 1 << 15;
 
-    public static void actionDisplaySearch(Context context, SearchSpecification search,
-            boolean noThreading, boolean newTask) {
+    public static void actionDisplaySearch(Context context, SearchSpecification search, boolean noThreading,
+            boolean newTask) {
         actionDisplaySearch(context, search, noThreading, newTask, true);
     }
 
-    public static void actionDisplaySearch(Context context, SearchSpecification search,
-            boolean noThreading, boolean newTask, boolean clearTop) {
-        context.startActivity(
-                intentDisplaySearch(context, search, noThreading, newTask, clearTop));
+    public static void actionDisplaySearch(Context context, SearchSpecification search, boolean noThreading,
+            boolean newTask, boolean clearTop) {
+        context.startActivity(intentDisplaySearch(context, search, noThreading, newTask, clearTop));
     }
 
-    public static Intent intentDisplaySearch(Context context, SearchSpecification search,
-            boolean noThreading, boolean newTask, boolean clearTop) {
+    public static Intent intentDisplaySearch(Context context, SearchSpecification search, boolean noThreading,
+            boolean newTask, boolean clearTop) {
         Intent intent = new Intent(context, MessageList.class);
         intent.putExtra(EXTRA_SEARCH, ParcelableUtil.marshall(search));
         intent.putExtra(EXTRA_NO_THREADING, noThreading);
@@ -135,21 +132,16 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
         return intent;
     }
 
-    public static Intent actionDisplayMessageIntent(Context context,
-            MessageReference messageReference) {
+    public static Intent actionDisplayMessageIntent(Context context, MessageReference messageReference) {
         Intent intent = new Intent(context, MessageList.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(EXTRA_MESSAGE_REFERENCE, messageReference.toIdentityString());
         return intent;
     }
 
-
     private enum DisplayMode {
-        MESSAGE_LIST,
-        MESSAGE_VIEW,
-        SPLIT_VIEW
+        MESSAGE_LIST, MESSAGE_VIEW, SPLIT_VIEW
     }
-
 
     protected final SearchStatusManager searchStatusManager = DI.get(SearchStatusManager.class);
     private StorageManager.StorageListener mStorageListener = new StorageListenerImplementation();
@@ -178,9 +170,10 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
     private int lastDirection = (K9.messageViewShowNext()) ? NEXT : PREVIOUS;
 
     /**
-     * {@code true} if the message list should be displayed as flat list (i.e. no threading)
-     * regardless whether or not message threading was enabled in the settings. This is used for
-     * filtered views, e.g. when only displaying the unread messages in a folder.
+     * {@code true} if the message list should be displayed as flat list (i.e. no
+     * threading) regardless whether or not message threading was enabled in the
+     * settings. This is used for filtered views, e.g. when only displaying the
+     * unread messages in a folder.
      */
     private boolean noThreading;
 
@@ -189,12 +182,11 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
 
     /**
      * {@code true} when the message list was displayed once. This is used in
-     * {@link #onBackPressed()} to decide whether to go from the message view to the message list or
-     * finish the activity.
+     * {@link #onBackPressed()} to decide whether to go from the message view to the
+     * message list or finish the activity.
      */
     private boolean messageListWasDisplayed = false;
     private ViewSwitcher viewSwitcher;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -259,8 +251,7 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
         setIntent(intent);
 
         if (firstBackStackId >= 0) {
-            getFragmentManager().popBackStackImmediate(firstBackStackId,
-                    FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            getFragmentManager().popBackStackImmediate(firstBackStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             firstBackStackId = -1;
         }
         removeMessageListFragment();
@@ -314,10 +305,10 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
             ft.commit();
         }
 
-        // Check if the fragment wasn't restarted and has a MessageReference in the arguments. If
+        // Check if the fragment wasn't restarted and has a MessageReference in the
+        // arguments. If
         // so, open the referenced message.
-        if (!hasMessageListFragment && messageViewFragment == null &&
-                messageReference != null) {
+        if (!hasMessageListFragment && messageViewFragment == null && messageReference != null) {
             openMessage(messageReference);
         }
     }
@@ -325,14 +316,15 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
     /**
      * Set the initial display mode (message list, message view, or split view).
      *
-     * <p><strong>Note:</strong>
-     * This method has to be called after {@link #findFragments()} because the result depends on
-     * the availability of a {@link MessageViewFragment} instance.
+     * <p>
+     * <strong>Note:</strong> This method has to be called after
+     * {@link #findFragments()} because the result depends on the availability of a
+     * {@link MessageViewFragment} instance.
      * </p>
      *
-     * @param savedInstanceState
-     *         The saved instance state that was passed to the activity as argument to
-     *         {@link #onCreate(Bundle)}. May be {@code null}.
+     * @param savedInstanceState The saved instance state that was passed to the
+     *                           activity as argument to {@link #onCreate(Bundle)}.
+     *                           May be {@code null}.
      */
     private void initializeDisplayMode(Bundle savedInstanceState) {
         if (useSplitView()) {
@@ -341,8 +333,7 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
         }
 
         if (savedInstanceState != null) {
-            DisplayMode savedDisplayMode =
-                    (DisplayMode) savedInstanceState.getSerializable(STATE_DISPLAY_MODE);
+            DisplayMode savedDisplayMode = (DisplayMode) savedInstanceState.getSerializable(STATE_DISPLAY_MODE);
             if (savedDisplayMode != DisplayMode.SPLIT_VIEW) {
                 displayMode = savedDisplayMode;
                 return;
@@ -360,9 +351,8 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
         SplitViewMode splitViewMode = K9.getSplitViewMode();
         int orientation = getResources().getConfiguration().orientation;
 
-        return (splitViewMode == SplitViewMode.ALWAYS ||
-                (splitViewMode == SplitViewMode.WHEN_IN_LANDSCAPE &&
-                        orientation == Configuration.ORIENTATION_LANDSCAPE));
+        return (splitViewMode == SplitViewMode.ALWAYS || (splitViewMode == SplitViewMode.WHEN_IN_LANDSCAPE
+                && orientation == Configuration.ORIENTATION_LANDSCAPE));
     }
 
     private void initializeLayout() {
@@ -374,26 +364,26 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
 
     private void displayViews() {
         switch (displayMode) {
-            case MESSAGE_LIST: {
-                showMessageList();
-                break;
-            }
-            case MESSAGE_VIEW: {
-                showMessageView();
-                break;
-            }
-            case SPLIT_VIEW: {
-                messageListWasDisplayed = true;
-                if (messageViewFragment == null) {
-                    showMessageViewPlaceHolder();
-                } else {
-                    MessageReference activeMessage = messageViewFragment.getMessageReference();
-                    if (activeMessage != null) {
-                        messageListFragment.setActiveMessage(activeMessage);
-                    }
+        case MESSAGE_LIST: {
+            showMessageList();
+            break;
+        }
+        case MESSAGE_VIEW: {
+            showMessageView();
+            break;
+        }
+        case SPLIT_VIEW: {
+            messageListWasDisplayed = true;
+            if (messageViewFragment == null) {
+                showMessageViewPlaceHolder();
+            } else {
+                MessageReference activeMessage = messageViewFragment.getMessageReference();
+                if (activeMessage != null) {
+                    messageListFragment.setActiveMessage(activeMessage);
                 }
-                break;
             }
+            break;
+        }
         }
     }
 
@@ -424,7 +414,7 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
         } else if (intent.getStringExtra(SearchManager.QUERY) != null) {
             // check if this intent comes from the system search ( remote )
             if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-                //Query was received from Search Dialog
+                // Query was received from Search Dialog
                 String query = intent.getStringExtra(SearchManager.QUERY).trim();
 
                 search = new LocalSearch(getString(R.string.search_results));
@@ -439,7 +429,8 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
 
                 if (appData != null) {
                     search.addAccountUuid(appData.getString(EXTRA_SEARCH_ACCOUNT));
-                    // searches started from a folder list activity will provide an account, but no folder
+                    // searches started from a folder list activity will provide an account, but no
+                    // folder
                     if (appData.getString(EXTRA_SEARCH_FOLDER) != null) {
                         search.addAllowedFolder(appData.getString(EXTRA_SEARCH_FOLDER));
                     }
@@ -449,8 +440,9 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
             }
         } else {
             // regular LocalSearch object was passed
-            search = intent.hasExtra(EXTRA_SEARCH) ?
-                    ParcelableUtil.unmarshall(intent.getByteArrayExtra(EXTRA_SEARCH), LocalSearch.CREATOR) : null;
+            search = intent.hasExtra(EXTRA_SEARCH)
+                    ? ParcelableUtil.unmarshall(intent.getByteArrayExtra(EXTRA_SEARCH), LocalSearch.CREATOR)
+                    : null;
             noThreading = intent.getBooleanExtra(EXTRA_NO_THREADING, false);
         }
 
@@ -489,7 +481,6 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
         return true;
     }
 
-
     private void checkAndRequestPermissions() {
         if (!hasPermission(Permission.READ_CONTACTS)) {
             requestPermissionOrShowRationale(Permission.READ_CONTACTS);
@@ -508,8 +499,9 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
         super.onResume();
 
         if (!(this instanceof Search)) {
-            //necessary b/c no guarantee Search.onStop will be called before MessageList.onResume
-            //when returning from search results
+            // necessary b/c no guarantee Search.onStop will be called before
+            // MessageList.onResume
+            // when returning from search results
             searchStatusManager.setActive(false);
         }
 
@@ -558,10 +550,8 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
         drawer = new K9Drawer(this, savedInstanceState);
 
         DrawerLayout drawerLayout = drawer.getLayout();
-        drawerToggle = new ActionBarDrawerToggle(
-                this, drawerLayout, null,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        );
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, null, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
     }
@@ -665,175 +655,170 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
      * Handle hotkeys
      *
      * <p>
-     * This method is called by {@link #dispatchKeyEvent(KeyEvent)} before any view had the chance
-     * to consume this key event.
+     * This method is called by {@link #dispatchKeyEvent(KeyEvent)} before any view
+     * had the chance to consume this key event.
      * </p>
      *
-     * @param keyCode
-     *         The value in {@code event.getKeyCode()}.
-     * @param event
-     *         Description of the key event.
+     * @param keyCode The value in {@code event.getKeyCode()}.
+     * @param event   Description of the key event.
      *
      * @return {@code true} if this event was consumed.
      */
     public boolean onCustomKeyDown(final int keyCode, final KeyEvent event) {
         switch (keyCode) {
-            case KeyEvent.KEYCODE_VOLUME_UP: {
-                if (messageViewFragment != null && displayMode != DisplayMode.MESSAGE_LIST &&
-                        K9.useVolumeKeysForNavigationEnabled()) {
-                    showPreviousMessage();
-                    return true;
-                } else if (displayMode != DisplayMode.MESSAGE_VIEW &&
-                        K9.useVolumeKeysForListNavigationEnabled()) {
-                    messageListFragment.onMoveUp();
-                    return true;
-                }
+        case KeyEvent.KEYCODE_VOLUME_UP: {
+            if (messageViewFragment != null && displayMode != DisplayMode.MESSAGE_LIST
+                    && K9.useVolumeKeysForNavigationEnabled()) {
+                showPreviousMessage();
+                return true;
+            } else if (displayMode != DisplayMode.MESSAGE_VIEW && K9.useVolumeKeysForListNavigationEnabled()) {
+                messageListFragment.onMoveUp();
+                return true;
+            }
 
-                break;
+            break;
+        }
+        case KeyEvent.KEYCODE_VOLUME_DOWN: {
+            if (messageViewFragment != null && displayMode != DisplayMode.MESSAGE_LIST
+                    && K9.useVolumeKeysForNavigationEnabled()) {
+                showNextMessage();
+                return true;
+            } else if (displayMode != DisplayMode.MESSAGE_VIEW && K9.useVolumeKeysForListNavigationEnabled()) {
+                messageListFragment.onMoveDown();
+                return true;
             }
-            case KeyEvent.KEYCODE_VOLUME_DOWN: {
-                if (messageViewFragment != null && displayMode != DisplayMode.MESSAGE_LIST &&
-                        K9.useVolumeKeysForNavigationEnabled()) {
-                    showNextMessage();
-                    return true;
-                } else if (displayMode != DisplayMode.MESSAGE_VIEW &&
-                        K9.useVolumeKeysForListNavigationEnabled()) {
-                    messageListFragment.onMoveDown();
-                    return true;
-                }
 
-                break;
+            break;
+        }
+        case KeyEvent.KEYCODE_C: {
+            messageListFragment.onCompose();
+            return true;
+        }
+        case KeyEvent.KEYCODE_Q: {
+            if (messageListFragment != null && messageListFragment.isSingleAccountMode()) {
+                onShowFolderList();
             }
-            case KeyEvent.KEYCODE_C: {
-                messageListFragment.onCompose();
-                return true;
+            return true;
+        }
+        case KeyEvent.KEYCODE_O: {
+            messageListFragment.onCycleSort();
+            return true;
+        }
+        case KeyEvent.KEYCODE_I: {
+            messageListFragment.onReverseSort();
+            return true;
+        }
+        case KeyEvent.KEYCODE_DEL:
+        case KeyEvent.KEYCODE_D: {
+            if (displayMode == DisplayMode.MESSAGE_LIST) {
+                messageListFragment.onDelete();
+            } else if (messageViewFragment != null) {
+                messageViewFragment.onDelete();
             }
-            case KeyEvent.KEYCODE_Q: {
-                if (messageListFragment != null && messageListFragment.isSingleAccountMode()) {
-                    onShowFolderList();
-                }
-                return true;
+            return true;
+        }
+        case KeyEvent.KEYCODE_S: {
+            messageListFragment.toggleMessageSelect();
+            return true;
+        }
+        case KeyEvent.KEYCODE_G: {
+            if (displayMode == DisplayMode.MESSAGE_LIST) {
+                messageListFragment.onToggleFlagged();
+            } else if (messageViewFragment != null) {
+                messageViewFragment.onToggleFlagged();
             }
-            case KeyEvent.KEYCODE_O: {
-                messageListFragment.onCycleSort();
-                return true;
+            return true;
+        }
+        case KeyEvent.KEYCODE_M: {
+            if (displayMode == DisplayMode.MESSAGE_LIST) {
+                messageListFragment.onMove();
+            } else if (messageViewFragment != null) {
+                messageViewFragment.onMove();
             }
-            case KeyEvent.KEYCODE_I: {
-                messageListFragment.onReverseSort();
-                return true;
+            return true;
+        }
+        case KeyEvent.KEYCODE_V: {
+            if (displayMode == DisplayMode.MESSAGE_LIST) {
+                messageListFragment.onArchive();
+            } else if (messageViewFragment != null) {
+                messageViewFragment.onArchive();
             }
-            case KeyEvent.KEYCODE_DEL:
-            case KeyEvent.KEYCODE_D: {
-                if (displayMode == DisplayMode.MESSAGE_LIST) {
-                    messageListFragment.onDelete();
-                } else if (messageViewFragment != null) {
-                    messageViewFragment.onDelete();
-                }
-                return true;
+            return true;
+        }
+        case KeyEvent.KEYCODE_Y: {
+            if (displayMode == DisplayMode.MESSAGE_LIST) {
+                messageListFragment.onCopy();
+            } else if (messageViewFragment != null) {
+                messageViewFragment.onCopy();
             }
-            case KeyEvent.KEYCODE_S: {
-                messageListFragment.toggleMessageSelect();
-                return true;
+            return true;
+        }
+        case KeyEvent.KEYCODE_Z: {
+            if (displayMode == DisplayMode.MESSAGE_LIST) {
+                messageListFragment.onToggleRead();
+            } else if (messageViewFragment != null) {
+                messageViewFragment.onToggleRead();
             }
-            case KeyEvent.KEYCODE_G: {
-                if (displayMode == DisplayMode.MESSAGE_LIST) {
-                    messageListFragment.onToggleFlagged();
-                } else if (messageViewFragment != null) {
-                    messageViewFragment.onToggleFlagged();
-                }
-                return true;
+            return true;
+        }
+        case KeyEvent.KEYCODE_F: {
+            if (messageViewFragment != null) {
+                messageViewFragment.onForward();
             }
-            case KeyEvent.KEYCODE_M: {
-                if (displayMode == DisplayMode.MESSAGE_LIST) {
-                    messageListFragment.onMove();
-                } else if (messageViewFragment != null) {
-                    messageViewFragment.onMove();
-                }
-                return true;
+            return true;
+        }
+        case KeyEvent.KEYCODE_A: {
+            if (messageViewFragment != null) {
+                messageViewFragment.onReplyAll();
             }
-            case KeyEvent.KEYCODE_V: {
-                if (displayMode == DisplayMode.MESSAGE_LIST) {
-                    messageListFragment.onArchive();
-                } else if (messageViewFragment != null) {
-                    messageViewFragment.onArchive();
-                }
-                return true;
+            return true;
+        }
+        case KeyEvent.KEYCODE_R: {
+            if (messageViewFragment != null) {
+                messageViewFragment.onReply();
             }
-            case KeyEvent.KEYCODE_Y: {
-                if (displayMode == DisplayMode.MESSAGE_LIST) {
-                    messageListFragment.onCopy();
-                } else if (messageViewFragment != null) {
-                    messageViewFragment.onCopy();
-                }
-                return true;
+            return true;
+        }
+        case KeyEvent.KEYCODE_J:
+        case KeyEvent.KEYCODE_P: {
+            if (messageViewFragment != null) {
+                showPreviousMessage();
             }
-            case KeyEvent.KEYCODE_Z: {
-                if (displayMode == DisplayMode.MESSAGE_LIST) {
-                    messageListFragment.onToggleRead();
-                } else if (messageViewFragment != null) {
-                    messageViewFragment.onToggleRead();
-                }
-                return true;
+            return true;
+        }
+        case KeyEvent.KEYCODE_N:
+        case KeyEvent.KEYCODE_K: {
+            if (messageViewFragment != null) {
+                showNextMessage();
             }
-            case KeyEvent.KEYCODE_F: {
-                if (messageViewFragment != null) {
-                    messageViewFragment.onForward();
-                }
-                return true;
+            return true;
+        }
+        /*
+         * FIXME case KeyEvent.KEYCODE_Z: { messageViewFragment.zoom(event); return
+         * true; }
+         */
+        case KeyEvent.KEYCODE_H: {
+            Toast toast;
+            if (displayMode == DisplayMode.MESSAGE_LIST) {
+                toast = Toast.makeText(this, R.string.message_list_help_key, Toast.LENGTH_LONG);
+            } else {
+                toast = Toast.makeText(this, R.string.message_view_help_key, Toast.LENGTH_LONG);
             }
-            case KeyEvent.KEYCODE_A: {
-                if (messageViewFragment != null) {
-                    messageViewFragment.onReplyAll();
-                }
-                return true;
+            toast.show();
+            return true;
+        }
+        case KeyEvent.KEYCODE_DPAD_LEFT: {
+            if (messageViewFragment != null && displayMode == DisplayMode.MESSAGE_VIEW) {
+                return showPreviousMessage();
             }
-            case KeyEvent.KEYCODE_R: {
-                if (messageViewFragment != null) {
-                    messageViewFragment.onReply();
-                }
-                return true;
+            return false;
+        }
+        case KeyEvent.KEYCODE_DPAD_RIGHT: {
+            if (messageViewFragment != null && displayMode == DisplayMode.MESSAGE_VIEW) {
+                return showNextMessage();
             }
-            case KeyEvent.KEYCODE_J:
-            case KeyEvent.KEYCODE_P: {
-                if (messageViewFragment != null) {
-                    showPreviousMessage();
-                }
-                return true;
-            }
-            case KeyEvent.KEYCODE_N:
-            case KeyEvent.KEYCODE_K: {
-                if (messageViewFragment != null) {
-                    showNextMessage();
-                }
-                return true;
-            }
-            /* FIXME
-            case KeyEvent.KEYCODE_Z: {
-                messageViewFragment.zoom(event);
-                return true;
-            }*/
-            case KeyEvent.KEYCODE_H: {
-                Toast toast;
-                if (displayMode == DisplayMode.MESSAGE_LIST) {
-                    toast = Toast.makeText(this, R.string.message_list_help_key, Toast.LENGTH_LONG);
-                } else {
-                    toast = Toast.makeText(this, R.string.message_view_help_key, Toast.LENGTH_LONG);
-                }
-                toast.show();
-                return true;
-            }
-            case KeyEvent.KEYCODE_DPAD_LEFT: {
-                if (messageViewFragment != null && displayMode == DisplayMode.MESSAGE_VIEW) {
-                    return showPreviousMessage();
-                }
-                return false;
-            }
-            case KeyEvent.KEYCODE_DPAD_RIGHT: {
-                if (messageViewFragment != null && displayMode == DisplayMode.MESSAGE_VIEW) {
-                    return showNextMessage();
-                }
-                return false;
-            }
+            return false;
+        }
 
         }
 
@@ -895,7 +880,7 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
         } else if (id == R.id.toggle_message_view_theme) {
             onToggleTheme();
             return true;
-        } else if (id == R.id.check_mail) {     // MessageList
+        } else if (id == R.id.check_mail) { // MessageList
             messageListFragment.checkMail();
             return true;
         } else if (id == R.id.set_sort_date) {
@@ -934,7 +919,7 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
         } else if (id == R.id.mark_all_as_read) {
             messageListFragment.confirmMarkAllAsRead();
             return true;
-        } else if (id == R.id.next_message) {   // MessageView
+        } else if (id == R.id.next_message) { // MessageView
             showNextMessage();
             return true;
         } else if (id == R.id.previous_message) {
@@ -981,7 +966,7 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
 
         if (!singleFolderMode) {
             // None of the options after this point are "safe" for search results
-            //TODO: This is not true for "unread" and "starred" searches in regular folders
+            // TODO: This is not true for "unread" and "starred" searches in regular folders
             return false;
         }
 
@@ -1017,14 +1002,15 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
     /**
      * Hide menu items not appropriate for the current context.
      *
-     * <p><strong>Note:</strong>
-     * Please adjust the comments in {@code res/menu/message_list_option.xml} if you change the
-     * visibility of a menu item in this method.
+     * <p>
+     * <strong>Note:</strong> Please adjust the comments in
+     * {@code res/menu/message_list_option.xml} if you change the visibility of a
+     * menu item in this method.
      * </p>
      *
-     * @param menu
-     *         The {@link Menu} instance that should be modified. May be {@code null}; in that case
-     *         the method does nothing and immediately returns.
+     * @param menu The {@link Menu} instance that should be modified. May be
+     *             {@code null}; in that case the method does nothing and
+     *             immediately returns.
      */
     private void configureMenu(Menu menu) {
         if (menu == null) {
@@ -1035,8 +1021,7 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
          * Set visibility of menu items related to the message view
          */
 
-        if (displayMode == DisplayMode.MESSAGE_LIST
-                || messageViewFragment == null
+        if (displayMode == DisplayMode.MESSAGE_LIST || messageViewFragment == null
                 || !messageViewFragment.isInitialized()) {
             menu.findItem(R.id.next_message).setVisible(false);
             menu.findItem(R.id.previous_message).setVisible(false);
@@ -1059,8 +1044,7 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
                 menu.findItem(R.id.previous_message).setVisible(false);
             } else {
                 MessageReference ref = messageViewFragment.getMessageReference();
-                boolean initialized = (messageListFragment != null &&
-                        messageListFragment.isLoadFinished());
+                boolean initialized = (messageListFragment != null && messageListFragment.isLoadFinished());
                 boolean canDoPrev = (initialized && !messageListFragment.isFirst(ref));
                 boolean canDoNext = (initialized && !messageListFragment.isLast(ref));
 
@@ -1086,7 +1070,8 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
                 toggleTheme.setVisible(true);
             }
 
-            // Set title of menu item to toggle the read state of the currently displayed message
+            // Set title of menu item to toggle the read state of the currently displayed
+            // message
             int[] drawableAttr;
             if (messageViewFragment.isMessageRead()) {
                 menu.findItem(R.id.toggle_unread).setTitle(R.string.mark_as_unread_action);
@@ -1117,10 +1102,8 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
                 boolean canMessageBeMovedToSpam = messageViewFragment.canMessageBeMovedToSpam();
 
                 menu.findItem(R.id.move).setVisible(K9.isMessageViewMoveActionVisible());
-                menu.findItem(R.id.archive).setVisible(canMessageBeArchived &&
-                        K9.isMessageViewArchiveActionVisible());
-                menu.findItem(R.id.spam).setVisible(canMessageBeMovedToSpam &&
-                        K9.isMessageViewSpamActionVisible());
+                menu.findItem(R.id.archive).setVisible(canMessageBeArchived && K9.isMessageViewArchiveActionVisible());
+                menu.findItem(R.id.spam).setVisible(canMessageBeMovedToSpam && K9.isMessageViewSpamActionVisible());
 
                 menu.findItem(R.id.refile_move).setVisible(true);
                 menu.findItem(R.id.refile_archive).setVisible(canMessageBeArchived);
@@ -1140,7 +1123,6 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
             }
         }
 
-
         /*
          * Set visibility of menu items related to the message list
          */
@@ -1149,8 +1131,8 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
         menu.findItem(R.id.search).setVisible(false);
         menu.findItem(R.id.search_remote).setVisible(false);
 
-        if (displayMode == DisplayMode.MESSAGE_VIEW || messageListFragment == null ||
-                !messageListFragment.isInitialized()) {
+        if (displayMode == DisplayMode.MESSAGE_VIEW || messageListFragment == null
+                || !messageListFragment.isInitialized()) {
             menu.findItem(R.id.check_mail).setVisible(false);
             menu.findItem(R.id.set_sort).setVisible(false);
             menu.findItem(R.id.select_all).setVisible(false);
@@ -1162,23 +1144,21 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
             menu.findItem(R.id.set_sort).setVisible(true);
             menu.findItem(R.id.select_all).setVisible(true);
             menu.findItem(R.id.compose).setVisible(true);
-            menu.findItem(R.id.mark_all_as_read).setVisible(
-                    messageListFragment.isMarkAllAsReadSupported());
+            menu.findItem(R.id.mark_all_as_read).setVisible(messageListFragment.isMarkAllAsReadSupported());
 
             if (!messageListFragment.isSingleAccountMode()) {
                 menu.findItem(R.id.expunge).setVisible(false);
                 menu.findItem(R.id.send_messages).setVisible(false);
             } else {
                 menu.findItem(R.id.send_messages).setVisible(messageListFragment.isOutbox());
-                menu.findItem(R.id.expunge).setVisible(messageListFragment.isRemoteFolder() &&
-                        messageListFragment.isAccountExpungeCapable());
+                menu.findItem(R.id.expunge).setVisible(
+                        messageListFragment.isRemoteFolder() && messageListFragment.isAccountExpungeCapable());
             }
             menu.findItem(R.id.check_mail).setVisible(messageListFragment.isCheckMailSupported());
             menu.findItem(R.id.empty_trash).setVisible(messageListFragment.isShowingTrashFolder());
 
             // If this is an explicit local search, show the option to search on the server
-            if (!messageListFragment.isRemoteSearch() &&
-                    messageListFragment.isRemoteSearchAllowed()) {
+            if (!messageListFragment.isRemoteSearch() && messageListFragment.isRemoteSearchAllowed()) {
                 menu.findItem(R.id.search_remote).setVisible(true);
             } else if (!messageListFragment.isManualSearch()) {
                 menu.findItem(R.id.search).setVisible(true);
@@ -1319,17 +1299,17 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
     @Override
     public void onSwipeRightToLeft(MotionEvent e1, MotionEvent e2) {
         // Disabled because it interferes with the bezel swipe for the drawer
-//        if (messageListFragment != null && displayMode != DisplayMode.MESSAGE_VIEW) {
-//            messageListFragment.onSwipeRightToLeft(e1, e2);
-//        }
+        // if (messageListFragment != null && displayMode != DisplayMode.MESSAGE_VIEW) {
+        // messageListFragment.onSwipeRightToLeft(e1, e2);
+        // }
     }
 
     @Override
     public void onSwipeLeftToRight(MotionEvent e1, MotionEvent e2) {
         // Disabled because it interferes with the bezel swipe for the drawer
-//        if (messageListFragment != null && displayMode != DisplayMode.MESSAGE_VIEW) {
-//            messageListFragment.onSwipeLeftToRight(e1, e2);
-//        }
+        // if (messageListFragment != null && displayMode != DisplayMode.MESSAGE_VIEW) {
+        // messageListFragment.onSwipeLeftToRight(e1, e2);
+        // }
     }
 
     private final class StorageListenerImplementation implements StorageManager.StorageListener {
@@ -1372,7 +1352,8 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
 
     @Override
     public boolean startSearch(Account account, String folderServerId) {
-        // If this search was started from a MessageList of a single folder, pass along that folder info
+        // If this search was started from a MessageList of a single folder, pass along
+        // that folder info
         // so that we can enable remote search.
         if (account != null && folderServerId != null) {
             final Bundle appData = new Bundle();
@@ -1608,8 +1589,8 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
     }
 
     @Override
-    public void startIntentSenderForResult(IntentSender intent, int requestCode, Intent fillInIntent,
-            int flagsMask, int flagsValues, int extraFlags) throws SendIntentException {
+    public void startIntentSenderForResult(IntentSender intent, int requestCode, Intent fillInIntent, int flagsMask,
+            int flagsValues, int extraFlags) throws SendIntentException {
         requestCode |= REQUEST_MASK_PENDING_INTENT;
         super.startIntentSenderForResult(intent, requestCode, fillInIntent, flagsMask, flagsValues, extraFlags);
     }
