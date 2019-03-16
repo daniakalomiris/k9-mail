@@ -2,11 +2,11 @@
 git status
 git fetch origin
 
-git branch master origin/master
 git checkout -b  temp
 
+git branch -r
 
-CHANGED_FILES=`git diff --name-only origin/master`
+CHANGED_FILES=`git diff --name-only origin/HEAD`
 
 for CHANGED_FILE in $CHANGED_FILES
     do
