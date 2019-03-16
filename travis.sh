@@ -1,7 +1,8 @@
 #!/bin/bash
 git status
-git fetch origin master
-git branch
+git remote add origin https://github.com/jeffbuonamici/k9mail.git
+git fetch origin
+
 
 CHANGED_FILES=`git diff --name-only origin/master...`
 
