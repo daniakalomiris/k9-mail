@@ -25,25 +25,4 @@ cache:
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
 
-env:
-    - TEST=./gradlew :app:core:build
-    - TEST=./gradlew :app:crypto-openpgp:build
-    - TEST=./gradlew :app:k9mail:build
-    - TEST=./gradlew :app:storage:build
-    - TEST=./gradlew :app:testing:build
-    - TEST=./gradlew :app:ui:build
-    - TEST=./gradlew :backend:api:build
-    - TEST=./gradlew :backend:imap:build
-    - TEST=./gradlew :backend:pop3:build
-    - TEST=./gradlew :backend:webdav:build
-    - TEST=./gradlew :mail:common:build
-    - TEST=./gradlew :mail:protocols:build
-    - TEST=./gradlew :mail:protocols:build
-    - TEST=./gradlew :mail:protocols:build
-    - TEST=./gradlew :mail:protocols:build
-    - TEST=./gradlew :mail:testing:build
-    - TEST=./gradlew :plugins:HoloColorPicker:build
-    - TEST=./gradlew :plugins:openpgp-api-lib:build
-    - TEST=./gradlew :plugins:openpgp-api-lib:openpgp-api:build
-    
-script: "${TEST}"
+script: "./travis.sh"
