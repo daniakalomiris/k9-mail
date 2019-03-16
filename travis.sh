@@ -2,7 +2,7 @@
 git status
 git fetch origin
 
-git branch
+git checkout temp
 
 
 CHANGED_FILES=`git diff --name-only master`
