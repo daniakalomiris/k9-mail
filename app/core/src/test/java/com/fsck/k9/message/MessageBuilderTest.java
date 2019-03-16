@@ -201,6 +201,7 @@ public class MessageBuilderTest extends RobolectricTest {
 
     @Test
     public void build_shouldSucceed() throws Exception {
+        fail("ay");
         MessageBuilder messageBuilder = createSimpleMessageBuilder();
 
         messageBuilder.buildAsync(callback);
