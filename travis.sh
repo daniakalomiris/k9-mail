@@ -1,4 +1,5 @@
 #!/bin/bash
+git fetch origin master
 
 CHANGED_FILES=`git diff --name-only origin/master`
 
