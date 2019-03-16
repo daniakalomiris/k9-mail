@@ -1,7 +1,9 @@
 #!/bin/bash
+git status
 git fetch origin master
+git branch
 
-CHANGED_FILES=`git diff --name-only origin/master`
+CHANGED_FILES=`git diff --name-only origin/master...`
 
 for CHANGED_FILE in $CHANGED_FILES
     do
