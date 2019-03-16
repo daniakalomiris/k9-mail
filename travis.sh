@@ -1,6 +1,6 @@
 #!/bin/bash
 git status
-git fetch origin
+git fetch --all
 
 git checkout -b  temp
 
