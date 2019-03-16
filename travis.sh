@@ -5,6 +5,7 @@ git fetch
 
 CHANGED_FILES=`git diff --name-only origin/master`
 
+set -e
 for CHANGED_FILE in $CHANGED_FILES
     do
     IFS='/' read -r -a array <<< "$CHANGED_FILE"
