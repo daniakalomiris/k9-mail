@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -15,12 +16,17 @@ import com.fsck.k9.Account;
 import com.fsck.k9.Preferences;
 import com.fsck.k9.activity.K9Activity;
 import com.fsck.k9.controller.MessagingController;
+import com.fsck.k9.controller.MessagingListener;
+import com.fsck.k9.mail.Address;
 import com.fsck.k9.mail.Message;
-import com.fsck.k9.mailstore.LocalStoreProvider;
-import com.fsck.k9.mailstore.MessageViewInfo;
+import com.fsck.k9.mail.internet.MimeMessage;
+import com.fsck.k9.mail.internet.TextBody;
+
+import org.apache.james.mime4j.util.MimeUtil;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 public class RemindersActivity extends K9Activity implements
         View.OnClickListener{
@@ -99,15 +105,46 @@ public class RemindersActivity extends K9Activity implements
             String reminderTime = txtTime.getText().toString();
             String reminderMessage = txtMessage.getText().toString();
 
-            System.out.println(reminderDate);
-            System.out.println(reminderTime);
-            System.out.println(reminderMessage);
 
-            // THIS IS WHERE TASK 3 BEGINS
-            // SOMECLASS.SOMEFUNCTION(reminderDate, reminderTime, reminderMessage){}
+            sendReminder(reminderMessage);
 
+            NavUtils.navigateUpFromSameTask(this);
 
         }
+    }
+
+    public void sendReminder(String reminderMessage){
+        MessagingController mc = MessagingController.getInstance(this);
+
+        Preferences pr = Preferences.getPreferences(this);
+
+        List<Account> accounts = pr.getAccounts();
+        Account myAccount = accounts.get(0);
+
+        Message msg = new MimeMessage();
+        msg.setHeader("headerName", "headerValue");
+        msg.setSubject("Reminder");
+        msg.setSender(new Address(myAccount.toString()));
+        msg.setRecipient(Message.RecipientType.TO, new Address(myAccount.toString()));
+        msg.setBody(new TextBody(reminderMessage));
+        try{
+            msg.setEncoding(MimeUtil.ENC_8BIT);
+        }
+        catch (Exception e){
+
+        }
+
+
+        Set<MessagingListener> listeners = mc.getListeners();
+        MessagingListener listener = null;
+
+        for (MessagingListener l : listeners) {
+            listener = l;
+            break;
+        }
+
+
+        mc.sendMessage(myAccount, msg, "This is a Reminder", listener);
     }
 
 
