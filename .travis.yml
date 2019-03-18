@@ -22,7 +22,4 @@ cache:
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
 
-script: 
- - ./gradlew build
- - ./gradlew test
- - ./gradlew lint
+script: "./travis.sh"
