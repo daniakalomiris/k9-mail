@@ -2429,4 +2429,32 @@ public class LocalFolder extends Folder<LocalMessage> {
             return databaseName;
         }
     }
+    
+    /**
+     * Set a label for a message referenced by message UID.
+     * 
+     * @param label
+     *         The label to change.
+     *
+     * @param uid
+     *         The UID of the message to change the label for.
+     * **/
+    public void setLabel(final String label, final String uid) throws MessagingException {
+        try {
+            this.localStore.getDatabase().execute(false, new DbCallback<Void>() {
+                @Override
+                public Void doDbWork(final SQLiteDatabase db) throws WrappedException {
+                    try {
+                        open(OPEN_MODE_RW);
+                    } catch (MessagingException e) {
+                        throw new WrappedException(e);
+                    }
+                    db.execSQL("UPDATE messages SET label ='" + label + "' WHERE uid =" + uid, new Object[] {  });
+                    return null;
+                }
+            });
+        } catch (WrappedException e) {
+            throw(MessagingException) e.getCause();
+        }
+    }
 }
