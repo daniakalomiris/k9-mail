@@ -314,7 +314,10 @@
 
         <activity
             android:name=".ui.RemindersActivity"
-            android:label="Reminders" />
+            android:label="Reminders" >
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MessageList" />
+        </activity>
 
         <activity
             android:name=".ui.settings.AboutActivity"

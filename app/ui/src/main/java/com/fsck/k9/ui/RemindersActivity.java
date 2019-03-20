@@ -31,8 +31,8 @@ import java.util.Set;
 public class RemindersActivity extends K9Activity implements
         View.OnClickListener{
 
-    Button btnDatePicker, btnTimePicker, submitReminder;
-    EditText txtDate, txtTime, txtMessage;
+    public Button btnDatePicker, btnTimePicker, submitReminder;
+    public EditText txtDate, txtTime, txtMessage;
     private int mYear, mMonth, mDay, mHour, mMinute;
 
     @Override
@@ -108,12 +108,12 @@ public class RemindersActivity extends K9Activity implements
 
             sendReminder(reminderMessage);
 
-            NavUtils.navigateUpFromSameTask(this);
+            navigateToparent();
 
         }
     }
 
-    public void sendReminder(String reminderMessage){
+    public boolean sendReminder(String reminderMessage){
         MessagingController mc = MessagingController.getInstance(this);
 
         Preferences pr = Preferences.getPreferences(this);
@@ -145,6 +145,14 @@ public class RemindersActivity extends K9Activity implements
 
 
         mc.sendMessage(myAccount, msg, "This is a Reminder", listener);
+
+        return true;
+    }
+
+    public boolean navigateToparent(){
+        NavUtils.navigateUpFromSameTask(this);
+
+        return true;
     }
 
 
