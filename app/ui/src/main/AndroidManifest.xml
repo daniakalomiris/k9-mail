@@ -3,7 +3,10 @@
     package="com.fsck.k9.ui">
 
     <application>
-        <activity android:name="com.fsck.k9.activity.LabelPage"></activity>
+        <activity android:name="com.fsck.k9.activity.LabelPage" />
+        <activity android:name="com.fsck.k9.activity.LabelList" />
+
     </application>
 
-</manifest> 
+
+</manifest>

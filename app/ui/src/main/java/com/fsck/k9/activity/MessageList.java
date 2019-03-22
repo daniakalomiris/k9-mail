@@ -934,6 +934,8 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
         } else if (id == R.id.mark_all_as_read) {
             messageListFragment.confirmMarkAllAsRead();
             return true;
+        } else if(id == R.id.view_labels) {
+            messageListFragment.onViewLabels(account);
         } else if (id == R.id.next_message) {   // MessageView
             showNextMessage();
             return true;
@@ -1237,6 +1239,10 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
     @Override
     public void onAddLabel(MessageReference messageReference) {
         MessageActions.actionAddLabel(this, messageReference);
+    }
+
+    public void onViewLabels(Account account) {
+        MessageActions.actionViewLabels(this, account);
     }
 
     @Override

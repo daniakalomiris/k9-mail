@@ -777,6 +777,10 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
         fragmentListener.onAddLabel(messageReference);
     }
 
+    public void onViewLabels(Account account) {
+        fragmentListener.onViewLabels(account);
+    }
+
     public void changeSort(SortType sortType) {
         Boolean sortAscending = (this.sortType == sortType) ? !this.sortAscending : null;
         changeSort(sortType, sortAscending);
@@ -2275,6 +2279,7 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
         void showThread(Account account, String folderServerId, long rootId);
         void showMoreFromSameSender(String senderAddress);
         void onAddLabel(MessageReference message);
+        void onViewLabels(Account account);
         void onResendMessage(MessageReference message);
         void onForward(MessageReference message);
         void onForwardAsAttachment(MessageReference message);

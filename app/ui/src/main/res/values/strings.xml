@@ -70,7 +70,6 @@ Please submit bug reports, contribute new features and ask questions at
     <string name="account_clear_dlg_instructions_fmt">Local copies of messages in \"<xliff:g id="account">%s</xliff:g>\" will be removed. Account settings will be retained.</string>
 
 
-
     <!-- === General strings ================================================================== -->
 
     <string name="authors">Authors</string>
@@ -1349,4 +1348,5 @@ You can keep this message and use it as a backup for your secret key. If you wan
     <!-- permissions -->
     <string name="permission_contacts_rationale_title">Allow access to contacts</string>
     <string name="permission_contacts_rationale_message">To be able to provide contact suggestions and to display contact names and photos, the app needs access to your contacts.</string>
+    <string name="title_activity_label_list">label_list</string>
 </resources>

@@ -208,6 +208,12 @@
 
     <!-- MessageList -->
     <item
+        android:id="@+id/view_labels"
+        app:showAsAction="never"
+        android:title="View Labels"/>
+
+    <!-- MessageList -->
+    <item
         android:id="@+id/send_messages"
         android:alphabeticShortcut="r"
         android:icon="?attr/iconActionUpload"

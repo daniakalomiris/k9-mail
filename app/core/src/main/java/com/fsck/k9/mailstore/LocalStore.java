@@ -69,6 +69,7 @@ import org.apache.james.mime4j.codec.Base64InputStream;
 import org.apache.james.mime4j.codec.QuotedPrintableInputStream;
 import org.apache.james.mime4j.util.MimeUtil;
 import org.openintents.openpgp.util.OpenPgpApi.OpenPgpDataSource;
+
 import timber.log.Timber;
 /**
  * <pre>
@@ -370,6 +371,32 @@ public class LocalStore {
                 } finally {
                     Utility.closeQuietly(cursor);
                 }
+            }
+        });
+    }
+
+    public List<String> getAllLabels() throws MessagingException {
+        return database.execute(false, new DbCallback<List<String>>() {
+            @Override
+            public List<String> doDbWork(SQLiteDatabase db) throws WrappedException, MessagingException {
+                Cursor cursor = null;
+                List<String> labels = new ArrayList<>();
+                try {
+                    cursor = db.rawQuery("SELECT * FROM messages WHERE label IS NOT NULL", null);
+                    cursor.moveToFirst();
+                    System.out.println("0: Inside function");
+                    do {
+                        System.out.println("1: " + cursor.getString(MSG_INDEX_LABEL));
+                        labels.add(cursor.getString(MSG_INDEX_LABEL));
+                        System.out.println("2: " + labels);
+
+                    } while(cursor.moveToNext());
+
+                } finally {
+                    Utility.closeQuietly(cursor);
+                }
+                System.out.println("^^^^^^"+labels);
+                return labels;
             }
         });
     }
