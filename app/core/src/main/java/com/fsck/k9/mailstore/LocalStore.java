@@ -375,27 +375,24 @@ public class LocalStore {
         });
     }
 
-    public List<String> getAllLabels() throws MessagingException {
-        return database.execute(false, new DbCallback<List<String>>() {
+    public HashMap<String, Integer> getAllLabels() throws MessagingException {
+        return database.execute(false, new DbCallback<HashMap<String, Integer>>() {
             @Override
-            public List<String> doDbWork(SQLiteDatabase db) throws WrappedException, MessagingException {
+            public HashMap<String, Integer> doDbWork(SQLiteDatabase db) throws WrappedException, MessagingException {
                 Cursor cursor = null;
-                List<String> labels = new ArrayList<>();
+                HashMap<String, Integer> labels = new HashMap<>();
                 try {
-                    cursor = db.rawQuery("SELECT * FROM messages WHERE label IS NOT NULL", null);
+                    cursor = db.rawQuery("SELECT label, COUNT(label) FROM messages WHERE label IS NOT NULL GROUP BY label", null);
                     cursor.moveToFirst();
                     System.out.println("0: Inside function");
                     do {
-                        System.out.println("1: " + cursor.getString(MSG_INDEX_LABEL));
-                        labels.add(cursor.getString(MSG_INDEX_LABEL));
-                        System.out.println("2: " + labels);
-
+                        labels.put(cursor.getString(0), cursor.getInt(1));
                     } while(cursor.moveToNext());
 
                 } finally {
                     Utility.closeQuietly(cursor);
                 }
-                System.out.println("^^^^^^"+labels);
+                //System.out.println("^^^^^^"+labels);
                 return labels;
             }
         });

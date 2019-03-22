@@ -13,7 +13,10 @@ import com.fsck.k9.mailstore.LocalStore;
 import com.fsck.k9.mailstore.LocalStoreProvider;
 import com.fsck.k9.ui.R;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class LabelList extends K9Activity implements View.OnClickListener {
@@ -26,17 +29,18 @@ public class LabelList extends K9Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_label_list);
         ListView listView = (ListView) findViewById(R.id.label_list);
-        List<String> labels = MessagingController.getInstance(this).getLabelList(account);
+        HashMap<String, Integer> labelsAndCount = MessagingController.getInstance(this).getLabelList(account);
+
+        ArrayList<String> labelsWithCount = new ArrayList<>();
+
+        for(HashMap.Entry<String, Integer> entry : labelsAndCount.entrySet()) {
+            labelsWithCount.add(entry.getKey() + " - " + entry.getValue().toString());
+        }
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>
-                (this, android.R.layout.simple_list_item_1, labels);
-
-
-
+                (this, android.R.layout.simple_list_item_1, labelsWithCount);
 
         listView.setAdapter(arrayAdapter);
-
-
     }
 
     @Override
