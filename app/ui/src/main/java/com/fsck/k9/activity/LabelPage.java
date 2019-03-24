@@ -32,9 +32,19 @@ public class LabelPage extends K9Activity implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_label_page);
+        Account account = null;
+        HashMap<String, Integer> labels = null;
+
+        try {
+            account = Preferences.getPreferences(this).getDefaultAccount();
+            labels = MessagingController.getInstance(this).getLabelList(account);
+        } catch (kotlin.UninitializedPropertyAccessException e) {
+            System.out.println(e);
+        }
+
 
         lpl.bindEditTextLogic(this);
-        lpl.getExistingLabels(this);
+        lpl.getExistingLabels(this, labels);
         lpl.onExistingLabelClick(this);
 
         Intent iin = getIntent();
@@ -62,14 +72,15 @@ public class LabelPage extends K9Activity implements View.OnClickListener {
         finish();
     }
 
+    public LabelPageLogic getLabelLogic() {
+        return lpl;
+    }
+
  }
     class LabelPageLogic {
 
         private LabelPage labelPage;
 
-        public void onCreateLogic(Bundle savedInstanceState, LabelPage lp) {
-
-        }
 
         public void bindEditTextLogic(LabelPage lp) {
             lp.editText = (EditText) lp.findViewById(R.id.label);
@@ -89,13 +100,10 @@ public class LabelPage extends K9Activity implements View.OnClickListener {
             }
         }
 
-        public void getExistingLabels(LabelPage lp) {
-            Account account = Preferences.getPreferences(lp).getDefaultAccount();
-            HashMap<String, Integer> labels = MessagingController.getInstance(lp).getLabelList(account);
-            final ArrayList<String> labelKeys = new ArrayList<>();
-            labelKeys.addAll(labels.keySet());
-
-            if(labelKeys.size() > 0) {
+        public void getExistingLabels(LabelPage lp, HashMap<String, Integer> labels) {
+            if(labels != null && labels.size() > 0) {
+                final ArrayList<String> labelKeys = new ArrayList<>();
+                labelKeys.addAll(labels.keySet());
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>
                         (lp, android.R.layout.simple_list_item_1, labelKeys);
                 lp.listView.setAdapter(arrayAdapter);
@@ -118,7 +126,11 @@ public class LabelPage extends K9Activity implements View.OnClickListener {
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     String label = (String) adapterView.getItemAtPosition(i);
                     lp.editText.setText(label);
-                    setLabel(lp);
+                    try {
+                        setLabel(lp);
+                    } catch (kotlin.UninitializedPropertyAccessException e) {
+                        System.out.println(e);//happens when testing
+                    }
                 }
             });
         }
