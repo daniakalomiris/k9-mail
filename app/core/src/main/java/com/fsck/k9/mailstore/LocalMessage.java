@@ -40,7 +40,6 @@ public class LocalMessage extends MimeMessage {
     private String mimeType;
     private PreviewType previewType;
     private boolean headerNeedsUpdating = false;
-    private String label = "";
 
 
     private LocalMessage(LocalStore localStore) {
@@ -56,11 +55,6 @@ public class LocalMessage extends MimeMessage {
 
     void populateFromGetMessageCursor(Cursor cursor) throws MessagingException {
         final String subject = cursor.getString(LocalStore.MSG_INDEX_SUBJECT);
-
-        final String label = cursor.getString(LocalStore.MSG_INDEX_LABEL);
-
-        this.setLabel(label);
-
         this.setSubject(subject == null ? "" : subject);
 
         Address[] from = Address.unpack(cursor.getString(LocalStore.MSG_INDEX_SENDER_LIST));
@@ -176,13 +170,6 @@ public class LocalMessage extends MimeMessage {
         headerNeedsUpdating = true;
     }
 
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
 
     @Override
     public void setMessageId(String messageId) {
@@ -351,7 +338,6 @@ public class LocalMessage extends MimeMessage {
                     cv.putNull("cc_list");
                     cv.putNull("bcc_list");
                     cv.putNull("preview");
-                    cv.putNull("label");
                     cv.putNull("reply_to_list");
                     cv.putNull("message_part_id");
 

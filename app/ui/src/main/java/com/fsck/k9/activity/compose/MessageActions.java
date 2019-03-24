@@ -6,7 +6,6 @@ import android.os.Parcelable;
 
 import com.fsck.k9.Account;
 import com.fsck.k9.Preferences;
-import com.fsck.k9.activity.LabelPage;
 import com.fsck.k9.activity.MessageCompose;
 import com.fsck.k9.activity.setup.AccountSetupBasics;
 import com.fsck.k9.controller.MessageReference;
@@ -100,16 +99,6 @@ public class MessageActions {
         Intent i = new Intent(context, MessageCompose.class);
         i.putExtra(MessageCompose.EXTRA_MESSAGE_REFERENCE, messageReference.toIdentityString());
         i.setAction(MessageCompose.ACTION_EDIT_DRAFT);
-        context.startActivity(i);
-    }
-    	
-     public static void actionAddLabel(Context context, MessageReference messageReference) {
-        Intent i = new Intent(context, LabelPage.class);
-
-        i.putExtra("messageUid", messageReference.getUid());
-        i.putExtra("serverId", messageReference.getFolderServerId());
-        i.putExtra("accountUuid", messageReference.getAccountUuid());
-        
         context.startActivity(i);
     }
 }

@@ -773,10 +773,6 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
         fragmentListener.onResendMessage(messageReference);
     }
 
-    private void onAddLabel(MessageReference messageReference) {
-        fragmentListener.onAddLabel(messageReference);
-    }
-
     public void changeSort(SortType sortType) {
         Boolean sortAscending = (this.sortType == sortType) ? !this.sortAscending : null;
         changeSort(sortType, sortAscending);
@@ -1113,8 +1109,6 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
             onCopy(getMessageAtPosition(adapterPosition));
         } else if (id == R.id.debug_delete_locally) {       // debug options
             onDebugClearLocally(getMessageAtPosition(adapterPosition));
-        } else if (id == R.id.add_label) {
-            onAddLabel(getMessageAtPosition(adapterPosition));
         }
 
         contextMenuUniqueId = 0;
@@ -2274,7 +2268,6 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
         void setMessageListProgress(int level);
         void showThread(Account account, String folderServerId, long rootId);
         void showMoreFromSameSender(String senderAddress);
-        void onAddLabel(MessageReference message);
         void onResendMessage(MessageReference message);
         void onForward(MessageReference message);
         void onForwardAsAttachment(MessageReference message);

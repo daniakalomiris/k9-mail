@@ -434,9 +434,8 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
                 search.or(new SearchCondition(SearchField.SENDER, Attribute.CONTAINS, query));
                 search.or(new SearchCondition(SearchField.SUBJECT, Attribute.CONTAINS, query));
                 search.or(new SearchCondition(SearchField.MESSAGE_CONTENTS, Attribute.CONTAINS, query));
-                search.or(new SearchCondition(SearchField.LABEL, Attribute.CONTAINS, query));
-                Bundle appData = intent.getBundleExtra(SearchManager.APP_DATA);
 
+                Bundle appData = intent.getBundleExtra(SearchManager.APP_DATA);
                 if (appData != null) {
                     search.addAccountUuid(appData.getString(EXTRA_SEARCH_ACCOUNT));
                     // searches started from a folder list activity will provide an account, but no folder
@@ -1232,11 +1231,6 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
                 showMessageView();
             }
         }
-    }
-
-    @Override
-    public void onAddLabel(MessageReference messageReference) {
-        MessageActions.actionAddLabel(this, messageReference);
     }
 
     @Override
