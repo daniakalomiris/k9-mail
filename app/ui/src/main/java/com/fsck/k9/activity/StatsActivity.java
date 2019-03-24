@@ -7,13 +7,16 @@ import android.view.View;
 
 import com.fsck.k9.Account;
 import com.fsck.k9.Preferences;
-import com.fsck.k9.controller.MessagingController;
 import com.fsck.k9.mail.MessageRetrievalListener;
-import com.fsck.k9.mailstore.LocalFolder;
+import com.fsck.k9.mail.MessagingException;
 import com.fsck.k9.mailstore.LocalMessage;
-import com.fsck.k9.mailstore.LocalStore;
-import com.fsck.k9.mailstore.LocalStoreProvider;
 import com.fsck.k9.ui.R;
+import com.fsck.k9.mailstore.LocalStoreProvider;
+import com.fsck.k9.mailstore.LocalStore;
+import com.fsck.k9.mailstore.LocalFolder;
+import com.fsck.k9.DI;
+
+import java.util.List;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -31,20 +34,19 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
     private HashMap<String, Integer> dayOfWeek = new HashMap<>();
     private int messagesLastWeek = 0;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setLayout(R.layout.activity_stats);
-
+        
         try {
             LocalStoreProvider localStoreProvider = new LocalStoreProvider();
             localStore = localStoreProvider.getInstance(account);
             localFolder = localStore.getFolder("INBOX");
             messages = localFolder.getMessages(listener);
         } catch (Exception e) {
-            // Print exception
+            e.printStackTrace();
         }
 
         if(messages != null)
@@ -72,7 +74,6 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
     }
 
     public static void launch(Activity activity){
