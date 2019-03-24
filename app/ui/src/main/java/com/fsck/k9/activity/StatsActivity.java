@@ -15,13 +15,21 @@ import com.fsck.k9.mailstore.LocalStore;
 import com.fsck.k9.mailstore.LocalStoreProvider;
 import com.fsck.k9.ui.R;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+
 public class StatsActivity extends K9Activity implements View.OnClickListener {
 
-    String serverId;
-    String userId;
-    LocalStore localStore;
-    LocalFolder localFolder;
+    private LocalStore localStore;
+    private LocalFolder localFolder;
     private Account account = Preferences.getPreferences(this).getDefaultAccount();
+    private MessageRetrievalListener<LocalMessage> listener;
+    private List<LocalMessage> messages;
+    private HashMap<String, Integer> dayOfWeek = new HashMap<>();
+    private int messagesLastWeek = 0;
 
 
     @Override
@@ -29,21 +37,37 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
 
         setLayout(R.layout.activity_stats);
-        String blah = account.getLocalStorageProviderId();
-        String fkljsd = account.getInboxFolder();
-        LocalStoreProvider localStoreProvider = new LocalStoreProvider();
-        int i = 0;
+
         try {
+            LocalStoreProvider localStoreProvider = new LocalStoreProvider();
             localStore = localStoreProvider.getInstance(account);
-            //localStore.searchForMessages();
             localFolder = localStore.getFolder("INBOX");
-            i = localFolder.getMessageCount();
+            messages = localFolder.getMessages(listener);
         } catch (Exception e) {
             // Print exception
         }
-        System.out.println(i);
 
+        if(messages != null)
+            crunchData();
+    }
 
+    private void crunchData() {
+        for(LocalMessage m : messages) {
+            // Calculate day frequency
+            String day = (m.getSentDate()).toString().substring(0,3);
+            if(!dayOfWeek.containsKey(day))
+                dayOfWeek.put(day, 1);
+            else
+                dayOfWeek.put(day, dayOfWeek.get(day) + 1);
+
+            Calendar cal = new GregorianCalendar();
+            cal.add(Calendar.DAY_OF_MONTH, -7);
+            Date sevenDaysAgo = cal.getTime();
+
+            // Messages sent within the last week
+            if(m.getSentDate().before(sevenDaysAgo))
+                messagesLastWeek++;
+        }
     }
 
     @Override
