@@ -95,9 +95,11 @@ public class LabelPage extends K9Activity implements View.OnClickListener {
             final ArrayList<String> labelKeys = new ArrayList<>();
             labelKeys.addAll(labels.keySet());
 
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>
-                    (lp, android.R.layout.simple_list_item_1, labelKeys);
-            lp.listView.setAdapter(arrayAdapter);
+            if(labelKeys.size() > 0) {
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>
+                        (lp, android.R.layout.simple_list_item_1, labelKeys);
+                lp.listView.setAdapter(arrayAdapter);
+            }
         }
 
         public String getLabelString(LabelPage lp) {

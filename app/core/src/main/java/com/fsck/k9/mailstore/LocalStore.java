@@ -387,12 +387,12 @@ public class LocalStore {
                     System.out.println("0: Inside function");
                     do {
                         labels.put(cursor.getString(0), cursor.getInt(1));
-                    } while(cursor.moveToNext());
-
+                    } while (cursor.moveToNext());
+                } catch(WrappedException e) {
+                    System.out.println(e.getMessage());
                 } finally {
                     Utility.closeQuietly(cursor);
                 }
-                //System.out.println("^^^^^^"+labels);
                 return labels;
             }
         });
