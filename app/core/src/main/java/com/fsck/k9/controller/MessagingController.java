@@ -3258,4 +3258,14 @@ public class MessagingController {
             closeFolder(localFolder);
         }
     }
+
+    public HashMap<String, Integer> getLabelList(Account account) {
+        try {
+            LocalStore localStore = localStoreProvider.getInstance(account);
+            HashMap<String, Integer> s = localStore.getAllLabels();
+            return s;
+        } catch (MessagingException me){
+            throw new RuntimeException(me);
+        }
+    }
 }

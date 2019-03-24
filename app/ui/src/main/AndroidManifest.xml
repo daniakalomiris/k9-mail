@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fsck.k9.ui">
-
     <application>
-        <activity android:name="com.fsck.k9.activity.LabelPage"></activity>
+        <activity android:name="com.fsck.k9.activity.LabelPage" android:windowSoftInputMode="adjustPan|adjustResize"/>
+        <activity android:name="com.fsck.k9.activity.LabelList" />
+
     </application>
 
-</manifest> 
+
+</manifest>

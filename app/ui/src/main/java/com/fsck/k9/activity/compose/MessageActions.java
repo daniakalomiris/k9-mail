@@ -6,6 +6,7 @@ import android.os.Parcelable;
 
 import com.fsck.k9.Account;
 import com.fsck.k9.Preferences;
+import com.fsck.k9.activity.LabelList;
 import com.fsck.k9.activity.LabelPage;
 import com.fsck.k9.activity.MessageCompose;
 import com.fsck.k9.activity.setup.AccountSetupBasics;
@@ -110,6 +111,11 @@ public class MessageActions {
         i.putExtra("serverId", messageReference.getFolderServerId());
         i.putExtra("accountUuid", messageReference.getAccountUuid());
         
+        context.startActivity(i);
+    }
+
+    public static void actionViewLabels(Context context, Account account) {
+        Intent i = new Intent(context, LabelList.class);
         context.startActivity(i);
     }
 }

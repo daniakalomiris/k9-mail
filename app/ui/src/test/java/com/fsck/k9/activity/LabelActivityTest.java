@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
+import com.fsck.k9.Account;
 import com.fsck.k9.ui.R;
 
 import org.junit.Before;
@@ -14,9 +16,12 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 
+import java.util.HashMap;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
 
 @RunWith(RobolectricTestRunner.class)
 public class LabelActivityTest {
@@ -58,5 +63,23 @@ public class LabelActivityTest {
         EditText editText = (EditText) activity.findViewById(R.id.label);
         boolean clicked = labelButton.performClick();
         assertNotEquals(activity.labelString, "my label");
+    }
+
+    @Test
+    public void shouldGetExistingLabels() {
+        Account account = mock(Account.class);
+        HashMap<String, Integer> labels = new HashMap<>();
+
+        labels.put("first label", 1);
+        labels.put("seconds label", 3);
+
+        activity.getLabelLogic().getExistingLabels(activity, labels);
+        ListView list = activity.findViewById(R.id.existing_labels);
+        int listCount = list.getCount();
+        String firstItem = list.getItemAtPosition(0).toString();
+
+        assertEquals(listCount, labels.size());
+        assertEquals(firstItem, "first label");
+        
     }
 }
