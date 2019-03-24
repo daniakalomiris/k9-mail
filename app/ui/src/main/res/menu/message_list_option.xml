@@ -238,5 +238,10 @@
         android:icon="?attr/iconActionSettings"
         app:showAsAction="never"
         android:title="@string/preferences_action" />
+    <item
+        android:id="@+id/stats"
+        android:icon="?attr/iconActionSettings"
+        app:showAsAction="never"
+        android:title="Stats" />
 
 </menu>

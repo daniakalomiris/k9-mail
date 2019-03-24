@@ -316,6 +316,9 @@
             android:name=".ui.settings.AboutActivity"
             android:label="@string/about_action" />
 
+        <activity android:name=".activity.StatsActivity"
+            android:label="Stats" />
+
         <activity
             android:name=".ui.settings.general.GeneralSettingsActivity"
             android:label="@string/general_settings_title" />

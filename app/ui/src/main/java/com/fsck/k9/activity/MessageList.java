@@ -870,6 +870,10 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
         return messageListFragment.onSearchRequested();
     }
 
+    private void goToStatsPage() {
+        StatsActivity.launch(this);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -942,7 +946,10 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
         } else if (id == R.id.delete) {
             messageViewFragment.onDelete();
             return true;
-        } else if (id == R.id.reply) {
+        } else if (id == R.id.stats) {
+            goToStatsPage();
+            return true;
+        }else if (id == R.id.reply) {
             messageViewFragment.onReply();
             return true;
         } else if (id == R.id.reply_all) {
