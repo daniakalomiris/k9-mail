@@ -7,21 +7,16 @@ import android.view.View;
 
 import com.fsck.k9.Account;
 import com.fsck.k9.Preferences;
+import com.fsck.k9.mail.Address;
 import com.fsck.k9.mail.MessageRetrievalListener;
-import com.fsck.k9.mail.MessagingException;
 import com.fsck.k9.mailstore.LocalMessage;
 import com.fsck.k9.ui.R;
 import com.fsck.k9.mailstore.LocalStoreProvider;
 import com.fsck.k9.mailstore.LocalStore;
 import com.fsck.k9.mailstore.LocalFolder;
-import com.fsck.k9.DI;
 
-import java.util.List;
+import java.util.*;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 
 public class StatsActivity extends K9Activity implements View.OnClickListener {
@@ -33,6 +28,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
     private List<LocalMessage> messages;
     private HashMap<String, Integer> dayOfWeek = new HashMap<>();
     private int messagesLastWeek = 0;
+    private static Hashtable<Address[], Integer> mSenders = new Hashtable<Address[], Integer>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +47,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
 
         if(messages != null)
             crunchData();
+            senderStats();
     }
 
     private void crunchData() {
@@ -71,6 +68,41 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
                 messagesLastWeek++;
         }
     }
+
+    // Add each sender to hashtable
+    private void addSender(Address[] sender) {
+        if (mSenders.containsKey(sender)) {
+            mSenders.put(sender, mSenders.get(sender) + 1);
+        } else {
+            int initialSenderCount = 1;
+            mSenders.put(sender, initialSenderCount);
+        }
+    }
+
+    // Get the most frequent sender from all local messages
+    private Address[] getMostFrequentSender() {
+        int maxSender = Collections.max(mSenders.values());
+
+        Address[] mostFrequentSender = null;
+        Enumeration senders;
+        Address[] key;
+        senders = mSenders.keys();
+        while(senders.hasMoreElements()) {
+            key = (Address[]) senders.nextElement();
+            if (mSenders.get(key) == maxSender) {
+                mostFrequentSender = key;
+            }
+        }
+        return mostFrequentSender;
+    }
+
+    private void senderStats() {
+        for(LocalMessage m : messages) {
+            addSender(m.getSender());
+        }
+        getMostFrequentSender();
+    }
+
 
     @Override
     public void onClick(View v) {
