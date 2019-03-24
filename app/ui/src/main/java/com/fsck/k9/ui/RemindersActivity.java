@@ -1,5 +1,6 @@
 package com.fsck.k9.ui;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -24,9 +25,14 @@ import com.fsck.k9.mail.internet.TextBody;
 
 import org.apache.james.mime4j.util.MimeUtil;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class RemindersActivity extends K9Activity implements
         View.OnClickListener{
@@ -54,6 +60,7 @@ public class RemindersActivity extends K9Activity implements
 
     }
 
+    @TargetApi(26)
     @Override
     public void onClick(View v) {
 
@@ -102,14 +109,31 @@ public class RemindersActivity extends K9Activity implements
 
         if(v==submitReminder) {
             String reminderDate = txtDate.getText().toString();
+            String [] dateParts = reminderDate.split("-");
+            int day = Integer.parseInt(dateParts[0]);
+            int month = Integer.parseInt(dateParts[1]);
+            int year = Integer.parseInt(dateParts[2]);
+
             String reminderTime = txtTime.getText().toString();
-            String reminderMessage = txtMessage.getText().toString();
+            String [] timeParts = reminderTime.split(":");
+            int hour = Integer.parseInt(timeParts[0]);
+            int minute = Integer.parseInt(timeParts[1]);
 
+            final String reminderMessage = txtMessage.getText().toString();
 
-            sendReminder(reminderMessage);
+            long delay = ChronoUnit.MILLIS.between(LocalDateTime.now(),
+                    LocalDateTime.of(year, month, day, hour, minute));
+
+            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+            scheduler.schedule(new Runnable() {
+                @Override
+                public void run() {
+                    sendReminder(reminderMessage);
+                }
+            }, delay, TimeUnit.MILLISECONDS);
 
             navigateToparent();
-
         }
     }
 
@@ -150,7 +174,7 @@ public class RemindersActivity extends K9Activity implements
     }
 
     public boolean navigateToparent(){
-        NavUtils.navigateUpFromSameTask(this);
+        onBackPressed();
 
         return true;
     }
