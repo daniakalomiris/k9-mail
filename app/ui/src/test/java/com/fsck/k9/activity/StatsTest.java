@@ -32,14 +32,9 @@ public class StatsTest {
     public void onCreateLogicTest() {
         StatsActivity mockStats = mock(StatsActivity.class);
 
-        Address[] sender1 = new Address[1];
-        sender1[0].setAddress("sender1@mail.com");
-
-        Address[] sender2 = new Address[1];
-        sender2[0].setAddress("sender2@mail.com");
-
-        Address[] sender3 = new Address[1];
-        sender3[0].setAddress("sender3@mail.com");
+        Address sender1 = new Address("sender1@mail.com");
+        Address sender2 = new Address("sender2@mail.com");
+        Address sender3 = new Address("sender3@mail.com");
 
         // add senders to hashtable
         mockStats.addSender(sender1);
@@ -47,9 +42,9 @@ public class StatsTest {
         mockStats.addSender(sender3);
         mockStats.addSender(sender2);
 
-        verify(mockStats).addSender(any(Address[].class));
+        verify(mockStats).addSender(any(Address.class));
 
         // check that most frequent sender is sender2
-        when(mockStats.getMostFrequentSender()).thenReturn(sender2);
+        when(mockStats.getMostFrequentSender()).thenReturn(sender2.getAddress());
     }
 }

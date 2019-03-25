@@ -148,7 +148,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
     }
 
     // Add each sender to hashtable
-    private void addSender(Address sender) {
+    public void addSender(Address sender) {
         if (mSenders.containsKey(sender)) {
             mSenders.put(sender, mSenders.get(sender) + 1);
         } else {
