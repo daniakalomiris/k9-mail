@@ -30,11 +30,20 @@
         android:layout_height="200dp" />
 
     <TextView
+        android:id="@+id/lastWeek"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="last week"
+        android:textSize="8pt"/>
+    <TextView
         android:id="@+id/senderID"
         android:layout_marginStart="15dp"
         android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="most sender"
+        android:textSize="8pt"/>
 
 </LinearLayout>

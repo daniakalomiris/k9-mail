@@ -40,7 +40,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
     private List<LocalMessage> messages;
     private HashMap<String, Integer> dayOfWeek = new HashMap<>();
     private int messagesLastWeek = 0;
-    private static Hashtable<Address[], Integer> mSenders = new Hashtable<Address[], Integer>();
+    private static Hashtable<Address, Integer> mSenders = new Hashtable<Address, Integer>();
 
 
     BarChart barChart;
@@ -76,7 +76,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
     private void SetMostFrequentSender() {
         TextView senderText = findViewById(R.id.senderID);
 
-        senderText.setText(getMostFrequentSender());
+        senderText.setText("You get a lot of emails from "+getMostFrequentSender());
     }
 
     private void createDateBarChart() {
@@ -117,7 +117,9 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
         barChart.setData(theData);
         barChart.setFitBars(true);
 
+        TextView senderText = findViewById(R.id.lastWeek);
 
+        senderText.setText("In the last week you received "+messagesLastWeek+" emails!");
 
     }
 
@@ -146,7 +148,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
     }
 
     // Add each sender to hashtable
-    private void addSender(Address[] sender) {
+    private void addSender(Address sender) {
         if (mSenders.containsKey(sender)) {
             mSenders.put(sender, mSenders.get(sender) + 1);
         } else {
@@ -156,27 +158,26 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
     }
 
     // Get the most frequent sender from all local messages
-    private String getMostFrequentSender() {
+    public String getMostFrequentSender() {
         int maxSender = Collections.max(mSenders.values());
-
-        Address[] mostFrequentSender = null;
+        if (maxSender==1)
+            return "everyone";
+        String mostFrequentSender = null;
         Enumeration senders;
-        Address[] key;
+        Address key;
         senders = mSenders.keys();
         while (senders.hasMoreElements()) {
-            key = (Address[]) senders.nextElement();
+            key = (Address) senders.nextElement();
             if (mSenders.get(key) == maxSender) {
-                mostFrequentSender = key;
+                mostFrequentSender = key.getPersonal();
             }
-            Log.i("key", "getMostFrequentSender: "+mSenders.get(key));
         }
-        return null;
-       // return mostFrequentSender[0].getAddress();
+        return mostFrequentSender;
     }
 
     private void senderStats() {
-        for (LocalMessage m : messages) {
-            addSender(m.getSender());
+        for (LocalMessage m : messages){
+            addSender(m.getFrom()[0]);
         }
         getMostFrequentSender();
     }
@@ -191,7 +192,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
         activity.startActivity(intent);
     }
 
-    private class MyXAxisValueFormatter   extends ValueFormatter
+    private class MyXAxisValueFormatter extends ValueFormatter
     {
         private ArrayList<String> dayString;
 
