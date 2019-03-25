@@ -148,7 +148,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
     }
 
     // Add each sender to hashtable
-    private void addSender(Address[] sender) {
+    public void addSender(Address[] sender) {
         if (mSenders.containsKey(sender)) {
             mSenders.put(sender, mSenders.get(sender) + 1);
         } else {
@@ -158,7 +158,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
     }
 
     // Get the most frequent sender from all local messages
-    private String getMostFrequentSender() {
+    public String getMostFrequentSender() {
         int maxSender = Collections.max(mSenders.values());
 
         Address[] mostFrequentSender = null;
@@ -193,7 +193,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
         activity.startActivity(intent);
     }
 
-    private class MyXAxisValueFormatter   extends ValueFormatter
+    private class MyXAxisValueFormatter extends ValueFormatter
     {
         private ArrayList<String> dayString;
 
