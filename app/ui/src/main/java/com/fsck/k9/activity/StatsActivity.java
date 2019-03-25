@@ -140,7 +140,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
             Date sevenDaysAgo = cal.getTime();
 
             // Messages sent within the last week
-            if (m.getSentDate().before(sevenDaysAgo))
+            if (m.getSentDate().after(sevenDaysAgo))
                 messagesLastWeek++;
         }
     }
