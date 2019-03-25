@@ -245,4 +245,10 @@
         app:showAsAction="never"
         android:title="@string/preferences_action" />
 
+    <item
+        android:id="@+id/reminder"
+        android:icon="?attr/iconActionSettings"
+        app:showAsAction="never"
+        android:title="Reminder" />
+
 </menu>

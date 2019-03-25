@@ -59,6 +59,7 @@ import com.fsck.k9.ui.R;
 import com.fsck.k9.ui.messageview.MessageViewFragment;
 import com.fsck.k9.ui.messageview.MessageViewFragment.MessageViewFragmentListener;
 import com.fsck.k9.ui.settings.SettingsActivity;
+import com.fsck.k9.ui.RemindersActivity;
 import com.fsck.k9.view.ViewSwitcher;
 import com.fsck.k9.view.ViewSwitcher.OnSwitchCompleteListener;
 import com.mikepenz.materialdrawer.Drawer.OnDrawerListener;
@@ -866,6 +867,10 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
         SettingsActivity.launch(this);
     }
 
+    private void goToRemindersPage() {
+        RemindersActivity.launch(this);
+    }
+
     @Override
     public boolean onSearchRequested() {
         return messageListFragment.onSearchRequested();
@@ -924,6 +929,9 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
             return true;
         } else if (id == R.id.settings) {
             onEditSettings();
+            return true;
+        } else if (id == R.id.reminder) {
+            goToRemindersPage();
             return true;
         } else if (id == R.id.search) {
             messageListFragment.onSearchRequested();
