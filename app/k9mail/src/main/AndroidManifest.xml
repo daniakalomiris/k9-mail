@@ -313,15 +313,8 @@
             android:label="@string/prefs_title" />
 
         <activity
-            android:name=".ui.RemindersActivity"
-            android:label="Reminders" >
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MessageList" />
-        </activity>
-
-        <activity
             android:name=".ui.settings.AboutActivity"
-            android:label="About" />
+            android:label="@string/about_action" />
 
         <activity android:name=".activity.StatsActivity"
             android:label="Stats" />

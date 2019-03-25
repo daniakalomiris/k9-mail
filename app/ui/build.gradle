@@ -83,7 +83,6 @@ android {
         unitTests {
             includeAndroidResources = true
         }
-        unitTests.returnDefaultValues = true
     }
 }
 

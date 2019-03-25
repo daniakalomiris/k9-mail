@@ -208,12 +208,6 @@
 
     <!-- MessageList -->
     <item
-        android:id="@+id/view_labels"
-        app:showAsAction="never"
-        android:title="View Labels"/>
-
-    <!-- MessageList -->
-    <item
         android:id="@+id/send_messages"
         android:alphabeticShortcut="r"
         android:icon="?attr/iconActionUpload"
@@ -249,11 +243,5 @@
         android:icon="?attr/iconActionSettings"
         app:showAsAction="never"
         android:title="Stats" />
-
-    <item
-        android:id="@+id/reminder"
-        android:icon="?attr/iconActionSettings"
-        app:showAsAction="never"
-        android:title="Reminder" />
 
 </menu>

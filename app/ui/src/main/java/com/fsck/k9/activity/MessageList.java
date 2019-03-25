@@ -59,7 +59,6 @@ import com.fsck.k9.ui.R;
 import com.fsck.k9.ui.messageview.MessageViewFragment;
 import com.fsck.k9.ui.messageview.MessageViewFragment.MessageViewFragmentListener;
 import com.fsck.k9.ui.settings.SettingsActivity;
-import com.fsck.k9.ui.RemindersActivity;
 import com.fsck.k9.view.ViewSwitcher;
 import com.fsck.k9.view.ViewSwitcher.OnSwitchCompleteListener;
 import com.mikepenz.materialdrawer.Drawer.OnDrawerListener;
@@ -866,10 +865,6 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
         SettingsActivity.launch(this);
     }
 
-    private void goToRemindersPage() {
-        RemindersActivity.launch(this);
-    }
-
     @Override
     public boolean onSearchRequested() {
         return messageListFragment.onSearchRequested();
@@ -933,9 +928,6 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
         } else if (id == R.id.settings) {
             onEditSettings();
             return true;
-        } else if (id == R.id.reminder) {
-            goToRemindersPage();
-            return true;
         } else if (id == R.id.search) {
             messageListFragment.onSearchRequested();
             return true;
@@ -945,8 +937,6 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
         } else if (id == R.id.mark_all_as_read) {
             messageListFragment.confirmMarkAllAsRead();
             return true;
-        } else if(id == R.id.view_labels) {
-            messageListFragment.onViewLabels(account);
         } else if (id == R.id.next_message) {   // MessageView
             showNextMessage();
             return true;
@@ -1248,15 +1238,6 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
                 showMessageView();
             }
         }
-    }
-
-    @Override
-    public void onAddLabel(MessageReference messageReference) {
-        MessageActions.actionAddLabel(this, messageReference);
-    }
-
-    public void onViewLabels(Account account) {
-        MessageActions.actionViewLabels(this, account);
     }
 
     @Override
