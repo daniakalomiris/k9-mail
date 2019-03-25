@@ -158,7 +158,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
     }
 
     // Get the most frequent sender from all local messages
-    private String getMostFrequentSender() {
+    public String getMostFrequentSender() {
         int maxSender = Collections.max(mSenders.values());
         if (maxSender==1)
             return "everyone";
@@ -192,7 +192,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
         activity.startActivity(intent);
     }
 
-    private class MyXAxisValueFormatter   extends ValueFormatter
+    private class MyXAxisValueFormatter extends ValueFormatter
     {
         private ArrayList<String> dayString;
 
