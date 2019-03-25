@@ -13,6 +13,7 @@ dependencies {
     implementation project(":mail:common")
 
     //TODO: Remove AccountSetupIncoming's dependency on these
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     compileOnly project(":mail:protocols:imap")
     compileOnly project(":mail:protocols:webdav")
 
@@ -61,7 +62,6 @@ dependencies {
 
 android {
     compileSdkVersion buildConfig.compileSdk
-    buildToolsVersion buildConfig.buildTools
 
     defaultConfig {
         minSdkVersion buildConfig.minSdk

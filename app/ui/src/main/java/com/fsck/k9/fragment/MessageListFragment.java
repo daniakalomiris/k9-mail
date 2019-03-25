@@ -1117,6 +1117,8 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
             onCopy(getMessageAtPosition(adapterPosition));
         } else if (id == R.id.debug_delete_locally) {       // debug options
             onDebugClearLocally(getMessageAtPosition(adapterPosition));
+        } else if (id == R.id.add_label) {
+            onAddLabel(getMessageAtPosition(adapterPosition));
         }
 
         contextMenuUniqueId = 0;
