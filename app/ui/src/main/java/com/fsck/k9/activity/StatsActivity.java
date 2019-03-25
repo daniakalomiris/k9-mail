@@ -117,7 +117,9 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
         barChart.setData(theData);
         barChart.setFitBars(true);
 
+        TextView senderText = findViewById(R.id.lastWeek);
 
+        senderText.setText("In the last week you received "+messagesLastWeek+" emails!");
 
     }
 
