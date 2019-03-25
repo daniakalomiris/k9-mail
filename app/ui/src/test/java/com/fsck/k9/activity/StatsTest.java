@@ -22,7 +22,7 @@ public class StatsTest {
 
     StatsActivity activity;
 
-    @Before
+    /*@Before
     public void setUp() {
         Intent intent = new Intent(RuntimeEnvironment.application, StatsActivity.class);
         activity = Robolectric.buildActivity(StatsActivity.class, intent).create().get();
@@ -46,5 +46,5 @@ public class StatsTest {
 
         // check that most frequent sender is sender2
         when(mockStats.getMostFrequentSender()).thenReturn(sender2.getAddress());
-    }
+    }*/
 }
