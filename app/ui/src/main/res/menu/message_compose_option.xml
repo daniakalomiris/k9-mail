@@ -16,6 +16,12 @@
         app:showAsAction="always"
     />
     <item
+        android:id="@+id/stt"
+        android:title="STT"
+        android:icon="?attr/voiceIcon"
+        app:showAsAction="always"
+        />
+    <item
         android:id="@+id/add_from_contacts"
         android:alphabeticShortcut="a"
         android:title="@string/add_from_contacts"
