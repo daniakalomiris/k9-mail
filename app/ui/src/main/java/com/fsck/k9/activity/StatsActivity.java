@@ -50,7 +50,6 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setLayout(R.layout.activity_stats);
 
         try {
@@ -70,10 +69,10 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
             createDateBarChart();
         }
         senderStats();
-        SetMostFrequentSender();
+        setMostFrequentSender();
     }
 
-    private void SetMostFrequentSender() {
+    private void setMostFrequentSender() {
         TextView senderText = findViewById(R.id.senderID);
 
         senderText.setText("You get a lot of emails from "+getMostFrequentSender());
@@ -205,9 +204,5 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
             Log.i("value", "getFormattedValue: "+value);
             return dayString.get((int) value);
         }
-
-
     }
-
-
 }

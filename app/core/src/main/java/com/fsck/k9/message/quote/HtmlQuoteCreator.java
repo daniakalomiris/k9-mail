@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 
 import android.content.res.Resources;
 
-import android.util.Log;
 import com.fsck.k9.CoreResourceProvider;
 import com.fsck.k9.DI;
 import timber.log.Timber;
@@ -16,7 +15,6 @@ import com.fsck.k9.mail.Address;
 import com.fsck.k9.mail.Message;
 import com.fsck.k9.mail.Message.RecipientType;
 import com.fsck.k9.message.html.HtmlConverter;
-import com.fsck.k9.Statistics;
 
 
 public class HtmlQuoteCreator {
@@ -38,8 +36,6 @@ public class HtmlQuoteCreator {
     // Index of the start of the beginning of a String.
     private static final int FIND_INSERTION_POINT_START_OF_STRING = 0;
 
-    private static Statistics stats = new Statistics();
-
     /**
      * Add quoting markup to a HTML message.
      * @param originalMessage Metadata for message being quoted.
@@ -54,12 +50,6 @@ public class HtmlQuoteCreator {
 
         String sentDate = new QuoteHelper(resources).getSentDateText(originalMessage);
         String fromAddress = Address.toString(originalMessage.getFrom());
-
-        stats.addSender(fromAddress);
-        stats.addSentDate(fromAddress);
-
-        Log.i("Sender", "$$$$$$$$$$$$ SENDER STATS" + stats.getMostFrequentSender());
-        Log.i("Date", "$$$$$$$$$$$$ DATE STATS" + stats.getMostFrequentDate());
 
         if (quoteStyle == QuoteStyle.PREFIX) {
             StringBuilder header = new StringBuilder(QuoteHelper.QUOTE_BUFFER_LENGTH);

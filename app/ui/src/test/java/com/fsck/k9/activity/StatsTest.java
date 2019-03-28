@@ -1,20 +1,12 @@
 package com.fsck.k9.activity;
 
-import android.content.Intent;
-
 import com.fsck.k9.mail.Address;
-import com.fsck.k9.activity.StatsActivity;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 
-import static com.google.common.truth.Truth.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class StatsTest {
