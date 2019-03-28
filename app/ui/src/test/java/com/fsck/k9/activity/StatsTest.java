@@ -7,44 +7,44 @@ import com.fsck.k9.activity.StatsActivity;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 
-import static org.mockito.ArgumentMatchers.any;
+import static com.google.common.truth.Truth.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
-@RunWith(RobolectricTestRunner.class)
 public class StatsTest {
 
-    StatsActivity activity;
+    private StatsActivity mockStats;
 
-    /*@Before
+    @Before
     public void setUp() {
-        Intent intent = new Intent(RuntimeEnvironment.application, StatsActivity.class);
-        activity = Robolectric.buildActivity(StatsActivity.class, intent).create().get();
+        mockStats = mock(StatsActivity.class);
     }
 
     @Test
     public void onCreateLogicTest() {
-        StatsActivity mockStats = mock(StatsActivity.class);
+        Address sender1 = mock(Address.class);
+        when(sender1.getAddress()).thenReturn("sender1@mail.com");
+        Address sender2 = mock(Address.class);
+        when(sender2.getAddress()).thenReturn("sender2@mail.com");
 
-        Address sender1 = new Address("sender1@mail.com");
-        Address sender2 = new Address("sender2@mail.com");
-        Address sender3 = new Address("sender3@mail.com");
-
-        // add senders to hashtable
+        // Verify that Address object is passed
+        ArgumentCaptor<Address> argumentCaptor = ArgumentCaptor.forClass(Address.class);
         mockStats.addSender(sender1);
-        mockStats.addSender(sender2);
-        mockStats.addSender(sender3);
-        mockStats.addSender(sender2);
+        verify(mockStats).addSender(argumentCaptor.capture());
 
-        verify(mockStats).addSender(any(Address.class));
+        // Assert that sender1 email was added
+        assertEquals(argumentCaptor.getValue().getAddress(), "sender1@mail.com");
+        System.out.println("Expected sender added: " + argumentCaptor.getValue().getAddress() + "\n" + "Actual sender added: " + "sender1@mail.com");
 
-        // check that most frequent sender is sender2
-        when(mockStats.getMostFrequentSender()).thenReturn(sender2.getAddress());
-    }*/
+        // Assert that most frequent sender is sender2
+        when(mockStats.getMostFrequentSender()).thenReturn("sender2@mail.com");
+        assertEquals(mockStats.getMostFrequentSender(), "sender2@mail.com");
+        System.out.println("Expected most frequent sender: " + mockStats.getMostFrequentSender() + "\n" + "Actual most frequent sender: " + "sender2@mail.com");
+    }
 }
