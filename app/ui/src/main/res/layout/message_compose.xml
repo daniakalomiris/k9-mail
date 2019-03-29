@@ -29,6 +29,7 @@
                 android:orientation="horizontal"
                 android:minHeight="50dp">
 
+
                 <EditText
                     android:id="@+id/subject"
                     android:layout_width="fill_parent"
@@ -58,6 +59,12 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
+
+            <Spinner
+                android:id="@+id/template"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"/>
 
             <!-- We have to use "wrap_content" (not "0dip") for "layout_height", otherwise the
                  EditText won't properly grow in height while the user is typing the message -->

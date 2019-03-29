@@ -92,4 +92,11 @@
         <item>22</item>
     </string-array>
 
+    <string-array name="template_array">
+        <item>No Template</item>
+        <item>Out of Office</item>
+        <item>Put Off</item>
+        <item>Send An Attachment</item>
+    </string-array>
+
 </resources>
