@@ -93,10 +93,10 @@
     </string-array>
 
     <string-array name="template_array">
-        <item>No Template</item>
-        <item>Out of Office</item>
-        <item>Put Off</item>
-        <item>Send An Attachment</item>
+        <item name="none">No Template</item>
+        <item name="out_of_office">Out of Office</item>
+        <item name="put_off">Put Off</item>
+        <item name="attachment">Send An Attachment</item>
     </string-array>
 
 </resources>

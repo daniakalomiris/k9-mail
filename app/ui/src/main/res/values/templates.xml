@@ -17,7 +17,7 @@
 <resources>
 
     <string-array name="template_text">
-        <item name="Out of Office">Hi,
+        <item name="out_of_office">Hi,
 
 I'm enjoying a holiday and will be off the grid until the [Date]! I'll get back to you that week.
 
@@ -26,7 +26,7 @@ Thanks for your patience and talk to you then!
 Best regards,
 
 [Your name] </item>
-        <item name="Put Off">Hi [Name],
+        <item name="put_off">Hi [Name],
 
 Thanks so much for your question about [topic].
 
