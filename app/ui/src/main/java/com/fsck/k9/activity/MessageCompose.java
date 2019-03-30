@@ -38,6 +38,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -114,7 +115,7 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         CancelListener, AttachmentDownloadCancelListener, OnFocusChangeListener,
         OnOpenPgpInlineChangeListener, OnOpenPgpSignOnlyChangeListener, MessageBuilder.Callback,
         AttachmentPresenter.AttachmentsChangedListener, RecipientPresenter.RecipientsChangedListener,
-        OnOpenPgpDisableListener {
+        OnOpenPgpDisableListener, AdapterView.OnItemSelectedListener {
 
     private static final int DIALOG_SAVE_OR_DISCARD_DRAFT_MESSAGE = 1;
     private static final int DIALOG_CONFIRM_DISCARD_ON_BACK = 2;
@@ -472,7 +473,32 @@ public class MessageCompose extends K9Activity implements OnClickListener,
 
         spinner.setAdapter(adapter);
 
+        spinner.setOnItemSelectedListener(this);
 
+
+    }
+
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+        // Selected item
+         Object selectedItem = parent.getItemAtPosition(pos);
+         String template = "";
+
+         if(selectedItem==getString(R.string.out_of_office)){
+             template = getString(R.string.outOfOfficeTemplate);
+         }
+         else if(selectedItem==getString(R.string.put_off)){
+             template = getString(R.string.putOffTemplate);
+         }
+         else if(selectedItem==getString(R.string.attachment)){
+             template = getString(R.string.attachmentTemplate);
+         }
+
+         // Set email message to template
+         messageContentView.setCharacters(template);
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
     }
 
     /**

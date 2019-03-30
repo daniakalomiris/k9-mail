@@ -92,11 +92,16 @@
         <item>22</item>
     </string-array>
 
+    <string name="none" translatable="false">No Template</string>
+    <string name="out_of_office" translatable="false">Out of Office</string>
+    <string name="put_off" translatable="false">Put Off</string>
+    <string name="attachment" translatable="false">Send An Attachment</string>
+
     <string-array name="template_array">
-        <item name="none">No Template</item>
-        <item name="out_of_office">Out of Office</item>
-        <item name="put_off">Put Off</item>
-        <item name="attachment">Send An Attachment</item>
+        <item>@string/none</item>
+        <item>@string/out_of_office</item>
+        <item>@string/put_off</item>
+        <item>@string/attachment</item>
     </string-array>
 
 </resources>
