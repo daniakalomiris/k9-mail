@@ -45,6 +45,19 @@
                     tools:visibility="visible"/>
 
                 <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dip"
+                    android:layout_marginLeft="6dip"
+                    android:layout_marginRight="2dip"
+                    android:layout_marginTop="4dip"
+                    android:id="@+id/tts"
+                    android:text="Text to Speech"
+                    android:icon="?attr/voiceIcon"
+                    />
+
+                <Button
                     android:id="@+id/show_revert"
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
@@ -119,7 +132,6 @@
                     android:id="@+id/message_container"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
-
             </com.fsck.k9.view.ToolableViewAnimator>
 
         </LinearLayout>

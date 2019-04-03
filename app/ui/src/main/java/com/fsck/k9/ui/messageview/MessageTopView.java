@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
 import android.util.AttributeSet;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 
 import com.fsck.k9.Account;
 import com.fsck.k9.Account.ShowPictures;
@@ -33,6 +35,8 @@ import com.fsck.k9.view.ThemeUtils;
 import com.fsck.k9.view.ToolableViewAnimator;
 import org.openintents.openpgp.OpenPgpError;
 import com.fsck.k9.watson.*;
+
+import java.util.Locale;
 
 public class MessageTopView extends LinearLayout {
 
@@ -53,10 +57,13 @@ public class MessageTopView extends LinearLayout {
     private Button showPicturesButton;
     private Button translateButton;
     private Button translateRevertButton;
+    private Button textToSpeechButton;
     private boolean isShowingProgress;
     private boolean showPicturesButtonClicked;
     private boolean translateButtonClicked;
     private boolean translateRevertButtonClicked;
+    private TextToSpeech tts = null;
+    private boolean ttsIsLoaded = false;
 
     private MessageCryptoPresenter messageCryptoPresenter;
 
@@ -68,6 +75,7 @@ public class MessageTopView extends LinearLayout {
     public void onFinishInflate() {
 
         Watson.isEmailLanguageDetectedYet = false; // 390: this resets Watson's boolean every time a new e-mail loads
+        tts = new TextToSpeech(getContext(), onInitListener);
 
         super.onFinishInflate();
 
@@ -90,6 +98,9 @@ public class MessageTopView extends LinearLayout {
 
         translateRevertButton = findViewById(R.id.show_revert);
         setTranslateRevertButtonListener();
+
+        textToSpeechButton = findViewById(R.id.tts);
+        setTextToSpeechButtonListener();
 
         containerView = findViewById(R.id.message_container);
 
@@ -136,6 +147,28 @@ public class MessageTopView extends LinearLayout {
             }
         });
     }
+
+    private void setTextToSpeechButtonListener() {
+        textToSpeechButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Text to speech");
+                View messageContainerViewCandidate = containerView.getChildAt(0);
+                String s = ((MessageContainerView) messageContainerViewCandidate).getJustTheText();
+                tts.speak(s, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
+    }
+
+    private TextToSpeech.OnInitListener onInitListener = new TextToSpeech.OnInitListener() {
+        @Override
+        public void onInit(int status) {
+            if (status == TextToSpeech.SUCCESS) {
+                tts.setLanguage(Locale.US);
+                ttsIsLoaded = true;
+            }
+        }
+    };
 
     private void showPicturesInAllContainerViews() {
 
