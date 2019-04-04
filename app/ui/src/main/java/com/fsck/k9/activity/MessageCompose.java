@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.IntentSender.SendIntentException;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.load.engine.Resource;
 import com.fsck.k9.Account;
 import com.fsck.k9.Account.MessageFormat;
 import com.fsck.k9.DI;
@@ -224,6 +226,15 @@ public class MessageCompose extends K9Activity implements OnClickListener,
     private boolean isInSubActivity = false;
 
     private boolean navigateUp;
+
+
+    /**
+     * The placeholders across all email templates.
+     */
+    private String tempPlaceholderName = "[Contact's Name]";
+    private String tempPlaceholderDate = "[Date]";
+    private String tempPlaceholderYourName = "[Your Name]";
+    private String tempPlaceholderTopic = "[Topic]";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -483,15 +494,20 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         // Selected item
          Object selectedItem = parent.getItemAtPosition(pos);
          String template = "";
+         Resources res = getResources();
 
          if(selectedItem==getString(R.string.out_of_office)){
              template = getString(R.string.outOfOfficeTemplate);
+             template = String.format(template, tempPlaceholderName, tempPlaceholderDate, tempPlaceholderYourName);
          }
          else if(selectedItem==getString(R.string.put_off)){
              template = getString(R.string.putOffTemplate);
+             template = String.format(template, tempPlaceholderName, tempPlaceholderTopic, tempPlaceholderYourName);
+
          }
          else if(selectedItem==getString(R.string.attachment)){
              template = getString(R.string.attachmentTemplate);
+             template = String.format(template, tempPlaceholderName, tempPlaceholderYourName);
          }
 
          // Set email message to template
