@@ -19,7 +19,6 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.IntentSender.SendIntentException;
 import android.content.pm.ActivityInfo;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -41,13 +40,13 @@ import android.view.View.OnFocusChangeListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.load.engine.Resource;
 import com.fsck.k9.Account;
 import com.fsck.k9.Account.MessageFormat;
 import com.fsck.k9.DI;
@@ -231,10 +230,18 @@ public class MessageCompose extends K9Activity implements OnClickListener,
     /**
      * The placeholders across all email templates.
      */
-    private String tempPlaceholderName = "[Contact's Name]";
-    private String tempPlaceholderDate = "[Date]";
-    private String tempPlaceholderYourName = "[Your Name]";
-    private String tempPlaceholderTopic = "[Topic]";
+    private String tempPlaceholderName = "{Contact's Name}";
+    private String tempPlaceholderDate = "{Date}";
+    private String tempPlaceholderTime = "{Time}";
+    private String tempPlaceholderYourName = "{Your Name}";
+    private String tempPlaceholderTopic = "{Topic}";
+    private String tempPlaceholderCompany = "{Company's Name}";
+
+    public EditText txtPlaceholder;
+    public Button enterPlaceholder;
+
+    private Spinner spinnerTemplate;
+    private Spinner spinnerPlaceholder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -478,43 +485,79 @@ public class MessageCompose extends K9Activity implements OnClickListener,
             checkAndRequestPermissions();
         }
 
-        Spinner spinner = (Spinner) findViewById(R.id.template);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.template_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerTemplate = (Spinner) findViewById(R.id.template);
+        ArrayAdapter<CharSequence> adapterTemplate = ArrayAdapter.createFromResource(this,R.array.template_array, android.R.layout.simple_spinner_item);
+        adapterTemplate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerTemplate.setAdapter(adapterTemplate);
+        spinnerTemplate.setOnItemSelectedListener(this);
 
-        spinner.setAdapter(adapter);
+        spinnerPlaceholder = (Spinner) findViewById(R.id.placeholders);
+        ArrayAdapter<CharSequence> adapterPlaceholders = ArrayAdapter.createFromResource(this,R.array.placeholder_array, android.R.layout.simple_spinner_item);
+        adapterPlaceholders.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPlaceholder.setAdapter(adapterPlaceholders);
+        spinnerPlaceholder.setOnItemSelectedListener(this);
 
-        spinner.setOnItemSelectedListener(this);
+        txtPlaceholder=(EditText)findViewById(R.id.placeholder);
 
-
+        enterPlaceholder=(Button)findViewById(R.id.enter_placeholder);
+        enterPlaceholder.setOnClickListener(this);
     }
 
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
         // Selected item
-         Object selectedItem = parent.getItemAtPosition(pos);
-         String template = "";
-         Resources res = getResources();
+        Object selectedItem = parent.getItemAtPosition(pos);
+        String template = "";
 
-         if(selectedItem==getString(R.string.out_of_office)){
-             template = getString(R.string.outOfOfficeTemplate);
-             template = String.format(template, tempPlaceholderName, tempPlaceholderDate, tempPlaceholderYourName);
-         }
-         else if(selectedItem==getString(R.string.put_off)){
-             template = getString(R.string.putOffTemplate);
-             template = String.format(template, tempPlaceholderName, tempPlaceholderTopic, tempPlaceholderYourName);
+        if(selectedItem==getString(R.string.out_of_office)){
+            template = getString(R.string.outOfOfficeTemplate);
+            template = String.format(template, tempPlaceholderName, tempPlaceholderDate, tempPlaceholderYourName);
+        }
+        else if(selectedItem==getString(R.string.put_off)){
+            template = getString(R.string.putOffTemplate);
+            template = String.format(template, tempPlaceholderName, tempPlaceholderTopic, tempPlaceholderYourName);
 
-         }
-         else if(selectedItem==getString(R.string.attachment)){
-             template = getString(R.string.attachmentTemplate);
-             template = String.format(template, tempPlaceholderName, tempPlaceholderYourName);
-         }
+        }
+        else if(selectedItem==getString(R.string.attachment)){
+            template = getString(R.string.attachmentTemplate);
+            template = String.format(template, tempPlaceholderName, tempPlaceholderYourName);
+        }
+        else if(selectedItem==getString(R.string.application_confirmation)){
+            template = getString(R.string.applicationConfirmationTemplate);
+            template = String.format(template, tempPlaceholderName, tempPlaceholderCompany, tempPlaceholderCompany);
+        }
+        else if(selectedItem==getString(R.string.meeting)){
+            template = getString(R.string.meetingTemplate);
+            template = String.format(template, tempPlaceholderName, tempPlaceholderDate, tempPlaceholderTime, tempPlaceholderYourName);
+        }
 
-         // Set email message to template
-         messageContentView.setCharacters(template);
+        // Set email message to template
+        messageContentView.setCharacters(template);
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
+    }
+
+    public boolean setPlaceholder(String placeholder) {
+        if (spinnerPlaceholder.getSelectedItem().toString() == getString(R.string.placeholder_name)) {
+            tempPlaceholderName = placeholder;
+        }
+        else if (spinnerPlaceholder.getSelectedItem().toString() == getString(R.string.placeholder_date)) {
+            tempPlaceholderDate = placeholder;
+        }
+        else if (spinnerPlaceholder.getSelectedItem().toString() == getString(R.string.placeholder_time)) {
+            tempPlaceholderTime = placeholder;
+        }
+        else if (spinnerPlaceholder.getSelectedItem().toString() == getString(R.string.placeholder_your_name)) {
+            tempPlaceholderYourName = placeholder;
+        }
+        else if (spinnerPlaceholder.getSelectedItem().toString() == getString(R.string.placeholder_topic)) {
+            tempPlaceholderTopic = placeholder;
+        }
+        else if (spinnerPlaceholder.getSelectedItem().toString() == getString(R.string.placeholder_company_name)) {
+            tempPlaceholderCompany = placeholder;
+        }
+        return true;
     }
 
     /**
@@ -999,6 +1042,14 @@ public class MessageCompose extends K9Activity implements OnClickListener,
     public void onClick(View view) {
         if (view.getId() == R.id.identity) {
             showDialog(DIALOG_CHOOSE_IDENTITY);
+        }
+        if (view == enterPlaceholder) {
+            final String placeholder = txtPlaceholder.getText().toString();
+            new Thread(new Runnable() {
+                public void run() {
+                    setPlaceholder(placeholder);
+                }
+            }).start();
         }
     }
 

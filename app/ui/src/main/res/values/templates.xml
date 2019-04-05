@@ -17,26 +17,35 @@
 <resources>
     <string name="outOfOfficeTemplate" translatable="false" formatted="false">
         Hi %1$s,
-\nI\'m enjoying a holiday and will be off the grid until the %2$s! I\'ll get back to you that week.
-Thanks for your patience and talk to you then!\nBest regards,\n%3$s
+        \nI\'m enjoying a holiday and will be off the grid until the %2$s! I\'ll get back to you that week.
+        Thanks for your patience and talk to you then! \nBest regards, \n%3$s
     </string>
     <string name="putOffTemplate" translatable="false" formatted="false">
         Hi %1$s,
-\nThanks so much for your question about %2$s.
-I just wanted to let you know that I’m looking into it and will get back to you before the end of week with an answer.
-If you need me to get back to you sooner, please let me know!\nBest,\n%3$s
+        \nThanks so much for your question about %2$s. I just wanted to let you know that I’m looking into it and will get back to you before the end of week with an answer.
+        If you need me to get back to you sooner, please let me know!\nBest,\n%3$s
     </string>
     <string name="attachmentTemplate" translatable="false" formatted="false">
         Hi %1$s,
-\nI hope you’re having a good day.
-Here’s that document I promised you. Please find it attached below.
-If you have any questions, please let me know and I’d be happy to answer your questions.\nThanks!\n%2$s
+        \nI hope you’re having a good day. Here’s that document I promised you. Please find it attached below.
+        If you have any questions, please let me know and I’d be happy to answer your questions.\nThanks!\n%2$s
+    </string>
+    <string name="applicationConfirmationTemplate" translatable="false" formatted="false">
+        Hi %1$s,
+        \nThank you for submitting your application to %2$s. We will review your application and be in contact with you shortly. \nBest regards, \n%3$s Hiring Team
+    </string>
+    <string name="meetingTemplate" translatable="false" formatted="false">
+        Hi %1$s,
+        \nI hope you are having a good day. I am free on %2$s at %3$s for a meeting. Let me know if you are available to meet at that time.
+        \nBest, \n%4$s
     </string>
 
     <string-array name="template_text">
         <item>@string/outOfOfficeTemplate</item>
         <item>@string/putOffTemplate</item>
         <item>@string/attachmentTemplate</item>
+        <item>@string/applicationConfirmationTemplate</item>
+        <item>@string/meetingTemplate</item>
     </string-array>
 
 </resources>

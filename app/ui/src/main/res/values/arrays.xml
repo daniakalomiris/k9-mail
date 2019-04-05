@@ -96,12 +96,34 @@
     <string name="out_of_office" translatable="false">Out of Office</string>
     <string name="put_off" translatable="false">Put Off</string>
     <string name="attachment" translatable="false">Send An Attachment</string>
+    <string name="application_confirmation" translatable="false">Application Confirmation</string>
+    <string name="meeting" translatable="false">Meeting</string>
+
+    <string name="select_placeholder" translatable="false">Select Placeholder</string>
+    <string name="placeholder_name" translatable="false">Contact\'s Name</string>
+    <string name="placeholder_date" translatable="false">Date</string>
+    <string name="placeholder_time" translatable="false">Time</string>
+    <string name="placeholder_your_name" translatable="false">Your Name</string>
+    <string name="placeholder_topic" translatable="false">Topic</string>
+    <string name="placeholder_company_name" translatable="false">Company\'s Name</string>
 
     <string-array name="template_array">
         <item>@string/none</item>
         <item>@string/out_of_office</item>
         <item>@string/put_off</item>
         <item>@string/attachment</item>
+        <item>@string/application_confirmation</item>
+        <item>@string/meeting</item>
+    </string-array>
+
+    <string-array name="placeholder_array">
+        <item>@string/select_placeholder</item>
+        <item>@string/placeholder_name</item>
+        <item>@string/placeholder_date</item>
+        <item>@string/placeholder_time</item>
+        <item>@string/placeholder_your_name</item>
+        <item>@string/placeholder_topic</item>
+        <item>@string/placeholder_company_name</item>
     </string-array>
 
 </resources>

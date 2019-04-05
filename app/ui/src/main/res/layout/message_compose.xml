@@ -66,6 +66,29 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"/>
 
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent">
+                <Spinner
+                    android:id="@+id/placeholders"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"/>
+                <EditText
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:hint="Enter text"
+                    android:id="@+id/placeholder" />
+                <Button
+                    android:id="@+id/enter_placeholder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="Enter" />
+            </LinearLayout>
+
             <!-- We have to use "wrap_content" (not "0dip") for "layout_height", otherwise the
                  EditText won't properly grow in height while the user is typing the message -->
             <view
