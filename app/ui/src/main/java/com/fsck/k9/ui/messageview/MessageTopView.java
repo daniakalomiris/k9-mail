@@ -58,6 +58,7 @@ public class MessageTopView extends LinearLayout {
     private Button translateButton;
     private Button translateRevertButton;
     private Button textToSpeechButton;
+    private Button stopTextToSpeechButton;
     private boolean isShowingProgress;
     private boolean showPicturesButtonClicked;
     private boolean translateButtonClicked;
@@ -101,6 +102,9 @@ public class MessageTopView extends LinearLayout {
 
         textToSpeechButton = findViewById(R.id.tts);
         setTextToSpeechButtonListener();
+
+        stopTextToSpeechButton = findViewById(R.id.tts_stop);
+        setStopTextToSpeechButtonListener();
 
         containerView = findViewById(R.id.message_container);
 
@@ -156,6 +160,22 @@ public class MessageTopView extends LinearLayout {
                 View messageContainerViewCandidate = containerView.getChildAt(0);
                 String s = ((MessageContainerView) messageContainerViewCandidate).getJustTheText();
                 tts.speak(s, TextToSpeech.QUEUE_FLUSH, null);
+                hideTextToSpeechButton();
+                showStopTextToSpeechButton();
+            }
+        });
+    }
+
+
+    private void setStopTextToSpeechButtonListener() {
+        stopTextToSpeechButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(tts.isSpeaking()) {
+                    tts.stop();
+                }
+                hideStopTextToSpeechButton();
+                showTextToSpeechButton();
             }
         });
     }
@@ -381,8 +401,24 @@ public class MessageTopView extends LinearLayout {
         translateRevertButton.setVisibility(View.GONE);
     }
 
+    private void showTextToSpeechButton() {
+        textToSpeechButton.setVisibility(View.VISIBLE);
+    }
+
+    private void hideTextToSpeechButton() {
+        textToSpeechButton.setVisibility(View.GONE);
+    }
+
     private void hideShowPicturesButton() {
         showPicturesButton.setVisibility(View.GONE);
+    }
+
+    private void showStopTextToSpeechButton() {
+        stopTextToSpeechButton.setVisibility(View.VISIBLE);
+    }
+
+    private void hideStopTextToSpeechButton() {
+        stopTextToSpeechButton.setVisibility(View.GONE);
     }
 
     private boolean shouldAutomaticallyLoadPictures(ShowPictures showPicturesSetting, Message message) {
