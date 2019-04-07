@@ -1348,5 +1348,17 @@ You can keep this message and use it as a backup for your secret key. If you wan
     <!-- permissions -->
     <string name="permission_contacts_rationale_title">Allow access to contacts</string>
     <string name="permission_contacts_rationale_message">To be able to provide contact suggestions and to display contact names and photos, the app needs access to your contacts.</string>
+
+
+
+
+
+    <string name="email_insights">Insights</string>
+     <string name="account_settings_insights_most_contacts_by_label">Received most emails by</string>
+    <string name="account_settings_insights_most_contacts_by_summary">SOEN390@gmail.com</string>
+     <string name="account_settings_insights_busiest_time_day_label">Busiest time of the day</string>
+    <string name="account_settings_insights_busiest_time_day_summary">12:30PM EST</string>
+     <string name="account_settings_insights_most_frequent_word_label">Most frequent word used</string>
+    <string name="account_settings_insights_most_frequent_word_summary">potato</string>
     <string name="title_activity_label_list">label_list</string>
 </resources>

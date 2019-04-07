@@ -36,7 +36,6 @@ public class HtmlQuoteCreator {
     // Index of the start of the beginning of a String.
     private static final int FIND_INSERTION_POINT_START_OF_STRING = 0;
 
-    
     /**
      * Add quoting markup to a HTML message.
      * @param originalMessage Metadata for message being quoted.
@@ -51,6 +50,7 @@ public class HtmlQuoteCreator {
 
         String sentDate = new QuoteHelper(resources).getSentDateText(originalMessage);
         String fromAddress = Address.toString(originalMessage.getFrom());
+
         if (quoteStyle == QuoteStyle.PREFIX) {
             StringBuilder header = new StringBuilder(QuoteHelper.QUOTE_BUFFER_LENGTH);
             header.append("<div class=\"gmail_quote\">");

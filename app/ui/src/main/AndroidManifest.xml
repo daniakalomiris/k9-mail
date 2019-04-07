@@ -4,6 +4,7 @@
     <application>
         <activity android:name="com.fsck.k9.activity.LabelPage" android:windowSoftInputMode="adjustPan|adjustResize"/>
         <activity android:name="com.fsck.k9.activity.LabelList" />
+        <activity android:name="com.fsck.k9.activity.StatsActivity" />
 
     </application>
 
