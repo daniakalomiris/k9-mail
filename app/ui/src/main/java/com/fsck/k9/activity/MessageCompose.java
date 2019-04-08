@@ -237,11 +237,18 @@ public class MessageCompose extends K9Activity implements OnClickListener,
     private String tempPlaceholderTopic = "{Topic}";
     private String tempPlaceholderCompany = "{Company's Name}";
 
+    private String templateType;
+
+    private String template = "";
+
     public EditText txtPlaceholder;
     public Button enterPlaceholder;
 
     private Spinner spinnerTemplate;
     private Spinner spinnerPlaceholder;
+
+    private ArrayAdapter<CharSequence> adapterTemplate;
+    private ArrayAdapter<CharSequence> adapterPlaceholder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -486,58 +493,70 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         }
 
         spinnerTemplate = (Spinner) findViewById(R.id.template);
-        ArrayAdapter<CharSequence> adapterTemplate = ArrayAdapter.createFromResource(this,R.array.template_array, android.R.layout.simple_spinner_item);
+        adapterTemplate = ArrayAdapter.createFromResource(this,R.array.template_array, android.R.layout.simple_spinner_item);
         adapterTemplate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTemplate.setAdapter(adapterTemplate);
         spinnerTemplate.setOnItemSelectedListener(this);
 
         spinnerPlaceholder = (Spinner) findViewById(R.id.placeholders);
-        ArrayAdapter<CharSequence> adapterPlaceholders = ArrayAdapter.createFromResource(this,R.array.placeholder_array, android.R.layout.simple_spinner_item);
-        adapterPlaceholders.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerPlaceholder.setAdapter(adapterPlaceholders);
+        adapterPlaceholder = ArrayAdapter.createFromResource(this,R.array.placeholder_array, android.R.layout.simple_spinner_item);
+        adapterPlaceholder.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPlaceholder.setAdapter(adapterPlaceholder);
         spinnerPlaceholder.setOnItemSelectedListener(this);
+        spinnerPlaceholder.setVisibility(View.GONE);
 
-        txtPlaceholder=(EditText)findViewById(R.id.placeholder);
+        txtPlaceholder = (EditText)findViewById(R.id.placeholder);
+        txtPlaceholder.setVisibility(View.GONE);
 
-        enterPlaceholder=(Button)findViewById(R.id.enter_placeholder);
+        enterPlaceholder = (Button)findViewById(R.id.enter_placeholder);
         enterPlaceholder.setOnClickListener(this);
+        enterPlaceholder.setVisibility(View.GONE);
     }
 
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
         // Selected item
         Object selectedItem = parent.getItemAtPosition(pos);
-        String template = "";
 
-        if(selectedItem==getString(R.string.out_of_office)){
-            template = getString(R.string.outOfOfficeTemplate);
-            template = String.format(template, tempPlaceholderName, tempPlaceholderDate, tempPlaceholderYourName);
-        }
-        else if(selectedItem==getString(R.string.put_off)){
-            template = getString(R.string.putOffTemplate);
-            template = String.format(template, tempPlaceholderName, tempPlaceholderTopic, tempPlaceholderYourName);
+        if (selectedItem == getString(R.string.none)) {
+            // Disable placeholder options
+            spinnerPlaceholder.setVisibility(View.GONE);
+            txtPlaceholder.setVisibility(View.GONE);
+            enterPlaceholder.setVisibility(View.GONE);
 
+            // Reset email to empty message
+            messageContentView.setCharacters("");
         }
-        else if(selectedItem==getString(R.string.attachment)){
-            template = getString(R.string.attachmentTemplate);
-            template = String.format(template, tempPlaceholderName, tempPlaceholderYourName);
+        else if (selectedItem == getString(R.string.out_of_office)) {
+            templateType = "out_of_office";
+            handleTemplate();
         }
-        else if(selectedItem==getString(R.string.application_confirmation)){
-            template = getString(R.string.applicationConfirmationTemplate);
-            template = String.format(template, tempPlaceholderName, tempPlaceholderCompany, tempPlaceholderCompany);
+        else if (selectedItem == getString(R.string.put_off)) {
+            templateType = "put_off";
+            handleTemplate();
         }
-        else if(selectedItem==getString(R.string.meeting)){
-            template = getString(R.string.meetingTemplate);
-            template = String.format(template, tempPlaceholderName, tempPlaceholderDate, tempPlaceholderTime, tempPlaceholderYourName);
+        else if (selectedItem == getString(R.string.attachment)) {
+            templateType = "attachment";
+            handleTemplate();
         }
-
-        // Set email message to template
-        messageContentView.setCharacters(template);
+        else if (selectedItem == getString(R.string.application_confirmation)) {
+            templateType = "application_confirmation";
+            handleTemplate();
+        }
+        else if (selectedItem == getString(R.string.meeting)) {
+            templateType = "meeting";
+            handleTemplate();
+        }
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
+    /**
+     * Sets the placeholder across all email templates
+     * @param placeholder
+     * @return
+     */
     public boolean setPlaceholder(String placeholder) {
         if (spinnerPlaceholder.getSelectedItem().toString() == getString(R.string.placeholder_name)) {
             tempPlaceholderName = placeholder;
@@ -558,6 +577,39 @@ public class MessageCompose extends K9Activity implements OnClickListener,
             tempPlaceholderCompany = placeholder;
         }
         return true;
+    }
+
+    /**
+     * Set template based off template selection and display it with appropriate placeholders
+     */
+    public void handleTemplate() {
+        spinnerPlaceholder.setVisibility(View.VISIBLE);
+        txtPlaceholder.setVisibility(View.VISIBLE);
+        enterPlaceholder.setVisibility(View.VISIBLE);
+
+        if (templateType == "out_of_office") {
+            template = getString(R.string.outOfOfficeTemplate);
+            template = String.format(template, tempPlaceholderName, tempPlaceholderDate, tempPlaceholderYourName);
+        }
+        else if (templateType == "put_off") {
+            template = getString(R.string.putOffTemplate);
+            template = String.format(template, tempPlaceholderName, tempPlaceholderTopic, tempPlaceholderYourName);
+        }
+        else if (templateType == "attachment") {
+            template = getString(R.string.attachmentTemplate);
+            template = String.format(template, tempPlaceholderName, tempPlaceholderYourName);
+        }
+        else if (templateType == "application_confirmation") {
+            template = getString(R.string.applicationConfirmationTemplate);
+            template = String.format(template, tempPlaceholderName, tempPlaceholderCompany, tempPlaceholderCompany);
+        }
+        else if (templateType == "meeting") {
+            template = getString(R.string.meetingTemplate);
+            template = String.format(template, tempPlaceholderName, tempPlaceholderDate, tempPlaceholderTime, tempPlaceholderYourName);
+        }
+
+        // Set email message to template
+        messageContentView.setCharacters(template);
     }
 
     /**
@@ -1043,11 +1095,14 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         if (view.getId() == R.id.identity) {
             showDialog(DIALOG_CHOOSE_IDENTITY);
         }
+
+        // Set placeholder and change template with new placeholder
         if (view == enterPlaceholder) {
             final String placeholder = txtPlaceholder.getText().toString();
             new Thread(new Runnable() {
                 public void run() {
                     setPlaceholder(placeholder);
+                    handleTemplate();
                 }
             }).start();
         }
