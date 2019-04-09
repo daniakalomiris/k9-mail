@@ -1,7 +1,9 @@
 
 # K-9 Mail
-## SOEN 390 Project 
+## SOEN 390 Project         [![Build Status](https://travis-ci.com/jeffbuonamici/k9mail.svg?token=qxHYNrXsJFtDv4Fs8FL7&branch=master)](https://travis-ci.com/jeffbuonamici/k9mail)
 **Group Members:**
+
+
 
 Daniel Stroppolo  
 Jeff Buonamici    
