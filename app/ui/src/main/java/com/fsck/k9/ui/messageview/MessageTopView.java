@@ -158,8 +158,12 @@ public class MessageTopView extends LinearLayout {
             public void onClick(View view) {
                 System.out.println("Text to speech");
                 View messageContainerViewCandidate = containerView.getChildAt(0);
-                String s = ((MessageContainerView) messageContainerViewCandidate).getJustTheText();
-                tts.speak(s, TextToSpeech.QUEUE_FLUSH, null);
+                try {
+                    String s = ((MessageContainerView) messageContainerViewCandidate).getJustTheText();
+                    tts.speak(s, TextToSpeech.QUEUE_FLUSH, null);
+                } catch (NullPointerException e) {
+                    System.out.println("Cannot read email");
+                }
                 hideTextToSpeechButton();
                 showStopTextToSpeechButton();
             }
