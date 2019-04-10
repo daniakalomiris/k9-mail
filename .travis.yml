@@ -23,3 +23,6 @@ cache:
     - $HOME/.android/build-cache
 
 script: "./travis.sh"
+
+addons:
+  artifacts: true
