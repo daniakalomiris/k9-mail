@@ -1,13 +1,8 @@
 package com.fsck.k9;
 
 import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
-import android.content.Intent;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.fsck.k9.activity.MessageList;
 import com.fsck.k9.ui.R;
@@ -20,11 +15,8 @@ import static org.mockito.Mockito.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.android.controller.ActivityController;
 
 @RunWith(RobolectricTestRunner.class)
 public class MessageTopViewTest {
@@ -82,6 +74,5 @@ public class MessageTopViewTest {
         assertEquals(startButton.getVisibility(), Button.VISIBLE);
         assertEquals(stopButton.getVisibility(), Button.GONE);
     }
-
-
+    //cant test other methods because private
 }
