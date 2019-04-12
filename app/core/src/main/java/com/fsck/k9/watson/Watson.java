@@ -79,7 +79,7 @@ public class Watson {
         String applicationLanguage = deviceLanguage;
 
         try {
-            String languageSource = emailLanguage;  // Note: emailLanguage was detected by showTranslateButtonIfNeeded() method in MessageTopView.java, when e-mail was first opened
+            String languageSource = "";  // Note: emailLanguage was detected by showTranslateButtonIfNeeded() method in MessageTopView.java, when e-mail was first opened
 
             TranslateOptions translateOptions = new TranslateOptions.Builder()
                     .addText(textToTranslate)
