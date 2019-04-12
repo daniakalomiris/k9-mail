@@ -29,4 +29,18 @@ The app assigned to our group is **K-9 Mail**. K-9 Mail is an Android app that c
 
 The official documentation for K-9 Mail can be found [here](https://github.com/k9mail/k-9/wiki). All meeting notes and documentation related to the project can be found in our [wiki](https://github.com/jeffbuonamici/k9mail/wiki)!
 
+## CI Log Analysis
 
+   To get a better sense of the last build that ran on Travis CI you can first:
+        
+* Install [npm v6.](https://www.npmjs.com/get-npm)
+        
+* Install [Node.js LTS v10](https://nodejs.org/en/download/)
+
+then, from the command line, at the root of the project, run:
+
+* ```npm install ```
+
+* ```node .```
+    
+    What you will get in return is a log of the latest build, it's commit reference, the timestamp at which the build ran, the author of the commit, the status of the build, the time it took to build and the failing test if it did fail.
