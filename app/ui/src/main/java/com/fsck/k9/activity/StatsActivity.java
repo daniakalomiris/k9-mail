@@ -60,14 +60,14 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
     private static Hashtable<Address, Integer> mSenders = new Hashtable<Address, Integer>();
     public static final int[] PASTEL_COLORS = {
             Color.rgb(64, 89, 128), Color.rgb(149, 165, 124), Color.rgb(217, 184, 162),
-            Color.rgb(191, 134, 134), Color.rgb(179, 48, 80), Color.rgb(144,144,144), Color.rgb(179, 148, 180)
+            Color.rgb(191, 134, 134), Color.rgb(179, 48, 80), Color.rgb(144, 144, 144), Color.rgb(179, 148, 180)
     };
 
     BarChart barChart;
     PieChart pieChart;
     ArrayList<String> days;
     ArrayList<BarEntry> barEntries;
-    String allMessageContent="";
+    String allMessageContent = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,7 +79,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
             localStore = localStoreProvider.getInstance(account);
             localFolder = localStore.getFolder("INBOX");
             //messages = localFolder.getMessages(listener);
-            List<String> allMessages =localFolder.getAllMessageUids();
+            List<String> allMessages = localFolder.getAllMessageUids();
             messages = localFolder.getMessagesByUids(allMessages);
 
         } catch (Exception e) {
@@ -97,7 +97,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
         if (messages != null) {
             crunchEmotion();
             new ASyncWatsonToneAnayzer().execute(allMessageContent);
-           // createPieChart();
+            // createPieChart();
 
         }
     }
@@ -105,14 +105,14 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
     private void setMostFrequentSender() {
         TextView senderText = findViewById(R.id.senderID);
 
-        senderText.setText("You get a lot of emails from "+getMostFrequentSender());
+        senderText.setText("You get a lot of emails from " + getMostFrequentSender());
     }
 
-    private  void createPieChart(){
+    private void createPieChart() {
         List<PieEntry> entries = new ArrayList<>();
-        for (String key:pieData.keySet()
-             ) {
-            entries.add(new PieEntry(pieData.get(key),key));
+        for (String key : pieData.keySet()
+        ) {
+            entries.add(new PieEntry(pieData.get(key), key));
         }
 
         PieDataSet pds = new PieDataSet(entries, "Email Tones");
@@ -122,26 +122,27 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
         pieChart.setData(data);
         pieChart.getDescription().setEnabled(false);
         pieChart.getLegend().setEnabled(false);
-        pieChart.animateXY(3000,3000, Easing.EaseOutCirc);
+        pieChart.animateXY(3000, 3000, Easing.EaseOutCirc);
 
     }
+
     private void createDateBarChart() {
         days = new ArrayList<>();
-        days.add(0,"Sun");
-        days.add(1,"Mon");
-        days.add(2,"Tue");
-        days.add(3,"Wed");
-        days.add(4,"Thu");
-        days.add(5,"Fri");
-        days.add(6,"Sat");
+        days.add(0, "Sun");
+        days.add(1, "Mon");
+        days.add(2, "Tue");
+        days.add(3, "Wed");
+        days.add(4, "Thu");
+        days.add(5, "Fri");
+        days.add(6, "Sat");
         barEntries = new ArrayList<>();
-        barEntries.add(new BarEntry(0,dayOfWeek.get("Sun")));
-        barEntries.add(new BarEntry(1,dayOfWeek.get("Mon")));
-        barEntries.add(new BarEntry(2,dayOfWeek.get("Tue")));
-        barEntries.add(new BarEntry(3,dayOfWeek.get("Wed")));
-        barEntries.add(new BarEntry(4,dayOfWeek.get("Thu")));
-        barEntries.add(new BarEntry(5,dayOfWeek.get("Fri")));
-        barEntries.add(new BarEntry(6,dayOfWeek.get("Sat")));
+        barEntries.add(new BarEntry(0, dayOfWeek.get("Sun")));
+        barEntries.add(new BarEntry(1, dayOfWeek.get("Mon")));
+        barEntries.add(new BarEntry(2, dayOfWeek.get("Tue")));
+        barEntries.add(new BarEntry(3, dayOfWeek.get("Wed")));
+        barEntries.add(new BarEntry(4, dayOfWeek.get("Thu")));
+        barEntries.add(new BarEntry(5, dayOfWeek.get("Fri")));
+        barEntries.add(new BarEntry(6, dayOfWeek.get("Sat")));
 
 
         XAxis xAxis = barChart.getXAxis();
@@ -166,7 +167,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
 
         TextView senderText = findViewById(R.id.lastWeek);
 
-        senderText.setText("In the last week you received "+messagesLastWeek+" emails!");
+        senderText.setText("In the last week you received " + messagesLastWeek + " emails!");
 
     }
 
@@ -193,9 +194,10 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
                 messagesLastWeek++;
         }
     }
-    private void crunchEmotion(){
+
+    private void crunchEmotion() {
         for (LocalMessage m : messages)
-            allMessageContent=allMessageContent+Jsoup.parse(m.getPreview()).text();
+            allMessageContent = allMessageContent + Jsoup.parse(m.getPreview()).text();
     }
 
     // Add each sender to hashtable
@@ -211,7 +213,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
     // Get the most frequent sender from all local messages
     public String getMostFrequentSender() {
         int maxSender = Collections.max(mSenders.values());
-        if (maxSender==1)
+        if (maxSender == 1)
             return "everyone";
         String mostFrequentSender = null;
         Enumeration senders;
@@ -227,7 +229,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
     }
 
     private void senderStats() {
-        for (LocalMessage m : messages){
+        for (LocalMessage m : messages) {
             addSender(m.getFrom()[0]);
         }
         getMostFrequentSender();
@@ -243,11 +245,10 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
         activity.startActivity(intent);
     }
 
-    private class MyXAxisValueFormatter extends ValueFormatter
-    {
+    private class MyXAxisValueFormatter extends ValueFormatter {
         private ArrayList<String> dayString;
 
-        public MyXAxisValueFormatter (ArrayList<String> days) {
+        public MyXAxisValueFormatter(ArrayList<String> days) {
             dayString = days;
         }
 
@@ -257,25 +258,24 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
         }
     }
 
-        private class ASyncWatsonToneAnayzer extends AsyncEmotionWatson {
+    private class ASyncWatsonToneAnayzer extends AsyncEmotionWatson {
 
-            @Override
-            protected void onPostExecute(String anaylysedStringREsults) {
-                try{
+        @Override
+        protected void onPostExecute(String anaylysedStringREsults) {
+            try {
 
-                    JSONObject t = new JSONObject(anaylysedStringREsults);
-                    Iterator keys = t.keys();
-                    while (keys.hasNext()){
-                        String key = (String)keys.next();
-                        pieData.put(key,Float.parseFloat(t.getJSONObject(key).get("effectivePercentage").toString()));
-                    }
-                    Log.i("tone", "onPostExecute: "+pieData.toString());
+                JSONObject t = new JSONObject(anaylysedStringREsults);
+                Iterator keys = t.keys();
+                while (keys.hasNext()) {
+                    String key = (String) keys.next();
+                    pieData.put(key, Float.parseFloat(t.getJSONObject(key).get("effectivePercentage").toString()));
                 }
-                catch (Exception e){
-                    Log.i("error", "onPostExecute: "+e.getMessage());
-                }
-
-                createPieChart();
+                Log.i("tone", "onPostExecute: " + pieData.toString());
+            } catch (Exception e) {
+                Log.i("error", "onPostExecute: " + e.getMessage());
             }
+
+            createPieChart();
         }
+    }
 }

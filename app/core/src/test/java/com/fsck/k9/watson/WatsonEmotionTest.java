@@ -25,6 +25,7 @@ public class WatsonEmotionTest {
         String result = watson.analyzeTone("i am angry.i am angry");
         assertEquals("{\"Anger\":{\"score\":\"2\",\"count\":2,\"effectiveScore\":\"1\",\"effectivePercentage\":\"1\"}}", result);
     }
+
     @Test
     public void doesItDetectAnger_False_test() throws Exception {
         String result = watson.analyzeTone("i am happy. i am happy");

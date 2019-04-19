@@ -3,8 +3,7 @@ package com.fsck.k9.watson;
 import android.os.AsyncTask;
 
 
-
-public abstract class AsyncEmotionWatson extends AsyncTask<String,String,String> {
+public abstract class AsyncEmotionWatson extends AsyncTask<String, String, String> {
 
     WatsonEmotion watson = WatsonEmotion.getInstance();
 
