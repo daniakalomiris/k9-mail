@@ -1,5 +1,9 @@
 package com.fsck.k9.watson;
 
+import android.util.Log;
+
+import com.google.gson.JsonObject;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,8 +22,8 @@ public class WatsonEmotionTest {
     @Test
     public void doesItDetectAnger_TRUE_test() throws Exception {
 
-        String result = watson.analyzeTone("i am angry.i am also angry");
-        assertEquals("{\"Anger\":{\"score\":\"1.95\",\"count\":2,\"effectiveScore\":\"0.98\",\"effectivePercentage\":\"1\"}}", result);
+        String result = watson.analyzeTone("i am angry.i am angry");
+        assertEquals("{\"Anger\":{\"score\":\"2\",\"count\":2,\"effectiveScore\":\"1\",\"effectivePercentage\":\"1\"}}", result);
     }
     @Test
     public void doesItDetectAnger_False_test() throws Exception {
