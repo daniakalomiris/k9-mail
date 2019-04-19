@@ -17,6 +17,8 @@ import com.fsck.k9.ui.R;
 import com.fsck.k9.mailstore.LocalStoreProvider;
 import com.fsck.k9.mailstore.LocalStore;
 import com.fsck.k9.mailstore.LocalFolder;
+import com.fsck.k9.watson.AsyncEmotionWatson;
+import com.fsck.k9.watson.WatsonEmotion;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -77,6 +79,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
        // barChart = (BarChart) findViewById(R.id.barGraph);
         if (messages != null) {
             crunchEmotion();
+            new ASyncWatsonToneAnayzer().execute(allMessageContent);
            // createDateBarChart();
         }
     }
@@ -139,7 +142,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
         dayOfWeek.put("Thu", 0);
         dayOfWeek.put("Fri", 0);
         dayOfWeek.put("Sat", 0);
-        
+
         for (LocalMessage m : messages) {
             // Calculate day frequency
             String day = (m.getSentDate()).toString().substring(0, 3);
@@ -155,7 +158,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
         }
     }
     private void crunchEmotion(){
-        for (LocalMessage m : messages) {
+        for (LocalMessage m : messages)
             allMessageContent=allMessageContent+Jsoup.parse(m.getPreview()).text();
     }
 
@@ -218,4 +221,13 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
             return dayString.get((int) value);
         }
     }
+
+        private class ASyncWatsonToneAnayzer extends AsyncEmotionWatson {
+
+            @Override
+            protected void onPostExecute(String anaylysedStringREsults) {
+                Log.i("tone", "onPostExecute: "+anaylysedStringREsults);
+               return;
+            }
+        }
 }
