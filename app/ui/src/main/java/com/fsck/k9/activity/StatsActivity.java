@@ -27,6 +27,8 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import org.jsoup.Jsoup;
+
 import java.util.*;
 
 import java.util.List;
@@ -46,6 +48,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
     BarChart barChart;
     ArrayList<String> days;
     ArrayList<BarEntry> barEntries;
+    String allMessageContent="";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +73,12 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
         }
         senderStats();
         setMostFrequentSender();
+
+       // barChart = (BarChart) findViewById(R.id.barGraph);
+        if (messages != null) {
+            crunchEmotion();
+           // createDateBarChart();
+        }
     }
 
     private void setMostFrequentSender() {
@@ -130,10 +139,10 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
         dayOfWeek.put("Thu", 0);
         dayOfWeek.put("Fri", 0);
         dayOfWeek.put("Sat", 0);
+        
         for (LocalMessage m : messages) {
             // Calculate day frequency
             String day = (m.getSentDate()).toString().substring(0, 3);
-
             dayOfWeek.put(day, dayOfWeek.get(day) + 1);
 
             Calendar cal = new GregorianCalendar();
@@ -144,6 +153,10 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
             if (m.getSentDate().after(sevenDaysAgo))
                 messagesLastWeek++;
         }
+    }
+    private void crunchEmotion(){
+        for (LocalMessage m : messages) {
+            allMessageContent=allMessageContent+Jsoup.parse(m.getPreview()).text();
     }
 
     // Add each sender to hashtable
