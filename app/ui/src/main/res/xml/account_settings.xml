@@ -28,28 +28,6 @@
 
     </PreferenceScreen>
 
-     <PreferenceScreen
-        android:icon="?attr/iconSettingsAbout"
-        android:key="account_insight"
-        android:title="@string/email_insights">
-
-        <Preference
-            android:key="most_contacted"
-            android:summary="@string/account_settings_insights_most_contacts_by_summary"
-            android:title="@string/account_settings_insights_most_contacts_by_label" />
-        
-        <Preference
-            android:key="busiest_tod"
-            android:summary="@string/account_settings_insights_busiest_time_day_summary"
-            android:title="@string/account_settings_insights_busiest_time_day_label" />
-       
-        <Preference
-            android:key="most_frequent_word"
-            android:summary="@string/account_settings_insights_most_frequent_word_summary"
-            android:title="@string/account_settings_insights_most_frequent_word_label" />
-
-    </PreferenceScreen>
-
     <PreferenceScreen
         android:icon="?attr/iconPreferencesReadMail"
         android:key="reading_mail"
