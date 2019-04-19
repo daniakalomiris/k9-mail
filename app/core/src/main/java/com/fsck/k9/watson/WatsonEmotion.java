@@ -73,20 +73,20 @@ public class WatsonEmotion {
         {
             for (ToneScore score:sentence.getTones()) {
 
-                if (!result.has(score.getToneId()))
+                if (!result.has(score.getToneName()))
                 {
                     scoreDetails = new JsonObject();
                     scoreDetails.addProperty("score",score.getScore());
                     scoreDetails.addProperty("count",1);
                     scoreDetails.addProperty("effectiveScore",score.getScore());
-                    result.add(score.getToneId(),scoreDetails);
+                    result.add(score.getToneName(),scoreDetails);
                 }
                 else{
-                    scoreDetails = result.getAsJsonObject(score.getToneId());
+                    scoreDetails = result.getAsJsonObject(score.getToneName());
                     scoreDetails.addProperty("score",df2.format(scoreDetails.get("score").getAsDouble()+score.getScore()));
                     scoreDetails.addProperty("count",scoreDetails.get("count").getAsInt()+1);
                     scoreDetails.addProperty("effectiveScore",df2.format(scoreDetails.get("score").getAsDouble()/scoreDetails.get("count").getAsDouble()));
-                    result.add(score.getToneId(),scoreDetails);
+                    result.add(score.getToneName(),scoreDetails);
                 }
                 totalScore+=+score.getScore();
             }

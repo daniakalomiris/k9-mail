@@ -46,4 +46,17 @@
         android:text="most sender"
         android:textSize="8pt"/>
 
+    <TextView
+        android:id="@+id/emotionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="30dp"
+        android:text="How are people feeling?"
+        android:textSize="8pt"></TextView>
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pieChart"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
 </LinearLayout>
