@@ -253,7 +253,6 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
 
         @Override
         public String getFormattedValue(float value) {
-            Log.i("value", "getFormattedValue: "+value);
             return dayString.get((int) value);
         }
     }
