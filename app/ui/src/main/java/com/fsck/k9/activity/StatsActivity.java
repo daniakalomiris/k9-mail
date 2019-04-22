@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Button;
+import android.view.View.OnClickListener;
 
 import com.fsck.k9.Account;
 import com.fsck.k9.Preferences;
@@ -69,15 +71,32 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
     ArrayList<BarEntry> barEntries;
     String allMessageContent = "";
 
+    Button inboxStatsButton;
+    Button sentStatsButton;
+    Button junkStatsButton;
+    Button trashStatsButton;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayout(R.layout.activity_stats);
 
+        addInboxStatsButton();
+        addSentStatsButton();
+        addJunkStatsButton();
+        addTrashStatsButton();
+
         try {
             LocalStoreProvider localStoreProvider = new LocalStoreProvider();
             localStore = localStoreProvider.getInstance(account);
-            localFolder = localStore.getFolder("INBOX");
+            if(StatsActivityToggle.statsToggle == 0)
+                localFolder = localStore.getFolder("INBOX");
+            if(StatsActivityToggle.statsToggle == 1)
+                localFolder = localStore.getFolder("Sent");
+            if(StatsActivityToggle.statsToggle == 2)
+                localFolder = localStore.getFolder("Junk");
+            if(StatsActivityToggle.statsToggle == 3)
+                localFolder = localStore.getFolder("Trash");
             //messages = localFolder.getMessages(listener);
             List<String> allMessages = localFolder.getAllMessageUids();
             messages = localFolder.getMessagesByUids(allMessages);
@@ -102,13 +121,91 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
         }
     }
 
+// These Stats Buttons generate the appropriate Stats page and change specific text values for that page
+    public void addInboxStatsButton() {
+        inboxStatsButton = (Button) findViewById(R.id.buttonINBOX);
+        inboxStatsButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                StatsActivityToggle.statsToggle = 0;
+                StatsActivityToggle.thisWeek = "You've received ";
+                StatsActivityToggle.emailType = " emails";
+                StatsActivityToggle.emotionLabel = "How are people feeling?";
+                StatsActivityToggle.mostFrequent = "You get a lot of emails from ";
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void addSentStatsButton() {
+        sentStatsButton = (Button) findViewById(R.id.buttonSENT);
+        sentStatsButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                StatsActivityToggle.statsToggle = 1;
+                StatsActivityToggle.thisWeek = "You've sent ";
+                StatsActivityToggle.emailType = " emails";
+                StatsActivityToggle.emotionLabel = "How were you feeling?";
+                StatsActivityToggle.mostFrequent = "You send a lot of emails, ";
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void addJunkStatsButton() {
+        junkStatsButton = (Button) findViewById(R.id.buttonJUNK);
+        junkStatsButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                StatsActivityToggle.statsToggle = 2;
+                StatsActivityToggle.thisWeek = "You've received ";
+                StatsActivityToggle.emailType = " junk mails";
+                StatsActivityToggle.emotionLabel = "How is your junk feeling?";
+                StatsActivityToggle.mostFrequent = "You get a lot of junk from ";
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void addTrashStatsButton() {
+        trashStatsButton = (Button) findViewById(R.id.buttonTRASH);
+        trashStatsButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                StatsActivityToggle.statsToggle = 3;
+                StatsActivityToggle.thisWeek = "You've deleted ";
+                StatsActivityToggle.emailType = " emails";
+                StatsActivityToggle.emotionLabel = "How is your trash feeling?";
+                StatsActivityToggle.mostFrequent = "You delete a lot of emails from ";
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+            }
+        });
+    }
+
+
     private void setMostFrequentSender() {
         TextView senderText = findViewById(R.id.senderID);
 
-        senderText.setText("You get a lot of emails from " + getMostFrequentSender());
+        senderText.setText(StatsActivityToggle.mostFrequent + getMostFrequentSender());
     }
 
     private void createPieChart() {
+
+        TextView senderText = findViewById(R.id.emotionLabel);
+        senderText.setText(StatsActivityToggle.emotionLabel);
+
         List<PieEntry> entries = new ArrayList<>();
         for (String key : pieData.keySet()
         ) {
@@ -167,7 +264,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
 
         TextView senderText = findViewById(R.id.lastWeek);
 
-        senderText.setText("In the last week you received " + messagesLastWeek + " emails!");
+        senderText.setText(StatsActivityToggle.thisWeek + messagesLastWeek + StatsActivityToggle.emailType + " this week!");
 
     }
 

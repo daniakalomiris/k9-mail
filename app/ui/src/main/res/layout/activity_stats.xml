@@ -1,17 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:layout_gravity="center_horizontal"
+android:textAlignment="center">
+
+<LinearLayout android:layout_height="wrap_content"
+android:layout_width="fill_parent"
+android:orientation="vertical">
+
 
     <include layout="@layout/toolbar" />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <Button
+        android:id="@+id/buttonINBOX"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="INBOX STATS" />
+
+    <Button
+        android:id="@+id/buttonSENT"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="SENT STATS" />
+
+
+    <Button
+        android:id="@+id/buttonJUNK"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="JUNK STATS" />
+
+    <Button
+        android:id="@+id/buttonTRASH"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="DELETED STATS" />
+</LinearLayout>
 
     <TextView
         android:id="@+id/TextViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:text="Cool stats about your emails!"
         android:textSize="12pt"></TextView>
 
@@ -20,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="Busy Days, Am i right?!"
         android:textSize="8pt"></TextView>
 
@@ -32,18 +73,10 @@
     <TextView
         android:id="@+id/lastWeek"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="last week"
-        android:textSize="8pt"/>
-    <TextView
-        android:id="@+id/senderID"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="most sender"
         android:textSize="8pt"/>
 
     <TextView
@@ -51,12 +84,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="How are people feeling?"
         android:textSize="8pt"></TextView>
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/pieChart"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
+		
+	<TextView
+        android:id="@+id/senderID"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+		android:text="most sender"
+        android:textSize="8pt"/>
 
 </LinearLayout>
+
+</ScrollView>
