@@ -1221,8 +1221,20 @@ public class MessageListFragment extends Fragment implements OnItemClickListener
 
             int listViewPosition = listView.pointToPosition(listX, listY);
 
-            toggleMessageSelect(listViewPosition);
+            //toggleMessageSelect(listViewPosition);
+            deleteMessageOnSwipe(listViewPosition);
         }
+    }
+
+    private void deleteMessageOnSwipe(int listViewPosition) {
+        int adapterPosition = listViewToAdapterPosition(listViewPosition);
+        if (adapterPosition == AdapterView.INVALID_POSITION) {
+            return;
+        }
+
+        MessageReference message = getMessageAtPosition(adapterPosition);
+        onDelete(message);
+
     }
 
     private int listViewToAdapterPosition(int position) {

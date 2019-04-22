@@ -1349,9 +1349,9 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
     @Override
     public void onSwipeRightToLeft(MotionEvent e1, MotionEvent e2) {
         // Disabled because it interferes with the bezel swipe for the drawer
-//        if (messageListFragment != null && displayMode != DisplayMode.MESSAGE_VIEW) {
-//            messageListFragment.onSwipeRightToLeft(e1, e2);
-//        }
+        if (messageListFragment != null && displayMode != DisplayMode.MESSAGE_VIEW) {
+            messageListFragment.onSwipeRightToLeft(e1, e2);
+        }
     }
 
     @Override
