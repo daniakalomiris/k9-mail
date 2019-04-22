@@ -4,6 +4,7 @@ package com.fsck.k9;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -18,6 +19,7 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 
+import static android.view.View.VISIBLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -36,10 +38,11 @@ public class MessageComposeTest {
         assertNotNull(messageCompose);
     }
 
+
     @Test
     public void sttButtonVisibleInitially() {
-        Button button = messageCompose.findViewById(R.id.stt);
-        int sttButtonVisibility = button.getVisibility();
-        assertEquals(sttButtonVisibility, Button.VISIBLE);
+        MenuItem item = messageCompose.findViewById(R.id.stt);
+        boolean sttButtonVisibility = item.isVisible();
+        assertEquals(sttButtonVisibility, true);
     }
 }
