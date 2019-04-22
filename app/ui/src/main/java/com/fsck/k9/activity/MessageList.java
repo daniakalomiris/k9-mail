@@ -152,10 +152,10 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
     }
 
 
-    protected final SearchStatusManager searchStatusManager = DI.get(SearchStatusManager.class);
-    private StorageManager.StorageListener mStorageListener = new StorageListenerImplementation();
-    private final Preferences preferences = DI.get(Preferences.class);
-    private final NotificationChannelManager channelUtils = DI.get(NotificationChannelManager.class);
+    protected SearchStatusManager searchStatusManager;
+    private StorageManager.StorageListener mStorageListener;
+    private Preferences preferences;
+    private NotificationChannelManager channelUtils;
 
     private ActionBar actionBar;
     private ActionBarDrawerToggle drawerToggle;
@@ -200,6 +200,15 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        try {
+            searchStatusManager = DI.get(SearchStatusManager.class);
+            mStorageListener = new StorageListenerImplementation();
+            preferences = DI.get(Preferences.class);
+            channelUtils = DI.get(NotificationChannelManager.class);
+        } catch (kotlin.UninitializedPropertyAccessException e) {
+            System.out.println(e);
+        }
 
         if (UpgradeDatabases.actionUpgradeDatabases(this, getIntent())) {
             finish();

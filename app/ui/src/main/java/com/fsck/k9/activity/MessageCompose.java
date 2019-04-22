@@ -1,6 +1,7 @@
 package com.fsck.k9.activity;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
@@ -952,6 +954,11 @@ public class MessageCompose extends K9Activity implements OnClickListener,
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         isInSubActivity = false;
 
+        if(requestCode == 10 && resultCode == RESULT_OK && data != null) {
+            ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            messageContentView.setText(result.get(0));
+        }
+
         if ((requestCode & REQUEST_MASK_MESSAGE_BUILDER) == REQUEST_MASK_MESSAGE_BUILDER) {
             requestCode ^= REQUEST_MASK_MESSAGE_BUILDER;
             if (currentMessageBuilder == null) {
@@ -1116,6 +1123,18 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         }
     }
 
+    public void getSpeechInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+
+        if(intent.resolveActivity((getPackageManager())) != null) {
+            startActivityForResult(intent, 10);
+        } else {
+            Toast.makeText(this, "Your device does not support speech input", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -1123,6 +1142,8 @@ public class MessageCompose extends K9Activity implements OnClickListener,
             prepareToFinish(true);
         } else if (id == R.id.send) {
             checkToSendMessage();
+        } else if (id == R.id.stt) {
+            getSpeechInput();
         } else if (id == R.id.save) {
             checkToSaveDraftAndSave();
         } else if (id == R.id.discard) {

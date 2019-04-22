@@ -32,7 +32,12 @@ public class MessageHelper {
 
     public synchronized static MessageHelper getInstance(final Context context) {
         if (sInstance == null) {
-            CoreResourceProvider resourceProvider = DI.get(CoreResourceProvider.class);
+            CoreResourceProvider resourceProvider = null;
+            try {
+                resourceProvider = DI.get(CoreResourceProvider.class);
+            } catch (kotlin.UninitializedPropertyAccessException e) {
+                System.out.println(e);
+            }
             sInstance = new MessageHelper(context, resourceProvider);
         }
         return sInstance;
