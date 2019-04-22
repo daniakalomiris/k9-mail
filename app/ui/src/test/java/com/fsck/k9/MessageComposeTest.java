@@ -39,7 +39,7 @@ public class MessageComposeTest {
     @Test
     public void sttButtonVisibleInitially() {
         Button button = messageCompose.findViewById(R.id.stt);
-        int ttsButtonVisibility = button.getVisibility();
-        assertEquals(ttsButtonVisibility, Button.VISIBLE);
+        int sttButtonVisibility = button.getVisibility();
+        assertEquals(sttButtonVisibility, Button.VISIBLE);
     }
 }
