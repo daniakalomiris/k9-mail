@@ -4,6 +4,7 @@ package com.fsck.k9;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -38,8 +39,8 @@ public class MessageComposeTest {
 
     @Test
     public void sttButtonVisibleInitially() {
-        Button button = messageCompose.findViewById(R.id.stt);
-        int sttButtonVisibility = button.getVisibility();
-        assertEquals(sttButtonVisibility, Button.VISIBLE);
+        MenuItem item = messageCompose.findViewById(R.id.stt);
+        boolean sttButtonVisibility = item.isVisible();
+        assertEquals(sttButtonVisibility, true);
     }
 }
