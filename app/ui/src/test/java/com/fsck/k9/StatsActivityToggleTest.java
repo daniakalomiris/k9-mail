@@ -33,12 +33,6 @@ public class StatsActivityToggleTest {
         statsActivity = Robolectric.buildActivity(StatsActivity.class, intent).create().get();
     }
 
-    @Ignore
-    @Test
-    public void shouldNotBeNull() {
-        assertNotNull(statsActivity);
-    }
-
     // Tests that all 4 toggle buttons exist
     @Ignore
     @Test
