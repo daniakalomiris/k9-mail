@@ -95,6 +95,7 @@ public class StatsActivityToggleTest {
         assertNotNull(statsActivity);
     }
 
+    /*
     // test to check that button is visible (test is broken)
     @Ignore
     @Test
@@ -114,4 +115,5 @@ public class StatsActivityToggleTest {
         Intent intent = StatsActivity.createIntent( statsActivity );
         assertThat( statsActivity, new StartedMatcher( intent ) );
     }
+    */
 }
