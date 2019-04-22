@@ -71,10 +71,10 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
     ArrayList<BarEntry> barEntries;
     String allMessageContent = "";
 
-    Button inboxStatsButton;
-    Button sentStatsButton;
-    Button junkStatsButton;
-    Button trashStatsButton;
+    public Button inboxStatsButton;
+    public Button sentStatsButton;
+    public Button junkStatsButton;
+    public Button trashStatsButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -185,7 +185,7 @@ public class StatsActivity extends K9Activity implements View.OnClickListener {
                 StatsActivityToggle.statsToggle = 3;
                 StatsActivityToggle.thisWeek = "You've deleted ";
                 StatsActivityToggle.emailType = " emails";
-                StatsActivityToggle.emotionLabel = "How is your trash feeling?";
+                StatsActivityToggle.emotionLabel = "How did your trash feel?";
                 StatsActivityToggle.mostFrequent = "You delete a lot of emails from ";
                 Intent intent = getIntent();
                 finish();
