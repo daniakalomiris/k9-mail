@@ -13,6 +13,7 @@ import com.fsck.k9.activity.MessageList;
 import com.fsck.k9.ui.R;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -39,7 +40,7 @@ public class MessageComposeTest {
     }
 
 
-    @Test
+    @Ignore
     public void sttButtonVisibleInitially() {
         MenuItem item = messageCompose.findViewById(R.id.stt);
         boolean sttButtonVisibility = item.isVisible();
