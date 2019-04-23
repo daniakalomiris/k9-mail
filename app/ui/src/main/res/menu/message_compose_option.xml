@@ -20,6 +20,7 @@
         android:title="STT"
         android:icon="?attr/voiceIcon"
         app:showAsAction="always"
+        android:visible="true"
         />
     <item
         android:id="@+id/add_from_contacts"
